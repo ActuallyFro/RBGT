@@ -1,0 +1,258 @@
+
+<html> 
+<!-- This page is nearly ALL COPILOT! -->
+
+<head>
+    <title>NodeStats</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1 -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/locale/bootstrap-table-zh-TW.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/extensions/export/tableExport.min.js"></script> -->
+
+    <!-- add CSS with font and background color defaults -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #ddd;
+            line-height: 1.42857143;
+            background-color: 333333;
+        }
+
+        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th {
+            border: 1px solid rgb(129, 61, 255);
+        }
+    
+        .table-bordered>thead>tr>th {
+            color: aqua;
+            border-bottom-width: 5px rgb(129, 61, 255);
+        }
+
+        .table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td, .table-bordered>tfoot>tr>th {
+            border-width: 1px;
+        }
+        
+        /* .table-bordered>thead>tr>th, .table-bordered>tbody>tr>td, .table-bordered>tfoot> */
+    </style>
+
+    <!-- Jquery: opens stats.xml file, counts <node> tags, shows result in table with key and value, then update html in div tag -->
+    <script>
+        //store Global defaults
+        var defaultDescription = "unk";
+        var nodeCounter=1; //1-indexed so VSCode search will match...
+
+        $(document).ready(function() {
+            $.get("../D2R_Act_I.gxl", function(xml) {
+                var countKey = $(xml).find("key").length;
+                var countNode = $(xml).find("node").length;
+                var countEdge = $(xml).find("edge").length;
+                
+                $("#table").append("<tr><th>Keys</th><td>"+countKey+"</td></tr>");
+                $("#table").append("<tr><th>Nodes</th><td>"+countNode+"</td></tr>");
+                $("#table").append("<tr><th>Edges</th><td>"+countEdge+"</td></tr>");
+
+                // for each key, get the value and show it in the table
+                $(xml).find("key").each(function() {
+                    var valKey = $(this).attr("attr.name");
+                    var valId = $(this).attr("id");
+                    var valType = $(this).attr("attr.type");
+                    var valDefault = $(this).find("default").text();
+
+                    if (valKey == "description") {
+                        defaultDescription=valDefault;
+                    }
+                    
+                    $("#keyTable").append("<tr><th>"+valKey+"</th><td>"+valId+"</td><td>"+valType+"</td><td>"+valDefault+"</td></tr>");
+                });
+
+                // for each node, get the key, name, id and description to show it in the #keyEdges table
+                var varNodes = $(xml).find("node");
+                for (var i = 0; i < varNodes.length; i++) {
+                    var valKey = $(varNodes[i]).attr("id");
+                    var valName = $(varNodes[i]).find("data[key='nameNode']").text();
+                    // var valId = $(varNodes[i]).find("data[key='idLinkNode']").text(); //REMOVED!
+
+                    //convert nodeCounter to string, store in valID
+                    var valId = nodeCounter.toString();
+                    nodeCounter++;
+                    var valDesc = $(varNodes[i]).find("data[key='descriptionNode']").html(); //text() STRIPS tags!
+
+                    //if valDesc is empty, show "No description"
+                    if (valDesc == undefined) {
+                        valDesc = "["+defaultDescription+"]";
+                    } else {
+                        var valDesc = valDesc.substring(0, valDesc.length - 6); //HAX
+                    }
+
+                    // remove TWO '\n' in description
+                    var valDesc = valDesc.replace(/\n/, '');
+                    var valDesc = valDesc.replace(/\n/, '');
+
+                    // replace '\n' with <br> in description
+                    var valDesc = valDesc.replace(/\n/g, '<br>');
+
+                    //replace "<\li><br><li>" with "<\li><li>"
+                    var valDesc = valDesc.replace(/<li><br><li>/g, '<li><li>');
+
+                    $("#nodeTable").append("<tr><th>"+valKey+"</th><td>"+valName+"</td><td>"+valId+"</td><td>"+valDesc+"</td></tr>");
+                }
+
+                // for each edge, get the id, source, target and show it in the #keyEdges table
+                $(xml).find("edge").each(function() {
+                    var valId = $(this).attr("id");
+                    var valSource = $(this).attr("source");
+                    var valTarget = $(this).attr("target");
+                    
+                    var strSource = $(varNodes[valSource]).attr("id");
+                    var strSourceIndex = $(varNodes[valSource]).find("data[key='idLinkNode']").text();
+                    var strTarget = $(varNodes[valTarget]).attr("id");
+                    var strTargetIndex = $(varNodes[valTarget]).find("data[key='idLinkNode']").text();
+
+                    var valRowStr = "<tr><th>"+valId+"</th>";
+                        valRowStr += "<td>"+valSource+" ("+strSource+")</td>";                                        
+                        valRowStr += "<td>"+valTarget+" ("+strTarget+")</td>";
+
+                    valRowStr += "</tr>";
+                    $("#edgeTable").append(valRowStr);
+
+                });
+            });
+        });
+
+        function xmlFindTag(xml, tag) {
+            var result = $(xml).find(tag);
+            return result;
+        }
+
+    </script>
+
+</head> 
+
+<body>
+    <!-- Nav bar that stays at top of page -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">NodeStats</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="#StatsTable">Stats Table</a></li>
+                    <li><a href="#KeyTable">Key Table</a></li>
+                    <li><a href="#NodeTable">Node Table</a></li>
+                    <li><a href="#EdgeTable">Edge Table</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+            </div>
+        </div>
+        
+        <!-- fancy a$$ hr -->
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- div that java script updates -->
+                <div style="padding-top: 40px; margin-top: -40px;" id="StatsTable">
+                    <!-- credit on div anchor style: https://stackoverflow.com/questions/10732690/offsetting-an-html-anchor-to-adjust-for-fixed-header -->
+                    <h2>Stats Table</h1>
+                    <!-- bootstrap #table -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Key Table -->
+            <div class="col-md-12">
+                <div style="padding-top: 40px; margin-top: -40px;"  id="KeyTable">
+                    <h2>Current Keys</h1>
+                    <!-- bootstrap #table -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Default</th>
+                            </tr>
+                        </thead>
+                        <tbody id="keyTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Node Table -->
+            <div class="col-md-12">
+                <div style="padding-top: 40px; margin-top: -40px;" id="NodeTable">
+                    <h2>Current Nodes</h1>
+                    <!-- bootstrap #table -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Node</th>
+                                <th>Name</th>
+                                <th>Parent Node Postion/Id</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nodeTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Edge Table -->
+            <div class="col-md-12">
+                <div style="padding-top: 40px; margin-top: -40px;" id="EdgeTable">
+                    <h2>Current Edges</h1>
+                    <!-- bootstrap #table -->
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Edge</th>
+                                <th>Source</th>
+                                <th>Target</th>
+                            </tr>
+                        </thead>
+                        <tbody id="edgeTable">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
