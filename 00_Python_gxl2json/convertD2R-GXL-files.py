@@ -17,7 +17,7 @@ def graphmltojson(graphfile, outfile):
 	Converts GraphML file to json while adding communities/modularity groups
 	using python-louvain. JSON output is usable with D3 force layout.
 	Usage:
-	>>> python convertD2R-GXL-files.py -i ../example.gxl -o ../example.json
+	>>> python3 convertD2R-GXL-files.py -i ../example.gxl -o ../example.json
 	"""
 
 	G = nx.read_graphml(graphfile)
