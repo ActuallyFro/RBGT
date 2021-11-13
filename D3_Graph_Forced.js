@@ -1,9 +1,13 @@
 //Zoom functions: https://embed.plnkr.co/1Mub7rTUKQuuAB6TAoJb/
 
+var loadedResourcesJSONData;
+// var loadedConfigJSONData;
+
 function DrawGraph(name_of_json){
   document.getElementById("GraphArea").innerHTML = "";
   document.getElementById("div_tooltip").innerHTML = "";
 
+  
   var w = window.innerWidth*1.0,
       h = window.innerHeight*0.66;
 
@@ -124,40 +128,36 @@ function DrawGraph(name_of_json){
       .call(node_zoom);
 
 
+    // var references;
+    $.getJSON("references.json", function(jsonData) { //Async!!!!  
+      // var references;
+      loadedResourcesJSONData = jsonData;
+      console.log(json); // this will show the info it in firebug console
 
-// fetch the 'references.json', and add keys 'name' to var
-var references = $.getJSON("references.json", function(json) {
-  console.log(json); // this will show the info it in firebug console
-});
 
-// // load 'icons' key:value into 'iconKeys' var
-// var iconKeys = Object.keys(references.icons);
-
-    node.append("svg:image").attr("class", "circle").attr("xlink:href", function (d){
-      //load 'default' icon from iconKeys into 'IconLink'
-      var IconLink=references.icons.default;
-     
-// // load 'icons' key:value into 'iconKeys' var
-// var iconKeys = Object.keys(references.icons);
-
-      //iterate over iconKeys. See if d.name == name of iconKeys
-      for (var i = 0; i < iconKeys.length; i++) {
-        console.log("Looking at: "+iconKeys[i]);
-        if (d.name == iconKeys[i].name) {
-          IconLink = iconKeys[i].IconLink;
-          break;
+      node.append("svg:image").attr("class", "circle").attr("xlink:href", function (d){
+        var IconLink=loadedResourcesJSONData.DefaultIconLink;
+      
+        //iterate over icons. See if d.name == name of iconKeys
+        for (var i = 0; i < loadedResourcesJSONData.icons.length; i++) {
+          console.log("Looking for ("+d.name+")");
+          if (d.name == loadedResourcesJSONData.icons[i].name) {
+            console.log("Found Match for ("+d.name+") at: "+loadedResourcesJSONData.icons[i]);
+            IconLink = loadedResourcesJSONData.icons[i].IconLink;
+            break;
+          }
         }
-      }
 
-      return IconLink;
-    })
-    .attr("x", "-8px")
-    .attr("y", "-8px")
-    .attr("width", "16px")
-    .attr("height", "16px")
-    .on("mouseover", mouseover)     //|Tool tip check on hover/etc.
-    .on("mousemove", mousemove)     //|
-    .on("mouseleave", mouseleave);  //|
+        return IconLink;
+      })
+      .attr("x", "-8px")
+      .attr("y", "-8px")
+      .attr("width", "16px")
+      .attr("height", "16px")
+      .on("mouseover", mouseover)     //|Tool tip check on hover/etc.
+      .on("mousemove", mousemove)     //|
+      .on("mouseleave", mouseleave);  //|
+    });
 
     node
       .append("svg:text")
