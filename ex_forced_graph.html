@@ -1,0 +1,88 @@
+<!-- http://bl.ocks.org/norrs/2883411 -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://d3js.org/d3.v2.js"></script>
+    <script type="text/javascript" src="DSTDrawGraph.js"></script>
+
+    <style type="text/css">
+      .link { stroke: #ccc; }
+      .nodetext { pointer-events: none; font: 10px sans-serif; }
+
+      /* Fill Webpage Background 
+      body {
+        background-color: #141111;
+        color: rgb(30, 175, 90);
+      } */
+
+      .option {
+        z-index: 0;
+      }
+
+      .GraphArea {
+        z-index: 1;
+      }
+
+      /* Center <table> tools-table */
+      .tools-table {
+        /* margin: 0 auto; */
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* make <td> width-25-px, with forced with 25 px width */
+      .width-25-px {
+        width: 25px;
+        min-width: 25px;
+        max-width: 25px;
+      }
+
+    </style>
+  </head>
+
+  <body onload="DrawGraph('example.json')">
+
+    <div id="option">
+      <input name="button0" type="button" class="button" value="Act 1" onclick="DrawGraph('d2r_a1.json')" />
+      <!-- <input name="button1" type="button" class="button" value="Act 2" onclick="DrawGraph('d2r_a2.json')" />
+      <input name="button2" type="button" class="button" value="Act 3" onclick="DrawGraph('d2r_a3.json')" />
+      <input name="button3" type="button" class="button" value="Act 4" onclick="DrawGraph('d2r_a4.json')" />
+      <input name="button4" type="button" class="button" value="Act 5" onclick="DrawGraph('d2r_a5.json')" /> -->
+    </div>
+    
+    <!-- [TODO] See graph in Radial Format <a href="index_radial.html"> HERE</a>. -->
+
+    <hr>
+    <h2>Diablo 2: Story Time!</h2>
+    <div id="GraphArea"></div>
+
+    <u>To zoom:</u> hover an icon, then use mouse wheel up/down.<br>
+    <b>Note 1:</b> IF the image starts following your cursor, then left click on the screen.
+
+    <hr>
+    <div id="div_tooltip"></div>
+
+    <hr>
+    <div id="tools">
+      <table class="tools-table">
+        <tr>
+          <td>
+            <a href="./01_NodeBuilder/" target="_blank">
+              Node Builder
+            </a>
+          </td>
+          <td class="width-25-px"></td>
+          <td>
+            <a href="./02_NodeStats/" target="_blank">
+              Node Stats
+            </a>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+</body>
+
+</html>
+
+<!--  var IconLink="https://github.com/favicon.ico";  -->
