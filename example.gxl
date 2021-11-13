@@ -53,7 +53,7 @@
     </node>
 
     <node id="bridge_05">
-      <data key="nameNode">Vysokiy Most </data>
+      <data key="nameNode">Vysokiy Most</data>
       <data key="descriptionNode"><![CDATA[
         <li>
         <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>
@@ -110,7 +110,7 @@
     </node>
 
     <node id="land_02">
-      <data key="nameNode">Kaliningrad (North of Pregolya River) </data>
+      <data key="nameNode">Kaliningrad (North of Pregolya River)</data>
       <data key="descriptionNode"><![CDATA[
       <br>
         - North of Ostrov Immanuila Kanta Park/Island
@@ -118,7 +118,7 @@
     </node>
 
     <node id="land_03">
-      <data key="nameNode">Kaliningrad (South of Pregolya River) </data>
+      <data key="nameNode">Kaliningrad (South of Pregolya River)</data>
       <data key="descriptionNode"><![CDATA[
       <br>
         - South of Ostrov Immanuila Kanta Park/Island

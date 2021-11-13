@@ -74,7 +74,7 @@
             "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.69924789970712, 20.517723087199414</ul>\n        </li>\n        \n        \n        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges\n      ",
             "group": 4,
             "id": "bridge_05",
-            "name": "Vysokiy Most "
+            "name": "Vysokiy Most"
         },
         {
             "description": "\n        <li>\n        <ul>Bridge no longer exists</ul>\n        <ul>54.70792296890923, 20.51012549695025</ul>\n        </li>\n        \n        \n        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges\n      ",
@@ -104,13 +104,13 @@
             "description": "\n      <br>\n        - North of Ostrov Immanuila Kanta Park/Island\n      ",
             "group": 7,
             "id": "land_02",
-            "name": "Kaliningrad (North of Pregolya River) "
+            "name": "Kaliningrad (North of Pregolya River)"
         },
         {
             "description": "\n      <br>\n        - South of Ostrov Immanuila Kanta Park/Island\n      ",
             "group": 7,
             "id": "land_03",
-            "name": "Kaliningrad (South of Pregolya River) "
+            "name": "Kaliningrad (South of Pregolya River)"
         }
     ]
 }
