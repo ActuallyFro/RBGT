@@ -166,6 +166,9 @@
   </script>
 
   <script>
+    //Default for OnLoad ... and if the file get's botched in the updateXml function:
+    var pickedXMLFile = "../example.gxl";
+
     function updateXmlElementSelector() {
       var xmlElementSelectorPick = document.getElementById("elemPicker").value;
 
@@ -175,16 +178,14 @@
 
       }
 
-      var pickedXMLFile = document.getElementById("filePicker").value; //on first load this is empty
-      if(pickedXMLFile == "") {
-        pickedXMLFile = "../example.gxl";
+      var tempPickedXMLFile = document.getElementById("filePicker").value; //on first load this is empty
+      if(tempPickedXMLFile != "") {
+        pickedXMLFile = tempPickedXMLFile;
       }
 
       var tempAdd="{NO DATA!}";
-      // var xmlFile = pickedXMLFile; 
 
       var xmlDoc = $.parseXML( $.ajax({url: pickedXMLFile, async: false}).responseText );
-      // var xmlDoc = $.parseXML( $.ajax({url: xmlFile, async: false}).responseText );
       var xml = $( xmlDoc );
       var varNodes = xml.find( "node" );
 
@@ -218,12 +219,8 @@
     }
 
     $(document).ready(function() {
-
-      // add three column bootstrap table to pickElementHTML var
       var pickElementHTML = "<table class=\"table table-bordered table-hover\">";
-      // pickElementHTML += "<thead>";
       pickElementHTML += "<tr>";
-      // pickElementHTML += "<th>Col 1: Pick File</th>";
       pickElementHTML += "<td>";
       pickElementHTML = "<label for=\"filePicker\">File: </label>";
       pickElementHTML += "<select id=\"filePicker\" name=\"filePicker\" onchange=\"updateXmlFileSelector()\">";
@@ -233,53 +230,34 @@
       pickElementHTML += "</td>";
 
       pickElementHTML += "<td></td>"; // SPACER
-      // pickElementHTML += "<th>Col 2: Pick Element</th>";
 
       pickElementHTML += "<td>";
       pickElementHTML += "<label for=\"elemPicker\">An Element: </label>";
-          pickElementHTML += "<select id=\"elemPicker\" name=\"elemPicker\" onchange=\"updateXmlElementSelector()\">";
-          pickElementHTML += "<option value=\"\"><i></i></option>";
+      pickElementHTML += "<select id=\"elemPicker\" name=\"elemPicker\" onchange=\"updateXmlElementSelector()\">";
+      pickElementHTML += "<option value=\"\"><i></i></option>";
+      
+      var xmlDoc = $.parseXML( $.ajax({url: pickedXMLFile, async: false}).responseText );
+      var xml = $( xmlDoc );
+      var varNodes = xml.find( "node" );
 
-          // var tempVar="";
+      for (var i = 0; i < varNodes.length; i++) {
+          var valName = $(varNodes[i]).find("data[key='nameNode']").text();
 
-          // dont like ajax calls, but it works for now...?
-          // on document ready on xml file and count <node>
-          //var pickedXMLFile = document.getElementById("filePicker").value; //on first load this is empty
-          var xmlFile = "../example.gxl";
-          
-          var xmlDoc = $.parseXML( $.ajax({url: xmlFile, async: false}).responseText );
-          var xml = $( xmlDoc );
-          var varNodes = xml.find( "node" );
+          pickElementHTML += "<option value=\""+valName+"\">"+valName+"</option>";
+      }
 
-          // tempVar = "Total nodes: " + varNodes.length + "\n";
-          for (var i = 0; i < varNodes.length; i++) {
-              var valName = $(varNodes[i]).find("data[key='nameNode']").text();
-
-              // $("#nodeTable").append("<tr><th>"+valKey+"</th><td>"+valName+"</td><td>"+valId+"</td><td>"+valDesc+"</td></tr>");
-              pickElementHTML += "<option value=\""+valName+"\">"+valName+"</option>";
-
-              // tempVar += "<option value=\""+valName+"\">"+valName+"</option>";
-          }
-          ////////////////////
-
-          // alert(tempVar);
-
-          pickElementHTML += "</select>";
+      pickElementHTML += "</select>";
 
       pickElementHTML += "</td>";
 
       pickElementHTML += "<td></td>"; // SPACER
-      // pickElementHTML += "<th>Col 3: Reset Button</th>";
       pickElementHTML += "<td>";
-      // add button 'reset' which changes <select> 'elemPicker' to ''
       pickElementHTML += "<button type=\"button\" onclick=\"document.getElementById('elemPicker').value=''; updateXmlElementSelector();\">Reset</button>";
       pickElementHTML += "</td>";
 
       pickElementHTML += "</tr>";
-      // pickElementHTML += "</thead>";
       pickElementHTML += "</table>";
 
-      //add html to div tag
       document.getElementById("xmlElementSelector").innerHTML = pickElementHTML;
     });
 
