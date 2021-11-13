@@ -76,9 +76,11 @@
                 var countNode = $(xml).find("node").length;
                 var countEdge = $(xml).find("edge").length;
                 
-                $("#table").append("<tr><th>Keys</th><td>"+countKey+"</td></tr>");
-                $("#table").append("<tr><th>Nodes</th><td>"+countNode+"</td></tr>");
-                $("#table").append("<tr><th>Edges</th><td>"+countEdge+"</td></tr>");
+                
+                $("#statsTable").empty();
+                $("#statsTable").append("<tr><th>Keys</th><td>"+countKey+"</td></tr>");
+                $("#statsTable").append("<tr><th>Nodes</th><td>"+countNode+"</td></tr>");
+                $("#statsTable").append("<tr><th>Edges</th><td>"+countEdge+"</td></tr>");
 
                 $("#keyTable").empty();
                 if(countKey<=0){
@@ -211,10 +213,10 @@
             pickElementHTML += "<select id=\"filePicker\" name=\"filePicker\" onchange=\"updateXmlFileSelectorWrapper(this)\">";
 
             //Console total files
-            console.log("Total files: "+loadedConfigJSONData.currentGXLFiles.length);
+            //console.log("Total files: "+loadedConfigJSONData.currentGXLFiles.length);
 
             for (var i = 0; i < loadedConfigJSONData.currentGXLFiles.length; i++) {
-                console.log("    Populating File: "+loadedConfigJSONData.currentGXLFiles[i].name);
+                //console.log("    Populating File: "+loadedConfigJSONData.currentGXLFiles[i].name);
 
                 ifSelected = "";
                 if ("../"+loadedConfigJSONData.currentGXLFiles[i].path == selectedGXLFile) {
@@ -304,7 +306,7 @@
                                 <th>Value</th>
                             </tr>
                         </thead>
-                        <tbody id="table">
+                        <tbody id="statsTable">
                         </tbody>
                     </table>
                 </div>
