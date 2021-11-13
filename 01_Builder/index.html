@@ -396,21 +396,6 @@
 
                     </b>
                     <br>
-
-<!--      <node id=""> 
-    <data key="nameNode">Andariel</data>
-    <data key="descriptionNode"><![CDATA[
-      <ul style="list-style-type:disc">
-        <li>Lessor Evil: Maiden of Anguish</li>
-        <li>Once overthrew the three Prime Evils</li>
-        <li>Presence in Sanctuary implies: forces of Hell are once again aligned behind Diablo and his Brothers</li>
-        <li>Acting on behalf of Diablo to prevent anyone from following him eastward</li>
-        </ul>
-
-        <p>Source: http://classic.battle.net/diablo2exp/monsters/act1-andariel.shtml</p>
-      ]]></data>
--->
-
                   </span>
                 </div>
 
@@ -428,15 +413,8 @@
                       </svg></a>
                   </div>
                 </div>
-              
-                <!-- <label for="nodeValue">Node Value</label>
-                <input type="text" class="form-control" id="nodeValue" placeholder="Enter node value"><br>
-  
-                <label for="nodeText">Node Text</label>
-                <input type="text" class="form-control" id="nodeText" placeholder="Enter node text"><br>   -->
               </div>  
 
-              <!-- SHOW or HIDE Type Selection in Div tags -->
               <script type="text/javascript">//<![CDATA[
                 $("#graphElementType").change(function() {
                   if ($(this).val() == "edge") {
@@ -457,8 +435,10 @@
 
       </div>
     </div>
-  </div> 
-<br><br>
+  </div>
+
+  <br><br>
+
   <button onclick="addTextToScratchPad()">Add Text to Scratch Pad</button>
   <hr>
 
@@ -468,116 +448,47 @@
         <h2> Current Node String</h2>
       </div>
       <div>
-      <!--JavaScript will generate the string and render it here-->
-      <div id="currentNodeString">
-        <br>
-      </div>
+      <div id="currentNodeString"><br></div>
       </div>
     </div>
   </div>
 
-  <!-- <hr>
-  <h2>DEMO: add/remove fields dynamically</h1>
+  <script type="text/javascript">
+  $(document).ready(function(){
+      var maxField = 10; //Input fields increment limitation
+      var addButton = $('.add_button'); //Add button selector
+      var wrapper = $('.dynamicNodeDataFields'); //Input field wrapper
+      var fieldHTML = '<div> \
+                        <label for="fieldNodeKeyVal">Key</label>\
+                        <input type="text" name="fieldNodeKeyVal" value=""/>\
+                        <label for="fieldNodeDataVal">Value</label>\
+                        <textarea name="fieldNodeDataVal" placeholder=""></textarea>\
+                        <a href="javascript:void(0);" class="remove_button"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-minus\" viewBox=\"0 0 16 16\"><path d=\"M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z\"/><path d=\"M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z\"/></svg></a>\
+                        </div>'; //New input field html 
+      var x = 1; //Initial field counter is 1
+      
+      //Once add button is clicked
+      $(addButton).click(function(){
+          //Check maximum number of input fields
+          if(x < maxField){ 
+              x++; //Increment field counter
+              $(wrapper).append(fieldHTML); //Add field html
+          }
+      });
+      
+      //Once remove button is clicked
+      $(wrapper).on('click', '.remove_button', function(e){
+          e.preventDefault();
+          $(this).parent('div').remove(); //Remove field html
+          x--; //Decrement field counter
+      });
+  });
+  </script>
 
-
-              HOWTO dynamic, manual form expansion... -->
-
-
-              <!-- HOWTO dynamic, manual form expansion... -->
-
-<script type="text/javascript">
-//Source: https://www.codexworld.com/add-remove-input-fields-dynamically-using-jquery/
-$(document).ready(function(){
-    var maxField = 10; //Input fields increment limitation
-    var addButton = $('.add_button'); //Add button selector
-    var wrapper = $('.dynamicNodeDataFields'); //Input field wrapper
-    var fieldHTML = '<div> \
-                       <label for="fieldNodeKeyVal">Key</label>\
-                       <input type="text" name="fieldNodeKeyVal" value=""/>\
-                       <label for="fieldNodeDataVal">Value</label>\
-                       <textarea name="fieldNodeDataVal" placeholder=""></textarea>\
-                       <a href="javascript:void(0);" class="remove_button"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-minus\" viewBox=\"0 0 16 16\"><path d=\"M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z\"/><path d=\"M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z\"/></svg></a>\
-                       </div>'; //New input field html 
-    var x = 1; //Initial field counter is 1
-    
-    //Once add button is clicked
-    $(addButton).click(function(){
-        //Check maximum number of input fields
-        if(x < maxField){ 
-            x++; //Increment field counter
-            $(wrapper).append(fieldHTML); //Add field html
-        }
-    });
-    
-    //Once remove button is clicked
-    $(wrapper).on('click', '.remove_button', function(e){
-        e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
-        x--; //Decrement field counter
-    });
-});
-</script>
-
-    <hr>
-      <h1>Scratch Pad</h1>
-      <p id="ScratchPad"></p>
-    <hr>
+  <hr>
+    <h1>Scratch Pad</h1>
+    <p id="ScratchPad"></p>
+  <hr>
 
   </body>
 </html>
-
-<!-- 
-                var varNodes = $(xml).find("node");
-                for (var i = 0; i < varNodes.length; i++) {
-                    var valKey = $(varNodes[i]).attr("id");
-                    var valName = $(varNodes[i]).find("data[key='nameNode']").text();
-                    // var valId = $(varNodes[i]).find("data[key='idLinkNode']").text(); //REMOVED!
-
-                    //convert nodeCounter to string, store in valID
-                    var valId = nodeCounter.toString();
-                    nodeCounter++;
-                    var valDesc = $(varNodes[i]).find("data[key='descriptionNode']").html(); //text() STRIPS tags!
-
-                    //if valDesc is empty, show "No description"
-                    if (valDesc == undefined) {
-                        valDesc = "["+defaultDescription+"]";
-                    } else {
-                        var valDesc = valDesc.substring(0, valDesc.length - 6); //HAX
-                    }
-
-                    // remove TWO '\n' in description
-                    var valDesc = valDesc.replace(/\n/, '');
-                    var valDesc = valDesc.replace(/\n/, '');
-
-                    // replace '\n' with <br> in description
-                    var valDesc = valDesc.replace(/\n/g, '<br>');
-
-                    //replace "<\li><br><li>" with "<\li><li>"
-                    var valDesc = valDesc.replace(/<li><br><li>/g, '<li><li>');
-
-                    $("#nodeTable").append("<tr><th>"+valKey+"</th><td>"+valName+"</td><td>"+valId+"</td><td>"+valDesc+"</td></tr>");
-                }
-
-                // for each edge, get the id, source, target and show it in the #keyEdges table
-                $(xml).find("edge").each(function() {
-                    var valId = $(this).attr("id");
-                    var valSource = $(this).attr("source");
-                    var valTarget = $(this).attr("target");
-                    
-                    var strSource = $(varNodes[valSource]).attr("id");
-                    var strSourceIndex = $(varNodes[valSource]).find("data[key='idLinkNode']").text();
-                    var strTarget = $(varNodes[valTarget]).attr("id");
-                    var strTargetIndex = $(varNodes[valTarget]).find("data[key='idLinkNode']").text();
-
-                    var valRowStr = "<tr><th>"+valId+"</th>";
-                        valRowStr += "<td>"+valSource+" ("+strSource+")</td>";                                        
-                        valRowStr += "<td>"+valTarget+" ("+strTarget+")</td>";
-
-                    valRowStr += "</tr>";
-                    $("#edgeTable").append(valRowStr);
-
-                });
-            });
-        });
-
--->
