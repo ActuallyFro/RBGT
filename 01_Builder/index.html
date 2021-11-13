@@ -223,7 +223,7 @@ $(document).ready(function() {
     var pickedXMLFile = document.getElementById("filePicker").value; //on first load this is empty
 
     if(pickedXMLFile == "") {
-      pickedXMLFile = "../D2R_Act_I.gxl";
+      pickedXMLFile = "../example.gxl";
     }
 
     //if <select> value is "two", then add string to innerHTML
@@ -280,7 +280,7 @@ $(document).ready(function() {
     }
 
     //var pickedXMLFile = document.getElementById("filePicker").value; //on first load this is empty
-    var pickedXMLFile = "../D2R_Act_I.gxl";
+    var pickedXMLFile = "../example.gxl";
 
     // run on page load
     $(document).ready(function() {
@@ -293,11 +293,7 @@ $(document).ready(function() {
       pickElementHTML += "<td>";
       pickElementHTML = "<label for=\"filePicker\">File: </label>";
       pickElementHTML += "<select id=\"filePicker\" name=\"filePicker\" onchange=\"updateXmlFileSelector()\">";
-      pickElementHTML += "<option value=\"../D2R_Act_I.gxl\"><i>Act 1</i></option>";
-      pickElementHTML += "<option value=\"../D2R_Act_II.gxl\"><i>Act 2</i></option>";
-      pickElementHTML += "<option value=\"../D2R_Act_III.gxl\"><i>Act 3</i></option>";
-      pickElementHTML += "<option value=\"../D2R_Act_IV.gxl\"><i>Act 4</i></option>";
-      pickElementHTML += "<option value=\"../D2R_Act_V.gxl\"><i>Act 5</i></option>";
+      pickElementHTML += "<option value=\"../example.gxl\"><i>Seven Bridges of Königsberg</i></option>";
       pickElementHTML += "</select>";
 
       pickElementHTML += "</td>";
@@ -314,7 +310,7 @@ $(document).ready(function() {
 
           // dont like ajax calls, but it works for now...?
           // on document ready on xml file and count <node>
-          // var xmlFile = "../D2R_Act_I.gxl";
+          // var xmlFile = "../example.gxl";
           var xmlFile = pickedXMLFile; 
           
           var xmlDoc = $.parseXML( $.ajax({url: xmlFile, async: false}).responseText );

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+     http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+
+  <!-- Attribute Keys -->
+  <!-- <key attr.name="name" attr.type="string" for="node" id="nameNode"><default>NaN</default></key> -->
+  <!-- <key attr.name="idLink" attr.type="int" for="node" id="idLinkNode"><default>0</default></key> -->
+  <!-- <key attr.name="description" attr.type="string" for="node" id="descriptionNode"><default>MISSING DESCRIPTION</default></key> -->
+
+  <graph id="Seven Bridges of Königsberg" edgedefault="undirected">
+  <!-- Nodes -->
+    <node id="bridge_01">
+      <data key="nameNode">Prospekt Leninskiy North</data>
+      <data key="descriptionNode"><![CDATA[
+        <li>
+        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>
+        <ul>54.70838397736422, 20.507976124734412</ul>
+        </li>
+      ]]></data>
+    </node>
+
+    <node id="bridge_02">
+      <data key="nameNode">Prospekt Leninskiy South</data>
+      <data key="descriptionNode"><![CDATA[
+        <li>
+        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>
+        <ul>54.7058859217565, 20.506592105000376</ul>
+        </li>
+      ]]></data>
+    </node>
+
+
+    <node id="bridge_03">
+      <data key="nameNode">Wooden Bridge</data>
+      <data key="descriptionNode"><![CDATA[
+        <li>
+        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>
+        <ul>54.707162862704166, 20.514595816085198</ul>
+        </li>
+      ]]></data>
+    </node>
+
+
+    <node id="bridge_04">
+      <data key="nameNode">Honeymoon Bridge</data>
+      <data key="descriptionNode"><![CDATA[
+        <li>
+        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>
+        <ul>54.70577434248125, 20.513587305581325</ul>
+        </li>
+      ]]></data>
+    </node>
+
+    <node id="bridge_05">
+      <data key="nameNode">Vysokiy Most </data>
+      <data key="descriptionNode"><![CDATA[
+        <li>
+        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>
+        <ul>54.69924789970712, 20.517723087199414</ul>
+        </li>
+        
+        
+        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges
+      ]]></data>
+    </node>
+
+
+    <node id="bridge_06">
+      <data key="nameNode">Königsberg Cathedral North</data>
+      <data key="descriptionNode"><![CDATA[
+        <li>
+        <ul>Bridge no longer exists</ul>
+        <ul>54.70792296890923, 20.51012549695025</ul>
+        </li>
+        
+        
+        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges
+      ]]></data>
+    </node>
+
+
+    <node id="bridge_07">
+      <data key="nameNode">Königsberg Cathedral South</data>
+      <data key="descriptionNode"><![CDATA[
+        <li>
+        <ul>Bridge no longer exists</ul>
+        <ul>54.7053288016577, 20.509782174147993</ul>
+        </li>
+        
+        
+        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges
+      ]]></data>
+    </node> 
+
+    <node id="land_00">
+      <data key="nameNode">Ostrov Immanuila Kanta Park/Island</data>
+      <data key="descriptionNode"><![CDATA[
+        - East of Ostrov Immanuila Kanta Park/Island
+      ]]></data>
+    </node>
+
+    <node id="land_01">
+      <data key="nameNode">Oktyabrsky Island</data>
+      <data key="descriptionNode"><![CDATA[
+        - East of Ostrov Immanuila Kanta Park/Island
+      ]]></data>
+    </node>
+
+    <node id="land_02">
+      <data key="nameNode">Kaliningrad (North of Pregolya River) </data>
+      <data key="descriptionNode"><![CDATA[
+        - North of Ostrov Immanuila Kanta Park/Island
+      ]]></data>
+    </node>
+
+    <node id="land_03">
+      <data key="nameNode">Kaliningrad (South of Pregolya River) </data>
+      <data key="descriptionNode"><![CDATA[
+        - South of Ostrov Immanuila Kanta Park/Island
+      ]]></data>
+    </node> 
+
+  <!-- Edges -->
+  <!-- ANOTHER way to represent is the land-bridge-land edges -->
+    <edge id="edge_bridge_01" source="land_00" target="land_03"/>
+    <edge id="edge_bridge_02" source="land_00" target="land_02"/>
+    <edge id="edge_bridge_03" source="land_00" target="land_02"/>
+    <edge id="edge_bridge_04" source="land_00" target="land_03"/>
+    <edge id="edge_bridge_05" source="land_03" target="land_01"/>
+    <edge id="edge_bridge_06" source="land_02" target="land_01"/>
+    <edge id="edge_bridge_07" source="land_02" target="land_00"/> 
+
+  </graph>
+</graphml>
