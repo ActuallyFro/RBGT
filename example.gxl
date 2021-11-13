@@ -97,6 +97,7 @@
     <node id="land_00">
       <data key="nameNode">Ostrov Immanuila Kanta Park/Island</data>
       <data key="descriptionNode"><![CDATA[
+      <br>
         - East of Ostrov Immanuila Kanta Park/Island
       ]]></data>
     </node>
@@ -104,6 +105,7 @@
     <node id="land_01">
       <data key="nameNode">Oktyabrsky Island</data>
       <data key="descriptionNode"><![CDATA[
+      <br>
         - East of Ostrov Immanuila Kanta Park/Island
       ]]></data>
     </node>
@@ -111,6 +113,7 @@
     <node id="land_02">
       <data key="nameNode">Kaliningrad (North of Pregolya River) </data>
       <data key="descriptionNode"><![CDATA[
+      <br>
         - North of Ostrov Immanuila Kanta Park/Island
       ]]></data>
     </node>
@@ -118,6 +121,7 @@
     <node id="land_03">
       <data key="nameNode">Kaliningrad (South of Pregolya River) </data>
       <data key="descriptionNode"><![CDATA[
+      <br>
         - South of Ostrov Immanuila Kanta Park/Island
       ]]></data>
     </node> 
