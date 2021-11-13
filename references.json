@@ -1,9 +1,6 @@
 {
+  "DefaultIconLink":"http://classic.battle.net/favicon.ico",
   "icons":[
-    {
-      "name":"default",
-      "IconLink":"http://classic.battle.net/favicon.ico"
-    },
     {
       "name" : "Diablo",
       "category":"Bosses",
