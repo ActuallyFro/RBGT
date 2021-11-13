@@ -18,6 +18,7 @@ def graphmltojson(graphfile, outfile):
 	using python-louvain. JSON output is usable with D3 force layout.
 	Usage:
 	>>> python3 convertD2R-GXL-files.py -i ../example.gxl -o ../example.json
+	>>> python3 convertD2R-GXL-files.py -i ../example2.gxl -o ../example2.json
 	"""
 
 	G = nx.read_graphml(graphfile)
