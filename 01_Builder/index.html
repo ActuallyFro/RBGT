@@ -139,6 +139,10 @@ $(document).ready(function() {
 
       var nodeString = document.getElementById("currentNodeString");
 
+      if (!nodeString){
+        return;
+      }
+
       if (graphElementType.toLowerCase() == "node"){
         nodeString.textContent = "<node id=\""+graphElementName+"\">\n";
 
@@ -555,7 +559,9 @@ $(document).ready(function() {
       </div>
       <div>
       <!--JavaScript will generate the string and render it here-->
-      <div id="currentNodeString"></div>
+      <div id="currentNodeString">
+        <br>
+      </div>
       </div>
     </div>
   </div>
