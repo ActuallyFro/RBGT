@@ -166,8 +166,6 @@
   </script>
 
   <script>
-    //Default for OnLoad ... and if the file get's botched in the updateXml function:
-    //var pickedXMLFile = "";//"../example.gxl";
     var loadedConfigJSONData;
     var DefaultGXLFile ="{NOT LOADED}";
           
@@ -177,9 +175,7 @@
           var DefaultGXLName = "";
 
           DefaultGXLFile="../"+loadedConfigJSONData.defaultGXL;                        
-          // console.log("DefaultGXLFile: <" + DefaultGXLFile + ">");
 
-          // iterate over jsonData.currentGXLFiles, if DefaultGXLFile == path, then set DefaultGXLName
           for (var i = 0; i < loadedConfigJSONData.currentGXLFiles.length; i++) {
             if ("../"+loadedConfigJSONData.currentGXLFiles[i].path == DefaultGXLFile) {
               DefaultGXLName = loadedConfigJSONData.currentGXLFiles[i].name;
@@ -197,16 +193,12 @@
     }
       
     function updateXmlFileSelectorWrapper(selectObject){
-      // var filepathValue = selectObject.value;
       var filepathValue = document.getElementById("filePicker").value;
       
-      //console.log("The dropdown selection is: <" + filepathValue + ">");
       updateXmlFileSelector(filepathValue);
     }
 
     function updateXmlFileSelector(selectedGXLFile){
-          //console.log("Setting up Element selector with: <" + selectedGXLFile + ">");
-
           var pickElementHTML = "<table class=\"table table-bordered table-hover\">";
           pickElementHTML += "<tr>";
           pickElementHTML += "<td>";
@@ -217,21 +209,12 @@
           for (var i = 0; i < loadedConfigJSONData.currentGXLFiles.length; i++) {
 
             ifSelected = "";
-            // console showing comparision:
-            // console.log("<../" + loadedConfigJSONData.currentGXLFiles[i].path + "> == <" + selectedGXLFile + ">");
-            //remove whitespace from both sides of selectedGXLFile
-
-            // selectedGXLFile = selectedGXLFile.replace(/^\s+|\s+$/g, '');
-
             if ("../"+loadedConfigJSONData.currentGXLFiles[i].path == selectedGXLFile) {
-              // console saying which one is selected:
-              // console.log("User has picked: <" + selectedGXLFile + ">");
               ifSelected = "selected ";
             }
 
             pickElementHTML += "<option value=\"../" + loadedConfigJSONData.currentGXLFiles[i].path+"\" "+ ifSelected + " \">" + loadedConfigJSONData.currentGXLFiles[i].name + "</option>";
           }
-          // pickElementHTML += "<option value=\""+DefaultGXLFile+"\"><i>"+DefaultGXLName+"</i></option>";
 
           pickElementHTML += "</select>";
 
@@ -285,8 +268,6 @@
 
       var tempAdd="{NO DATA!}";
 
-      // console showing which file
-      //console.log("Looking for element <" + xmlElementSelectorPick + "> in file <" + pickedXMLFile + ">");
       var xmlDoc = $.parseXML( $.ajax({url: pickedXMLFile, async: false}).responseText );
       var xml = $( xmlDoc );
       var varNodes = xml.find( "node" );
