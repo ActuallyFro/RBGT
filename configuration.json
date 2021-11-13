@@ -6,6 +6,10 @@
       "path" : "example.gxl"
     },
     {
+      "name" : "Seven Bridges of Königsberg - Bridges as Nodes",
+      "path" : "example2.gxl"
+    },
+    {
       "name" : "Example File",
       "path" : "blank.gxl"
     }
