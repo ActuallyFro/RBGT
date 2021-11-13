@@ -1,0 +1,116 @@
+{
+    "directed": false,
+    "graph": {
+        "edge_default": {},
+        "node_default": {
+            "description": "MISSING DESCRIPTION",
+            "name": "NaN"
+        }
+    },
+    "links": [
+        {
+            "key": "edge_bridge_01",
+            "source": "land_00",
+            "target": "land_03"
+        },
+        {
+            "key": "edge_bridge_04",
+            "source": "land_00",
+            "target": "land_03"
+        },
+        {
+            "key": "edge_bridge_02",
+            "source": "land_00",
+            "target": "land_02"
+        },
+        {
+            "key": "edge_bridge_03",
+            "source": "land_00",
+            "target": "land_02"
+        },
+        {
+            "key": "edge_bridge_07",
+            "source": "land_00",
+            "target": "land_02"
+        },
+        {
+            "key": "edge_bridge_05",
+            "source": "land_01",
+            "target": "land_03"
+        },
+        {
+            "key": "edge_bridge_06",
+            "source": "land_01",
+            "target": "land_02"
+        }
+    ],
+    "multigraph": true,
+    "nodes": [
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.70838397736422, 20.507976124734412</ul>\n        </li>\n      ",
+            "group": 0,
+            "id": "bridge_01",
+            "name": "Prospekt Leninskiy North"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.7058859217565, 20.506592105000376</ul>\n        </li>\n      ",
+            "group": 1,
+            "id": "bridge_02",
+            "name": "Prospekt Leninskiy South"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.707162862704166, 20.514595816085198</ul>\n        </li>\n      ",
+            "group": 2,
+            "id": "bridge_03",
+            "name": "Wooden Bridge"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.70577434248125, 20.513587305581325</ul>\n        </li>\n      ",
+            "group": 3,
+            "id": "bridge_04",
+            "name": "Honeymoon Bridge"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.69924789970712, 20.517723087199414</ul>\n        </li>\n        \n        \n        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges\n      ",
+            "group": 4,
+            "id": "bridge_05",
+            "name": "Vysokiy Most "
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge no longer exists</ul>\n        <ul>54.70792296890923, 20.51012549695025</ul>\n        </li>\n        \n        \n        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges\n      ",
+            "group": 5,
+            "id": "bridge_06",
+            "name": "K\u00f6nigsberg Cathedral North"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge no longer exists</ul>\n        <ul>54.7053288016577, 20.509782174147993</ul>\n        </li>\n        \n        \n        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges\n      ",
+            "group": 6,
+            "id": "bridge_07",
+            "name": "K\u00f6nigsberg Cathedral South"
+        },
+        {
+            "description": "\n      <br>\n        - East of Ostrov Immanuila Kanta Park/Island\n      ",
+            "group": 7,
+            "id": "land_00",
+            "name": "Ostrov Immanuila Kanta Park/Island"
+        },
+        {
+            "description": "\n      <br>\n        - East of Ostrov Immanuila Kanta Park/Island\n      ",
+            "group": 7,
+            "id": "land_01",
+            "name": "Oktyabrsky Island"
+        },
+        {
+            "description": "\n      <br>\n        - North of Ostrov Immanuila Kanta Park/Island\n      ",
+            "group": 7,
+            "id": "land_02",
+            "name": "Kaliningrad (North of Pregolya River) "
+        },
+        {
+            "description": "\n      <br>\n        - South of Ostrov Immanuila Kanta Park/Island\n      ",
+            "group": 7,
+            "id": "land_03",
+            "name": "Kaliningrad (South of Pregolya River) "
+        }
+    ]
+}
