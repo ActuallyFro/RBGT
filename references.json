@@ -2,116 +2,64 @@
   "DefaultIconLink":"http://classic.battle.net/favicon.ico",
   "icons":[
     {
-      "name" : "Diablo",
-      "category":"Bosses",
-      "IconLink" : "https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Diablo-icon.png"
+      "name":"Prospekt Leninskiy North Bridge",
+      "category":"bridge",
+      "IconLink":"https://icons.iconarchive.com/icons/iconka/landmarks/128/sanfrancisco-bridge-icon.png"
     },
     {
-      "name":"Andariel",
-      "category":"Bosses",
-      "IconLink":"https://icons.iconarchive.com/icons/tooschee/medievalish-gaming/72/diablo-icon.png"
+      "name":"Prospekt Leninskiy South Bridge",
+      "category":"bridge",
+      "IconLink":"https://icons.iconarchive.com/icons/iconka/landmarks/128/sanfrancisco-bridge-icon.png"
     },
     {
-      "name":"Rogue Encampment",
-      "category":"Locations",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Town-Portal-icon.png"
+      "name":"Wooden Bridge",
+      "category":"bridge",
+      "IconLink":"https://icons.iconarchive.com/icons/iconka/landmarks/128/sanfrancisco-bridge-icon.png"
     },
     {
-      "name":"Tristram",
-      "category":"Locations",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Portal-to-Tristram-icon.png"
+      "name":"Honeymoon Bridge",
+      "category":"bridge",
+      "IconLink":"https://icons.iconarchive.com/icons/iconka/landmarks/128/sanfrancisco-bridge-icon.png"
     },
     {
-      "name":"Rogue Monastery",
-      "category":"Locations",
-      "IconLink":"https://icons.iconarchive.com/icons/lyle-zapato/archaeologicons/32/Trilith-icon.png"
+      "name":"Vysokiy Most Bridge",
+      "category":"bridge",
+      "IconLink":"https://icons.iconarchive.com/icons/iconka/landmarks/128/sanfrancisco-bridge-icon.png"
     },
     {
-      "name":"Cairn Stones",
-      "category":"Locations",
-      "IconLink":"https://icons.iconarchive.com/icons/lyle-zapato/archaeologicons/32/Trilith-icon.png"
+      "name":"Königsberg Cathedral North Bridge",
+      "category":"bridge",
+      "IconLink":"https://icons.iconarchive.com/icons/iconka/landmarks/128/sanfrancisco-bridge-icon.png"
     },
     {
-      "name":"Akara",
-      "category":"npcs",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Akara-icon.png"
+      "name":"Königsberg Cathedral South Bridge",
+      "category":"bridge",
+      "IconLink":"https://icons.iconarchive.com/icons/iconka/landmarks/128/sanfrancisco-bridge-icon.png"
     },
     {
-      "name":"Warriv",
-      "category":"npcs",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Warriv-in-Lut-Gohlein-icon.png"
+      "name":"Ostrov Immanuila Kanta Park/Island",
+      "category":"island",
+      "IconLink":"https://icons.iconarchive.com/icons/archigraphs/eco-health/128/Island-Stone-icon.png"
     },
     {
-      "name":"Gheed",
-      "category":"npcs",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Gheed-icon.png"
+      "name":"Oktyabrsky Island",
+      "category":"island",
+      "IconLink":"https://icons.iconarchive.com/icons/archigraphs/eco-health/128/Island-Stone-icon.png"
     },
     {
-      "name":"Charsi",
-      "category":"npcs",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Charsi-icon.png"
+      "name":"Kaliningrad (North of Pregolya River)",
+      "category":"land",
+      "IconLink":"https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/128/42516-sunrise-over-mountains-icon.png"
     },
     {
-      "name":"Kashya",
-      "category":"npcs",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Kashya-icon.png"
-    },
-    {
-      "name":"Dark Wanderer",
-      "category":"npcs",
-      "IconLink":"https://icons.iconarchive.com/icons/jonathan-rey/star-wars-characters/32/Anakin-Jedi-02-icon.png"
-    },
-    {
-      "name":"Flavie",
-      "category":"npcs",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Flavie-icon.png"
-    },
-    {
-      "name":"Jamella",
-      "category":"npcs",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Jamella-icon.png"
-    },
-    {
-      "name":"Cain",
-      "category":"npcs",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Deckard-Cain-icon.png"
-    },
-    {
-      "name":"Full Rejuv",
-      "category":"items",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Full-Rejuvenation-icon.png"
-    },
-    {
-      "name":"Treasure Closed",
-      "category":"items",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Treasure-Closed-icon.png"
-    },
-    {
-      "name":"Town Portal",
-      "category":"items",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Town-Portal-icon.png"
-    },
-    {
-      "name":"Speech",
-      "category":"items",
-      "IconLink":"http://classic.battle.net/images/battle/diablo2exp/images/npcs/speech.gif"
-    },
-    {
-      "name":"Gossip",
-      "category":"items",
-      "IconLink":"http://classic.battle.net/images/battle/diablo2exp/images/npcs/speech.gif"
-    },
-    {
-      "name":"Barbarian",
-      "category":"character-class",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Barbarian-icon.png"
-    },
-    {
-      "name":"Necromancer",
-      "category":"character-class",
-      "IconLink":"https://icons.iconarchive.com/icons/iconfactory/diablo-2/32/Necromancer-icon.png"
+      "name":"Kaliningrad (South of Pregolya River)",
+      "category":"land",
+      "IconLink":"https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/128/42516-sunrise-over-mountains-icon.png"
     }
   ]
 }
+
+
+
 
 
