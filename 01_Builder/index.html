@@ -167,7 +167,76 @@
 
   <script>
     //Default for OnLoad ... and if the file get's botched in the updateXml function:
-    var pickedXMLFile = "../example.gxl";
+    //var pickedXMLFile = "";//"../example.gxl";
+
+    $(document).ready(function() {
+      $.getJSON("../configuration.json", function(jsonData) { //Async!!!!
+          var DefaultGXLFile ="{NOT LOADED}";
+          var DefaultGXLName = "";
+
+          DefaultGXLFile="../"+jsonData.defaultGXL;                        
+          console.log("DefaultGXLFile: <" + DefaultGXLFile + ">");
+
+          // iterate over jsonData.currentGXLFiles, if DefaultGXLFile == path, then set DefaultGXLName
+          for (var i = 0; i < jsonData.currentGXLFiles.length; i++) {
+            if ("../"+jsonData.currentGXLFiles[i].path == DefaultGXLFile) {
+              DefaultGXLName = jsonData.currentGXLFiles[i].name;
+              break;
+            }
+          }
+
+          // // //print DefaultGXLFile and DefaultGXLName in console
+          // console.log("DefaultGXLFile: <" + DefaultGXLFile + ">");
+          // console.log("DefaultGXLName: <" + DefaultGXLName + ">");
+
+          var pickElementHTML = "<table class=\"table table-bordered table-hover\">";
+          pickElementHTML += "<tr>";
+          pickElementHTML += "<td>";
+          pickElementHTML = "<label for=\"filePicker\">File: </label>";
+          pickElementHTML += "<select id=\"filePicker\" name=\"filePicker\" onchange=\"updateXmlFileSelector()\">";
+
+          //loop over jsonData.currentGXLFiles; add <option> with keys name & path
+          for (var i = 0; i < jsonData.currentGXLFiles.length; i++) {
+            pickElementHTML += "<option value=\"../" + jsonData.currentGXLFiles[i].path + "\">" + jsonData.currentGXLFiles[i].name + "</option>";
+          }
+          // pickElementHTML += "<option value=\""+DefaultGXLFile+"\"><i>"+DefaultGXLName+"</i></option>";
+
+          pickElementHTML += "</select>";
+
+          pickElementHTML += "</td>";
+
+          pickElementHTML += "<td></td>"; // SPACER
+
+          pickElementHTML += "<td>";
+          pickElementHTML += "<label for=\"elemPicker\">An Element: </label>";
+          pickElementHTML += "<select id=\"elemPicker\" name=\"elemPicker\" onchange=\"updateXmlElementSelector()\">";
+          pickElementHTML += "<option value=\"\"><i></i></option>";
+          
+          var xmlDoc = $.parseXML( $.ajax({url: DefaultGXLFile, async: false}).responseText );
+          var xml = $( xmlDoc );
+          var varNodes = xml.find( "node" );
+
+          for (var i = 0; i < varNodes.length; i++) {
+              var valName = $(varNodes[i]).find("data[key='nameNode']").text();
+
+              pickElementHTML += "<option value=\""+valName+"\">"+valName+"</option>";
+          }
+
+          pickElementHTML += "</select>";
+
+          pickElementHTML += "</td>";
+
+          pickElementHTML += "<td></td>"; // SPACER
+          pickElementHTML += "<td>";
+          pickElementHTML += "<button type=\"button\" onclick=\"document.getElementById('elemPicker').value=''; updateXmlElementSelector();\">Reset</button>";
+          pickElementHTML += "</td>";
+
+          pickElementHTML += "</tr>";
+          pickElementHTML += "</table>";
+
+          document.getElementById("xmlElementSelector").innerHTML = pickElementHTML;
+      });
+    });
 
     function updateXmlElementSelector() {
       var xmlElementSelectorPick = document.getElementById("elemPicker").value;
@@ -218,48 +287,6 @@
       document.getElementById("xmlElementSelection").innerHTML = tempAdd;
     }
 
-    $(document).ready(function() {
-      var pickElementHTML = "<table class=\"table table-bordered table-hover\">";
-      pickElementHTML += "<tr>";
-      pickElementHTML += "<td>";
-      pickElementHTML = "<label for=\"filePicker\">File: </label>";
-      pickElementHTML += "<select id=\"filePicker\" name=\"filePicker\" onchange=\"updateXmlFileSelector()\">";
-      pickElementHTML += "<option value=\"../example.gxl\"><i>Seven Bridges of Königsberg</i></option>";
-      pickElementHTML += "</select>";
-
-      pickElementHTML += "</td>";
-
-      pickElementHTML += "<td></td>"; // SPACER
-
-      pickElementHTML += "<td>";
-      pickElementHTML += "<label for=\"elemPicker\">An Element: </label>";
-      pickElementHTML += "<select id=\"elemPicker\" name=\"elemPicker\" onchange=\"updateXmlElementSelector()\">";
-      pickElementHTML += "<option value=\"\"><i></i></option>";
-      
-      var xmlDoc = $.parseXML( $.ajax({url: pickedXMLFile, async: false}).responseText );
-      var xml = $( xmlDoc );
-      var varNodes = xml.find( "node" );
-
-      for (var i = 0; i < varNodes.length; i++) {
-          var valName = $(varNodes[i]).find("data[key='nameNode']").text();
-
-          pickElementHTML += "<option value=\""+valName+"\">"+valName+"</option>";
-      }
-
-      pickElementHTML += "</select>";
-
-      pickElementHTML += "</td>";
-
-      pickElementHTML += "<td></td>"; // SPACER
-      pickElementHTML += "<td>";
-      pickElementHTML += "<button type=\"button\" onclick=\"document.getElementById('elemPicker').value=''; updateXmlElementSelector();\">Reset</button>";
-      pickElementHTML += "</td>";
-
-      pickElementHTML += "</tr>";
-      pickElementHTML += "</table>";
-
-      document.getElementById("xmlElementSelector").innerHTML = pickElementHTML;
-    });
 
   </script>
 

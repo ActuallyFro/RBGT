@@ -4,6 +4,10 @@
     {
       "name" : "Seven Bridges of Königsberg",
       "path" : "example.gxl"
+    },
+    {
+      "name" : "Example File",
+      "path" : "blank.gxl"
     }
   ]
 }
