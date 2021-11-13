@@ -52,17 +52,21 @@
         var defaultDescription = "unk";
         var DefaultGXLFile ="{NOT LOADED}";
         var nodeCounter=1; //1-indexed so VSCode search will match...
+        var loadedConfigJSONData;
 
         $(document).ready(function() {
-            $.getJSON("../configuration.json", function(jsonData) { //Async!!!!                
-                if (jsonData.hasOwnProperty("defaultGXL")) {
-                    DefaultGXLFile = jsonData.defaultGXL;
+            $.getJSON("../configuration.json", function(jsonData) { //Async!!!!  
+                loadedConfigJSONData = jsonData;
+
+                if (loadedConfigJSONData.hasOwnProperty("defaultGXL")) {
+                    DefaultGXLFile = loadedConfigJSONData.defaultGXL;
                 } else {
                     alert("No default GXL file specified in configuration.json!");
                 }
 
-                DefaultGXLFile=jsonData.defaultGXL;
-                renderFileToTable("../"+DefaultGXLFile);
+                DefaultGXLFile=loadedConfigJSONData.defaultGXL;
+                updateXmlFileSelector("../"+DefaultGXLFile);
+                // renderFileToTable("../"+DefaultGXLFile);
             });
         });
 
@@ -194,6 +198,42 @@
             });
         }
 
+        function updateXmlFileSelectorWrapper(selectObject){
+            var filepathValue = document.getElementById("filePicker").value;
+            updateXmlFileSelector(filepathValue);
+        }
+
+        function updateXmlFileSelector(selectedGXLFile){
+            var pickElementHTML;
+            // pickElementHTML = "<table class=\"table table-bordered table-hover\">";
+            // pickElementHTML += "<tr><td>";
+            pickElementHTML = "<label for=\"filePicker\">File: </label>";
+            pickElementHTML += "<select id=\"filePicker\" name=\"filePicker\" onchange=\"updateXmlFileSelectorWrapper(this)\">";
+
+            //Console total files
+            console.log("Total files: "+loadedConfigJSONData.currentGXLFiles.length);
+
+            for (var i = 0; i < loadedConfigJSONData.currentGXLFiles.length; i++) {
+                console.log("    Populating File: "+loadedConfigJSONData.currentGXLFiles[i].name);
+
+                ifSelected = "";
+                if ("../"+loadedConfigJSONData.currentGXLFiles[i].path == selectedGXLFile) {
+                    ifSelected = "selected ";
+                }
+
+                pickElementHTML += "<option value=\"../" + loadedConfigJSONData.currentGXLFiles[i].path+"\" "+ ifSelected + " \">" + loadedConfigJSONData.currentGXLFiles[i].name + "</option>";
+            }
+
+            pickElementHTML += "</select>";
+
+            // pickElementHTML += "</td></tr></table>";
+
+            document.getElementById("xmlElementSelector").innerHTML = pickElementHTML;
+            // document. getElementById("xmlElementSelector"). removeAttribute("disabled"); //container div was the issue
+
+            renderFileToTable(selectedGXLFile);
+        }
+
         function xmlFindTag(xml, tag) {
             var result = $(xml).find(tag);
             return result;
@@ -217,7 +257,7 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li><a href="#FilePicker">File Picker</a></li>
+                    <li><a href="#xmlElementSelector">File Picker</a></li>
                     <li><a href="#StatsTable">Stats Table</a></li>
                     <li><a href="#KeyTable">Key Table</a></li>
                     <li><a href="#NodeTable">Node Table</a></li>
@@ -226,6 +266,15 @@
             </div>
         </div>
     </nav>
+
+    <!-- File Selector -->
+    <center>
+    <div>
+        <!-- <h2>Pick a File</h2> -->
+        <div style="padding-top: 40px; margin-top: 40px;" id="xmlElementSelector" class="form-group">
+        </div>
+    </div>
+    </center>
 
     <div class="container">
         <div class="row">
@@ -242,13 +291,6 @@
         </div>
 
         <div class="row">
-            <!-- File Selector -->
-            <div class="col-md-12">
-                <div style="padding-top: 40px; margin-top: -40px;"  id="FilePicker">
-                    <h2>Pick a File</h1>
-                    <div id="xmlElementSelector"></div>
-                </div>
-            </div>
             <!-- Stats Table -->
             <div class="col-md-12">
                 <div style="padding-top: 40px; margin-top: -40px;" id="StatsTable">
@@ -267,6 +309,7 @@
                     </table>
                 </div>
             </div>
+
             <!-- Key Table -->
             <div class="col-md-12">
                 <div style="padding-top: 40px; margin-top: -40px;"  id="KeyTable">
@@ -286,6 +329,7 @@
                     </table>
                 </div>
             </div>
+
             <!-- Node Table -->
             <div class="col-md-12">
                 <div style="padding-top: 40px; margin-top: -40px;" id="NodeTable">
@@ -305,6 +349,7 @@
                     </table>
                 </div>
             </div>
+
             <!-- Edge Table -->
             <div class="col-md-12">
                 <div style="padding-top: 40px; margin-top: -40px;" id="EdgeTable">
