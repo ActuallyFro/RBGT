@@ -50,12 +50,11 @@
     <script>
         //store Global defaults
         var defaultDescription = "unk";
+        var DefaultGXLFile ="{NOT LOADED}";
         var nodeCounter=1; //1-indexed so VSCode search will match...
 
         $(document).ready(function() {
-            $.getJSON("../configuration.json", function(jsonData) { //Async!!!!
-                var DefaultGXLFile ="{NOT LOADED}";
-
+            $.getJSON("../configuration.json", function(jsonData) { //Async!!!!                
                 if (jsonData.hasOwnProperty("defaultGXL")) {
                     DefaultGXLFile = jsonData.defaultGXL;
                 } else {
