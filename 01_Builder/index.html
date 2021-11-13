@@ -168,36 +168,68 @@
   <script>
     //Default for OnLoad ... and if the file get's botched in the updateXml function:
     //var pickedXMLFile = "";//"../example.gxl";
-
+    var loadedConfigJSONData;
+    var DefaultGXLFile ="{NOT LOADED}";
+          
     $(document).ready(function() {
       $.getJSON("../configuration.json", function(jsonData) { //Async!!!!
-          var DefaultGXLFile ="{NOT LOADED}";
+         loadedConfigJSONData=jsonData;  
           var DefaultGXLName = "";
 
-          DefaultGXLFile="../"+jsonData.defaultGXL;                        
-          console.log("DefaultGXLFile: <" + DefaultGXLFile + ">");
+          DefaultGXLFile="../"+loadedConfigJSONData.defaultGXL;                        
+          // console.log("DefaultGXLFile: <" + DefaultGXLFile + ">");
 
           // iterate over jsonData.currentGXLFiles, if DefaultGXLFile == path, then set DefaultGXLName
-          for (var i = 0; i < jsonData.currentGXLFiles.length; i++) {
-            if ("../"+jsonData.currentGXLFiles[i].path == DefaultGXLFile) {
-              DefaultGXLName = jsonData.currentGXLFiles[i].name;
+          for (var i = 0; i < loadedConfigJSONData.currentGXLFiles.length; i++) {
+            if ("../"+loadedConfigJSONData.currentGXLFiles[i].path == DefaultGXLFile) {
+              DefaultGXLName = loadedConfigJSONData.currentGXLFiles[i].name;
               break;
             }
           }
 
-          // // //print DefaultGXLFile and DefaultGXLName in console
-          // console.log("DefaultGXLFile: <" + DefaultGXLFile + ">");
-          // console.log("DefaultGXLName: <" + DefaultGXLName + ">");
+          updateXmlFileSelector(DefaultGXLFile); //This function updates the 3-part table for file choice, element choice, and reset...
+
+      });
+    });
+
+    function updateXmlFileResetWrapper(selectObject){
+      updateXmlFileSelector(DefaultGXLFile);
+    }
+      
+    function updateXmlFileSelectorWrapper(selectObject){
+      // var filepathValue = selectObject.value;
+      var filepathValue = document.getElementById("filePicker").value;
+      
+      //console.log("The dropdown selection is: <" + filepathValue + ">");
+      updateXmlFileSelector(filepathValue);
+    }
+
+    function updateXmlFileSelector(selectedGXLFile){
+          //console.log("Setting up Element selector with: <" + selectedGXLFile + ">");
 
           var pickElementHTML = "<table class=\"table table-bordered table-hover\">";
           pickElementHTML += "<tr>";
           pickElementHTML += "<td>";
           pickElementHTML = "<label for=\"filePicker\">File: </label>";
-          pickElementHTML += "<select id=\"filePicker\" name=\"filePicker\" onchange=\"updateXmlFileSelector()\">";
+          pickElementHTML += "<select id=\"filePicker\" name=\"filePicker\" onchange=\"updateXmlFileSelectorWrapper(this)\">";
 
           //loop over jsonData.currentGXLFiles; add <option> with keys name & path
-          for (var i = 0; i < jsonData.currentGXLFiles.length; i++) {
-            pickElementHTML += "<option value=\"../" + jsonData.currentGXLFiles[i].path + "\">" + jsonData.currentGXLFiles[i].name + "</option>";
+          for (var i = 0; i < loadedConfigJSONData.currentGXLFiles.length; i++) {
+
+            ifSelected = "";
+            // console showing comparision:
+            // console.log("<../" + loadedConfigJSONData.currentGXLFiles[i].path + "> == <" + selectedGXLFile + ">");
+            //remove whitespace from both sides of selectedGXLFile
+
+            // selectedGXLFile = selectedGXLFile.replace(/^\s+|\s+$/g, '');
+
+            if ("../"+loadedConfigJSONData.currentGXLFiles[i].path == selectedGXLFile) {
+              // console saying which one is selected:
+              // console.log("User has picked: <" + selectedGXLFile + ">");
+              ifSelected = "selected ";
+            }
+
+            pickElementHTML += "<option value=\"../" + loadedConfigJSONData.currentGXLFiles[i].path+"\" "+ ifSelected + " \">" + loadedConfigJSONData.currentGXLFiles[i].name + "</option>";
           }
           // pickElementHTML += "<option value=\""+DefaultGXLFile+"\"><i>"+DefaultGXLName+"</i></option>";
 
@@ -212,7 +244,7 @@
           pickElementHTML += "<select id=\"elemPicker\" name=\"elemPicker\" onchange=\"updateXmlElementSelector()\">";
           pickElementHTML += "<option value=\"\"><i></i></option>";
           
-          var xmlDoc = $.parseXML( $.ajax({url: DefaultGXLFile, async: false}).responseText );
+          var xmlDoc = $.parseXML( $.ajax({url: selectedGXLFile, async: false}).responseText );
           var xml = $( xmlDoc );
           var varNodes = xml.find( "node" );
 
@@ -228,18 +260,13 @@
 
           pickElementHTML += "<td></td>"; // SPACER
           pickElementHTML += "<td>";
-          pickElementHTML += "<button type=\"button\" onclick=\"document.getElementById('elemPicker').value=''; updateXmlElementSelector();\">Reset</button>";
+          pickElementHTML += "<button type=\"button\" onclick=\"document.getElementById('elemPicker').value=''; updateXmlFileResetWrapper(this);\">Reset</button>";
           pickElementHTML += "</td>";
 
           pickElementHTML += "</tr>";
           pickElementHTML += "</table>";
 
           document.getElementById("xmlElementSelector").innerHTML = pickElementHTML;
-      });
-    });
-
-    function updateXmlFileSelector(){
-
     }
 
     function updateXmlElementSelector() {
@@ -258,6 +285,8 @@
 
       var tempAdd="{NO DATA!}";
 
+      // console showing which file
+      //console.log("Looking for element <" + xmlElementSelectorPick + "> in file <" + pickedXMLFile + ">");
       var xmlDoc = $.parseXML( $.ajax({url: pickedXMLFile, async: false}).responseText );
       var xml = $( xmlDoc );
       var varNodes = xml.find( "node" );

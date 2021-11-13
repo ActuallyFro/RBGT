@@ -11,7 +11,13 @@
 
   <graph id="G" edgedefault="undirected">
   <!-- Nodes -->
-  
+      <node id="blank01">
+      <data key="nameNode">Nothing</data>
+      <data key="descriptionNode"><![CDATA[
+      <br>
+      ]]></data>
+    </node> 
+
   <!-- Edges -->
 
   </graph>
