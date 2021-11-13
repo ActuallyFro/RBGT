@@ -53,7 +53,7 @@
         var nodeCounter=1; //1-indexed so VSCode search will match...
 
         $(document).ready(function() {
-            $.get("../D2R_Act_I.gxl", function(xml) {
+            $.get("../example.gxl", function(xml) {
                 var countKey = $(xml).find("key").length;
                 var countNode = $(xml).find("node").length;
                 var countEdge = $(xml).find("edge").length;
@@ -62,19 +62,27 @@
                 $("#table").append("<tr><th>Nodes</th><td>"+countNode+"</td></tr>");
                 $("#table").append("<tr><th>Edges</th><td>"+countEdge+"</td></tr>");
 
-                // for each key, get the value and show it in the table
-                $(xml).find("key").each(function() {
-                    var valKey = $(this).attr("attr.name");
-                    var valId = $(this).attr("id");
-                    var valType = $(this).attr("attr.type");
-                    var valDefault = $(this).find("default").text();
+                if(countKey<=0){
+                    $("#keyTable").append("<tr><th>NONE!</th><td>-</td><td>-</td><td>-</td></tr>");
 
-                    if (valKey == "description") {
-                        defaultDescription=valDefault;
-                    }
-                    
-                    $("#keyTable").append("<tr><th>"+valKey+"</th><td>"+valId+"</td><td>"+valType+"</td><td>"+valDefault+"</td></tr>");
-                });
+                } else {
+                    // for each key, get the value and show it in the table
+                    $(xml).find("key").each(function() {
+                        var valKey = $(this).attr("attr.name");
+                        var valId = $(this).attr("id");
+                        var valType = $(this).attr("attr.type");
+                        var valDefault = $(this).find("default").text();
+
+                        if (valKey == "description") {
+                            defaultDescription=valDefault;
+                        }
+                        
+                        $("#keyTable").append("<tr><th>"+valKey+"</th><td>"+valId+"</td><td>"+valType+"</td><td>"+valDefault+"</td></tr>");
+                    });
+
+                }
+
+
 
                 // for each node, get the key, name, id and description to show it in the #keyEdges table
                 var varNodes = $(xml).find("node");
@@ -114,14 +122,37 @@
                     var valSource = $(this).attr("source");
                     var valTarget = $(this).attr("target");
                     
-                    var strSource = $(varNodes[valSource]).attr("id");
-                    var strSourceIndex = $(varNodes[valSource]).find("data[key='idLinkNode']").text();
-                    var strTarget = $(varNodes[valTarget]).attr("id");
-                    var strTargetIndex = $(varNodes[valTarget]).find("data[key='idLinkNode']").text();
+                    console.log("Current Src/Target: "+valSource+"/"+valTarget);
+                    var strSource = -1;
+                    var strTarget = -1;
+                    for (var i = 0; i < varNodes.length; i++) {
+                        var valKey = $(varNodes[i]).attr("id");
+                        if( valKey == valSource ) {
+                            strSource = i;
+                        }
+
+                        if( valKey == valTarget ) {
+                            strTarget = i;
+                        }
+                        
+                        if( strSource != -1 && strTarget != -1 ) {
+                            break;
+                        }
+                    }
+
+                    var strSourceIndex = "not found!";
+                    if (strSource != -1) {
+                        strSourceIndex = $(varNodes[strSource]).find("data[key='nameNode']").text();
+                    }
+                    
+                    var strTargetIndex = "not found!";
+                    if (strTarget != -1) {
+                        strTargetIndex = $(varNodes[strTarget]).find("data[key='nameNode']").text();
+                    }
 
                     var valRowStr = "<tr><th>"+valId+"</th>";
-                        valRowStr += "<td>"+valSource+" ("+strSource+")</td>";                                        
-                        valRowStr += "<td>"+valTarget+" ("+strTarget+")</td>";
+                        valRowStr += "<td>"+valSource+" ("+strSourceIndex+")</td>";                                        
+                        valRowStr += "<td>"+valTarget+" ("+strTargetIndex+")</td>";
 
                     valRowStr += "</tr>";
                     $("#edgeTable").append(valRowStr);
