@@ -72,6 +72,7 @@
                     $("#table").append("<tr><th>Nodes</th><td>"+countNode+"</td></tr>");
                     $("#table").append("<tr><th>Edges</th><td>"+countEdge+"</td></tr>");
 
+                    $("#keyTable").empty();
                     if(countKey<=0){
                         $("#keyTable").append("<tr><th>NONE!</th><td>-</td><td>-</td><td>-</td></tr>");
 
@@ -92,7 +93,7 @@
 
                     }
 
-
+                    $("#nodeTable").empty();
                     if(countNode<=0){
                         $("#nodeTable").append("<tr><th>NONE!</th><td>-</td><td>-</td><td>-</td></tr>");
 
@@ -132,6 +133,7 @@
     
                     }
 
+                    $("#edgeTable").empty();
                     if(countEdge<=0){
                         // $("#keyTable").append("<tr><th>NONE!</th><td>-</td><td>-</td><td>-</td></tr>");
                         var valRowStr = "<tr><th> NONE! </th>";
