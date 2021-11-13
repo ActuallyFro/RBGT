@@ -53,6 +53,7 @@
         var nodeCounter=1; //1-indexed so VSCode search will match...
 
         $(document).ready(function() {
+            // $.get("../blank.gxl", function(xml) { //SHOWS all zeroes!
             $.get("../example.gxl", function(xml) {
                 var countKey = $(xml).find("key").length;
                 var countNode = $(xml).find("node").length;
@@ -83,81 +84,98 @@
                 }
 
 
+                if(countNode<=0){
+                    $("#nodeTable").append("<tr><th>NONE!</th><td>-</td><td>-</td><td>-</td></tr>");
 
-                // for each node, get the key, name, id and description to show it in the #keyEdges table
-                var varNodes = $(xml).find("node");
-                for (var i = 0; i < varNodes.length; i++) {
-                    var valKey = $(varNodes[i]).attr("id");
-                    var valName = $(varNodes[i]).find("data[key='nameNode']").text();
-                    // var valId = $(varNodes[i]).find("data[key='idLinkNode']").text(); //REMOVED!
-
-                    //convert nodeCounter to string, store in valID
-                    var valId = nodeCounter.toString();
-                    nodeCounter++;
-                    var valDesc = $(varNodes[i]).find("data[key='descriptionNode']").html(); //text() STRIPS tags!
-
-                    //if valDesc is empty, show "No description"
-                    if (valDesc == undefined) {
-                        valDesc = "["+defaultDescription+"]";
-                    } else {
-                        var valDesc = valDesc.substring(0, valDesc.length - 6); //HAX
-                    }
-
-                    // remove TWO '\n' in description
-                    var valDesc = valDesc.replace(/\n/, '');
-                    var valDesc = valDesc.replace(/\n/, '');
-
-                    // replace '\n' with <br> in description
-                    var valDesc = valDesc.replace(/\n/g, '<br>');
-
-                    //replace "<\li><br><li>" with "<\li><li>"
-                    var valDesc = valDesc.replace(/<li><br><li>/g, '<li><li>');
-
-                    $("#nodeTable").append("<tr><th>"+valKey+"</th><td>"+valName+"</td><td>"+valId+"</td><td>"+valDesc+"</td></tr>");
-                }
-
-                // for each edge, get the id, source, target and show it in the #keyEdges table
-                $(xml).find("edge").each(function() {
-                    var valId = $(this).attr("id");
-                    var valSource = $(this).attr("source");
-                    var valTarget = $(this).attr("target");
-                    
-                    console.log("Current Src/Target: "+valSource+"/"+valTarget);
-                    var strSource = -1;
-                    var strTarget = -1;
+                } else {
+                    // for each node, get the key, name, id and description to show it in the #keyEdges table
+                    var varNodes = $(xml).find("node");
                     for (var i = 0; i < varNodes.length; i++) {
                         var valKey = $(varNodes[i]).attr("id");
-                        if( valKey == valSource ) {
-                            strSource = i;
+                        var valName = $(varNodes[i]).find("data[key='nameNode']").text();
+                        // var valId = $(varNodes[i]).find("data[key='idLinkNode']").text(); //REMOVED!
+
+                        //convert nodeCounter to string, store in valID
+                        var valId = nodeCounter.toString();
+                        nodeCounter++;
+                        var valDesc = $(varNodes[i]).find("data[key='descriptionNode']").html(); //text() STRIPS tags!
+
+                        //if valDesc is empty, show "No description"
+                        if (valDesc == undefined) {
+                            valDesc = "["+defaultDescription+"]";
+                        } else {
+                            var valDesc = valDesc.substring(0, valDesc.length - 6); //HAX
                         }
 
-                        if( valKey == valTarget ) {
-                            strTarget = i;
-                        }
-                        
-                        if( strSource != -1 && strTarget != -1 ) {
-                            break;
-                        }
+                        // remove TWO '\n' in description
+                        var valDesc = valDesc.replace(/\n/, '');
+                        var valDesc = valDesc.replace(/\n/, '');
+
+                        // replace '\n' with <br> in description
+                        var valDesc = valDesc.replace(/\n/g, '<br>');
+
+                        //replace "<\li><br><li>" with "<\li><li>"
+                        var valDesc = valDesc.replace(/<li><br><li>/g, '<li><li>');
+
+                        $("#nodeTable").append("<tr><th>"+valKey+"</th><td>"+valName+"</td><td>"+valId+"</td><td>"+valDesc+"</td></tr>");
                     }
 
-                    var strSourceIndex = "not found!";
-                    if (strSource != -1) {
-                        strSourceIndex = $(varNodes[strSource]).find("data[key='nameNode']").text();
-                    }
-                    
-                    var strTargetIndex = "not found!";
-                    if (strTarget != -1) {
-                        strTargetIndex = $(varNodes[strTarget]).find("data[key='nameNode']").text();
-                    }
+ 
+                }
 
-                    var valRowStr = "<tr><th>"+valId+"</th>";
-                        valRowStr += "<td>"+valSource+" ("+strSourceIndex+")</td>";                                        
-                        valRowStr += "<td>"+valTarget+" ("+strTargetIndex+")</td>";
+                if(countEdge<=0){
+                    // $("#keyTable").append("<tr><th>NONE!</th><td>-</td><td>-</td><td>-</td></tr>");
+                    var valRowStr = "<tr><th> NONE! </th>";
+                            valRowStr += "<td> - </td>";                                        
+                            valRowStr += "<td> - </td>";
 
-                    valRowStr += "</tr>";
+                         valRowStr += "</tr>";
                     $("#edgeTable").append(valRowStr);
 
-                });
+                } else {
+                    // for each edge, get the id, source, target and show it in the #keyEdges table
+                    $(xml).find("edge").each(function() {
+                        var valId = $(this).attr("id");
+                        var valSource = $(this).attr("source");
+                        var valTarget = $(this).attr("target");
+                        
+                        console.log("Current Src/Target: "+valSource+"/"+valTarget);
+                        var strSource = -1;
+                        var strTarget = -1;
+                        for (var i = 0; i < varNodes.length; i++) {
+                            var valKey = $(varNodes[i]).attr("id");
+                            if( valKey == valSource ) {
+                                strSource = i;
+                            }
+
+                            if( valKey == valTarget ) {
+                                strTarget = i;
+                            }
+                            
+                            if( strSource != -1 && strTarget != -1 ) {
+                                break;
+                            }
+                        }
+
+                        var strSourceIndex = "not found!";
+                        if (strSource != -1) {
+                            strSourceIndex = $(varNodes[strSource]).find("data[key='nameNode']").text();
+                        }
+                        
+                        var strTargetIndex = "not found!";
+                        if (strTarget != -1) {
+                            strTargetIndex = $(varNodes[strTarget]).find("data[key='nameNode']").text();
+                        }
+
+                        var valRowStr = "<tr><th>"+valId+"</th>";
+                            valRowStr += "<td>"+valSource+" ("+strSourceIndex+")</td>";                                        
+                            valRowStr += "<td>"+valTarget+" ("+strTargetIndex+")</td>";
+
+                        valRowStr += "</tr>";
+                        $("#edgeTable").append(valRowStr);
+
+                    });
+                }
             });
         });
 
