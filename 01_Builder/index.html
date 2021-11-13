@@ -165,10 +165,8 @@
     }
   </script>
 
-  <!-- script, which updates xmlElementSelector the names from all nodes found in xml file -->
   <script>
     function updateXmlElementSelector() {
-      //Update xmlElementSelection
       var xmlElementSelectorPick = document.getElementById("elemPicker").value;
 
       if (xmlElementSelectorPick == "") {
@@ -177,71 +175,48 @@
 
       }
 
-      // var tempVal;
+      var pickedXMLFile = document.getElementById("filePicker").value; //on first load this is empty
+      if(pickedXMLFile == "") {
+        pickedXMLFile = "../example.gxl";
+      }
 
-    var pickedXMLFile = document.getElementById("filePicker").value; //on first load this is empty
+      var tempAdd="{NO DATA!}";
+      // var xmlFile = pickedXMLFile; 
 
-    if(pickedXMLFile == "") {
-      pickedXMLFile = "../example.gxl";
+      var xmlDoc = $.parseXML( $.ajax({url: pickedXMLFile, async: false}).responseText );
+      // var xmlDoc = $.parseXML( $.ajax({url: xmlFile, async: false}).responseText );
+      var xml = $( xmlDoc );
+      var varNodes = xml.find( "node" );
+
+      for (var i = 0; i < varNodes.length; i++) {
+          var valName = $(varNodes[i]).find("data[key='nameNode']").text();
+
+          if (xmlElementSelectorPick == valName){
+            tempAdd = "<table border=\"1\" style=\"width:50%\">\n";
+            tempAdd += "<tr>\n";
+            tempAdd += "<th>ID</th>\n";
+            tempAdd += "<th>Name</th>\n";
+            tempAdd += "<th>Add as Source</th>\n";
+            tempAdd += "<th>Add as Target</th>\n";
+            tempAdd += "</tr>\n";
+            tempAdd += "<tr>\n";
+            tempAdd += "<td>" + $(varNodes[i]).attr("id") + "</td>\n";
+            tempAdd += "<td>" + valName + "</td>\n";
+
+            tempAdd += "<td><center><button type=\"button\" onclick=\"document.getElementById('fieldEdgeSource').value = '" + $(varNodes[i]).attr("id") + "';\">Add!</button></center></td>\n";
+            tempAdd += "<td><center><button type=\"button\" onclick=\"document.getElementById('fieldEdgeTarget').value = '" + $(varNodes[i]).attr("id") + "';\">Add!</button></center></td>\n";
+
+
+            tempAdd += "</tr>\n";
+            tempAdd += "</table>\n";
+
+            break;
+          }
+      }
+
+      document.getElementById("xmlElementSelection").innerHTML = tempAdd;
     }
 
-    //if <select> value is "two", then add string to innerHTML
-    var tempAdd="{NO DATA!}";
-
-    ///////////////
-    var xmlFile = pickedXMLFile; 
-          
-    var xmlDoc = $.parseXML( $.ajax({url: xmlFile, async: false}).responseText );
-    var xml = $( xmlDoc );
-    var varNodes = xml.find( "node" );
-
-    // tempVar = "Total nodes: " + varNodes.length + "\n";
-    for (var i = 0; i < varNodes.length; i++) {
-        var valName = $(varNodes[i]).find("data[key='nameNode']").text();
-
-        if (xmlElementSelectorPick == valName){
-          // add table to tempAdd having id and name
-          tempAdd = "<table border=\"1\" style=\"width:50%\">\n";
-          tempAdd += "<tr>\n";
-          tempAdd += "<th>ID</th>\n";
-          tempAdd += "<th>Name</th>\n";
-          tempAdd += "<th>Add as Source</th>\n";
-          tempAdd += "<th>Add as Target</th>\n";
-          tempAdd += "</tr>\n";
-          tempAdd += "<tr>\n";
-          tempAdd += "<td>" + $(varNodes[i]).attr("id") + "</td>\n";
-          tempAdd += "<td>" + valName + "</td>\n";
-
-          //add source and target buttons that will update id's of 'fieldEdgeSource' and 'fieldEdgeTarget'
-          tempAdd += "<td><center><button type=\"button\" onclick=\"document.getElementById('fieldEdgeSource').value = '" + $(varNodes[i]).attr("id") + "';\">Add!</button></center></td>\n";
-          tempAdd += "<td><center><button type=\"button\" onclick=\"document.getElementById('fieldEdgeTarget').value = '" + $(varNodes[i]).attr("id") + "';\">Add!</button></center></td>\n";
-
-
-          tempAdd += "</tr>\n";
-          tempAdd += "</table>\n";
-
-          break;
-        }
-    }
-
-    ///////////////
-
-    document.getElementById("xmlElementSelection").innerHTML = tempAdd;
-
-    //  else if (xmlElementSelectorPick == "two") {
-      //   tempAdd = "two";
-      // }
-
-      // debug tempAdd
-      // alert(tempAdd);
-
-      // document.getElementById("xmlElementSelection").innerHTML = "PICKED!: "+tempAdd;
-    }
-
-    //var pickedXMLFile = document.getElementById("filePicker").value; //on first load this is empty
-    var pickedXMLFile = "../example.gxl";
-
-    // run on page load
     $(document).ready(function() {
 
       // add three column bootstrap table to pickElementHTML var
@@ -269,8 +244,8 @@
 
           // dont like ajax calls, but it works for now...?
           // on document ready on xml file and count <node>
-          // var xmlFile = "../example.gxl";
-          var xmlFile = pickedXMLFile; 
+          //var pickedXMLFile = document.getElementById("filePicker").value; //on first load this is empty
+          var xmlFile = "../example.gxl";
           
           var xmlDoc = $.parseXML( $.ajax({url: xmlFile, async: false}).responseText );
           var xml = $( xmlDoc );
