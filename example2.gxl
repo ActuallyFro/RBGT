@@ -11,7 +11,7 @@
   <graph id="Seven Bridges of Königsberg" edgedefault="undirected">
   <!-- Nodes -->
     <node id="bridge_01">
-      <data key="nameNode">Prospekt Leninskiy North</data>
+      <data key="nameNode">Prospekt Leninskiy North Bridge</data>
       <data key="descriptionNode"><![CDATA[
         <li>
         <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>
@@ -21,7 +21,7 @@
     </node>
 
     <node id="bridge_02">
-      <data key="nameNode">Prospekt Leninskiy South</data>
+      <data key="nameNode">Prospekt Leninskiy South Bridge</data>
       <data key="descriptionNode"><![CDATA[
         <li>
         <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>
@@ -53,7 +53,7 @@
     </node>
 
     <node id="bridge_05">
-      <data key="nameNode">Vysokiy Most</data>
+      <data key="nameNode">Vysokiy Most Bridge</data>
       <data key="descriptionNode"><![CDATA[
         <li>
         <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>
@@ -67,7 +67,7 @@
 
 
     <node id="bridge_06">
-      <data key="nameNode">Königsberg Cathedral North</data>
+      <data key="nameNode">Königsberg Cathedral North Bridge</data>
       <data key="descriptionNode"><![CDATA[
         <li>
         <ul>Bridge no longer exists</ul>
@@ -81,7 +81,7 @@
 
 
     <node id="bridge_07">
-      <data key="nameNode">Königsberg Cathedral South</data>
+      <data key="nameNode">Königsberg Cathedral South Bridge</data>
       <data key="descriptionNode"><![CDATA[
         <li>
         <ul>Bridge no longer exists</ul>
@@ -126,14 +126,26 @@
     </node> 
 
   <!-- Edges -->
-  <!-- ANOTHER way to represent is the land-bridge-land edges -->
-    <edge id="edge_bridge_01" source="land_00" target="land_03"/>
-    <edge id="edge_bridge_02" source="land_00" target="land_02"/>
-    <edge id="edge_bridge_03" source="land_00" target="land_02"/>
-    <edge id="edge_bridge_04" source="land_00" target="land_03"/>
-    <edge id="edge_bridge_05" source="land_03" target="land_01"/>
-    <edge id="edge_bridge_06" source="land_02" target="land_01"/>
-    <edge id="edge_bridge_07" source="land_02" target="land_00"/> 
+    <edge id="Link PLN Bridge to N Kaliningrad" source="bridge_01" target="land_02"/> 
+    <edge id="Link PLN Bridge to Ostrov Island" source="bridge_01" target="land_00"/>
+
+    <edge id="Link PLS Bridge to Ostrov Island" source="bridge_02" target="land_00"/>
+    <edge id="Link PLS Bridge to S Kaliningrad" source="bridge_02" target="land_03"/>
+
+    <edge id="Link Wooden Bridge to N Kaliningrad" source="bridge_03" target="land_02"/>
+    <edge id="Link Wooden Bridge to Oktyabrsky Island" source="bridge_03" target="land_01"/>
+
+    <edge id="Link Honeymoon Bridge to Ostrov Island" source="bridge_04" target="land_00"/>
+    <edge id="Link Honetmoon Bridge to Oktyabrsky Island" source="bridge_04" target="land_01"/>
+
+    <edge id="Link Most Bridge to Oktyabrsky Island" source="bridge_05" target="land_01"/>
+    <edge id="Link Most Bridge to S Kaliningrad" source="bridge_05" target="land_03"/>
+
+    <edge id="Link KCN Bridge to N Kaliningrad" source="bridge_06" target="land_02"/>
+    <edge id="Link KCN Bridge to Ostrov Island" source="bridge_06" target="land_00"/>
+
+    <edge id="Link KCS Bridge to Ostrov Island" source="bridge_07" target="land_00"/>
+    <edge id="Link KCS Bridge to S Kaliningrad" source="bridge_07" target="land_03"/>
 
   </graph>
 </graphml>

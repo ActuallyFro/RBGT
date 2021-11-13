@@ -1,0 +1,151 @@
+{
+    "directed": false,
+    "graph": {
+        "edge_default": {},
+        "node_default": {
+            "description": "MISSING DESCRIPTION",
+            "name": "NaN"
+        }
+    },
+    "links": [
+        {
+            "id": "Link PLN Bridge to N Kaliningrad",
+            "source": "bridge_01",
+            "target": "land_02"
+        },
+        {
+            "id": "Link PLN Bridge to Ostrov Island",
+            "source": "bridge_01",
+            "target": "land_00"
+        },
+        {
+            "id": "Link PLS Bridge to Ostrov Island",
+            "source": "bridge_02",
+            "target": "land_00"
+        },
+        {
+            "id": "Link PLS Bridge to S Kaliningrad",
+            "source": "bridge_02",
+            "target": "land_03"
+        },
+        {
+            "id": "Link Wooden Bridge to N Kaliningrad",
+            "source": "bridge_03",
+            "target": "land_02"
+        },
+        {
+            "id": "Link Wooden Bridge to Oktyabrsky Island",
+            "source": "bridge_03",
+            "target": "land_01"
+        },
+        {
+            "id": "Link Honeymoon Bridge to Ostrov Island",
+            "source": "bridge_04",
+            "target": "land_00"
+        },
+        {
+            "id": "Link Honetmoon Bridge to Oktyabrsky Island",
+            "source": "bridge_04",
+            "target": "land_01"
+        },
+        {
+            "id": "Link Most Bridge to Oktyabrsky Island",
+            "source": "bridge_05",
+            "target": "land_01"
+        },
+        {
+            "id": "Link Most Bridge to S Kaliningrad",
+            "source": "bridge_05",
+            "target": "land_03"
+        },
+        {
+            "id": "Link KCN Bridge to N Kaliningrad",
+            "source": "bridge_06",
+            "target": "land_02"
+        },
+        {
+            "id": "Link KCN Bridge to Ostrov Island",
+            "source": "bridge_06",
+            "target": "land_00"
+        },
+        {
+            "id": "Link KCS Bridge to Ostrov Island",
+            "source": "bridge_07",
+            "target": "land_00"
+        },
+        {
+            "id": "Link KCS Bridge to S Kaliningrad",
+            "source": "bridge_07",
+            "target": "land_03"
+        }
+    ],
+    "multigraph": false,
+    "nodes": [
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.70838397736422, 20.507976124734412</ul>\n        </li>\n      ",
+            "group": 2,
+            "id": "bridge_01",
+            "name": "Prospekt Leninskiy North Bridge"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.7058859217565, 20.506592105000376</ul>\n        </li>\n      ",
+            "group": 1,
+            "id": "bridge_02",
+            "name": "Prospekt Leninskiy South Bridge"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.707162862704166, 20.514595816085198</ul>\n        </li>\n      ",
+            "group": 2,
+            "id": "bridge_03",
+            "name": "Wooden Bridge"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.70577434248125, 20.513587305581325</ul>\n        </li>\n      ",
+            "group": 0,
+            "id": "bridge_04",
+            "name": "Honeymoon Bridge"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge 'Exists' from it's original location -- rebuilt after WWII</ul>\n        <ul>54.69924789970712, 20.517723087199414</ul>\n        </li>\n        \n        \n        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges\n      ",
+            "group": 0,
+            "id": "bridge_05",
+            "name": "Vysokiy Most Bridge"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge no longer exists</ul>\n        <ul>54.70792296890923, 20.51012549695025</ul>\n        </li>\n        \n        \n        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges\n      ",
+            "group": 2,
+            "id": "bridge_06",
+            "name": "K\u00f6nigsberg Cathedral North Bridge"
+        },
+        {
+            "description": "\n        <li>\n        <ul>Bridge no longer exists</ul>\n        <ul>54.7053288016577, 20.509782174147993</ul>\n        </li>\n        \n        \n        Source: https://en.wikipedia.org/wiki/Seven_Bridges_of_K%C3%B6nigsberg#Present_state_of_the_bridges\n      ",
+            "group": 1,
+            "id": "bridge_07",
+            "name": "K\u00f6nigsberg Cathedral South Bridge"
+        },
+        {
+            "description": "\n      <br>\n        - East of Ostrov Immanuila Kanta Park/Island\n      ",
+            "group": 1,
+            "id": "land_00",
+            "name": "Ostrov Immanuila Kanta Park/Island"
+        },
+        {
+            "description": "\n      <br>\n        - East of Ostrov Immanuila Kanta Park/Island\n      ",
+            "group": 0,
+            "id": "land_01",
+            "name": "Oktyabrsky Island"
+        },
+        {
+            "description": "\n      <br>\n        - North of Ostrov Immanuila Kanta Park/Island\n      ",
+            "group": 2,
+            "id": "land_02",
+            "name": "Kaliningrad (North of Pregolya River)"
+        },
+        {
+            "description": "\n      <br>\n        - South of Ostrov Immanuila Kanta Park/Island\n      ",
+            "group": 1,
+            "id": "land_03",
+            "name": "Kaliningrad (South of Pregolya River)"
+        }
+    ]
+}
