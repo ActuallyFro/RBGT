@@ -1,9 +1,9 @@
 {
-  "defaultGXL" : "blank.gxl",
+  "defaultGXL" : "space-engineers.gxl",
   "currentGXLFiles" : [
     {
-      "name" : "Example File",
-      "path" : "blank.gxl"
+      "name" : "Space Engineers Walkthrough",
+      "path" : "space-engineers.gxl"
     }
   ]
 }
