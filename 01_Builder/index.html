@@ -172,8 +172,6 @@
     var DefaultGXLFile ="{NOT LOADED}";
           
     $(document).ready(function() {
-
-
       $.getJSON("../configuration.json", function(jsonData) { //Async!!!!
          loadedConfigJSONData=jsonData;  
           var DefaultGXLName = "";
@@ -197,9 +195,8 @@
           // console.log("LOADED -- configuration.json!");
 
       })
-      .fail(function(){ //File does not exist...try default
 
-        //print error to console
+      .fail(function(){ //File does not exist...try default
         console.log("ERROR -- ../configuration.json DOES NOT EXIST!");
 
 
@@ -219,6 +216,7 @@
             updateXmlFileSelector(DefaultGXLFile); //This function updates the 3-part table for file choice, element choice, and reset...
 
         })
+
         .fail(function() { 
           console.log("ERROR -- ../ex_configuration.json DOES NOT EXIST!");
           alert("Both the configuration.json and ex_configuration.json are missing!");
