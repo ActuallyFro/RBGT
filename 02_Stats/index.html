@@ -58,18 +58,55 @@
         var loadedConfigJSONData;
 
         $(document).ready(function() {
-            $.getJSON("../configuration.json", function(jsonData) { //Async!!!!  
-                loadedConfigJSONData = jsonData;
+            $.getJSON("../configuration.json", function(jsonData) { //Async!!!!
+                loadedConfigJSONData=jsonData;  
+                var DefaultGXLName = "";
 
-                if (loadedConfigJSONData.hasOwnProperty("defaultGXL")) {
-                    DefaultGXLFile = loadedConfigJSONData.defaultGXL;
+                if (jsonData.hasOwnProperty("defaultGXL")) {
+                    DefaultGXLFile = jsonData.defaultGXL;
                 } else {
                     alert("No default GXL file specified in configuration.json!");
                 }
 
-                DefaultGXLFile=loadedConfigJSONData.defaultGXL;
-                updateXmlFileSelector("../"+DefaultGXLFile);
-                // renderFileToTable("../"+DefaultGXLFile);
+                DefaultGXLFile="../"+loadedConfigJSONData.defaultGXL;                        
+
+                for (var i = 0; i < loadedConfigJSONData.currentGXLFiles.length; i++) {
+                    if ("../"+loadedConfigJSONData.currentGXLFiles[i].path == DefaultGXLFile) {
+                    DefaultGXLName = loadedConfigJSONData.currentGXLFiles[i].name;
+                    break;
+                    }
+                }
+
+                updateXmlFileSelector(DefaultGXLFile); //This function updates the 3-part table for file choice, element choice, and reset...
+                // console.log("LOADED -- configuration.json!");
+
+            })
+
+            .fail(function(){ //File does not exist...try default
+                console.log("ERROR -- ../configuration.json DOES NOT EXIST!");
+
+
+                $.getJSON("../ex_configuration.json", function(jsonData) { //Async!!!!
+                loadedConfigJSONData=jsonData;  
+                    var DefaultGXLName = "";
+
+                    DefaultGXLFile="../"+loadedConfigJSONData.defaultGXL;                        
+
+                    for (var i = 0; i < loadedConfigJSONData.currentGXLFiles.length; i++) {
+                    if ("../"+loadedConfigJSONData.currentGXLFiles[i].path == DefaultGXLFile) {
+                        DefaultGXLName = loadedConfigJSONData.currentGXLFiles[i].name;
+                        break;
+                    }
+                    }
+
+                    updateXmlFileSelector(DefaultGXLFile); //This function updates the 3-part table for file choice, element choice, and reset...
+
+                })
+
+                .fail(function() { 
+                console.log("ERROR -- ../ex_configuration.json DOES NOT EXIST!");
+                alert("Both the configuration.json and ex_configuration.json are missing!");
+                });      
             });
         });
 
