@@ -13,6 +13,48 @@ var Log = [];
 
 
 
+//3. LogIt 
+//===========
+function LogIt() {
+  if (isLedgerEmpty){
+    LedgerIt(); //Auto-ledger then log it
+  }
+
+  if (isLogEmpty){
+    isLogEmpty = false;
+    document.getElementById("ScratchPad").innerHTML = "<table id=\"TableScratchPad\" class=\"table table-striped\"><tbody id=\"ScratchPadBody\"></tbody></table>";
+    //console.log("[DEBUG] [LogIt()] Logs table created");
+  } 
+
+  var obj = document.getElementById("ledger");
+  var currentLedger = document.getElementById("ledger").value;
+  Log.push(currentLedger);
+
+
+  var row = document.createElement("tr");
+
+  var cell = document.createElement("td");
+  safeCurrentStr = currentLedger.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  cell.innerHTML = safeCurrentStr;
+  row.appendChild(cell);
+  document.getElementById("LogsTable").appendChild(row);
+
+
+  CheckAndAddTarget();
+  ClearLedger();
+  ClearTag();
+  ClearTarget();
+
+  LocalStorageLogsSave();
+
+  //Any time LogIt() is called -- reset the inner-bracket toggles
+  ToggleDisableInnerbracket();
+
+  hasBracketBuildingStarted = false;
+}
+
+
+
 //////////////////////////////////////
 // V. Import/Export
 
@@ -277,7 +319,7 @@ function LocalStorageLoadMainKeys(debug=false){
 
   // FIX THIS:
   if (!loadedLogs){
-    document.getElementById("Logs").innerHTML = "<div id=\"logStatus\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Logs are empty}</i></h2></div>";
+    document.getElementById("ScratchPad").innerHTML = "<div id=\"ScratchPadStatus\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{empty}</i></h2></div>";
   }
 
   return totalKeys;
