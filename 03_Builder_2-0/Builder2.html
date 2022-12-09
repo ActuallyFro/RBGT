@@ -116,22 +116,16 @@
             Settings
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <!-- <input type="checkbox" id="DarkModeToggle" onclick="DarkModeToggle()"> -->
             <li style="padding-left:1em">
-
               Dark Mode:
               <label class="switch">
                 <input type="checkbox" id="toggleSettingDarkMode">
                 <span class="slider round"></span>
               </label>          
-        
-
             </li>
-          </ul>
-          <!-- <input type="checkbox" id="DarkModeToggle" onclick="DarkModeToggle()"> -->
-
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li style="padding-left:1em">
-              <input type="button" class="btn btn-primary" onclick="ClearSettings()" value="Clear Settings">
+              <input type="button" class="btn btn-primary" onclick="MenuClearStorage()" value="Clear LocalStorage">
             </li>
   
           </ul>
@@ -193,7 +187,7 @@
   <div class="row">
       
       <h2>2. Pick/enter a target</h2>
-      <div class="col-sm-12" id="TargetButtons"></div>
+      <!-- <div class="col-sm-12" id="TargetButtons"></div> -->
       <form>
         <label for="target">Target:</label>
         <input type="text" list="targets" id="target" name="target" placeholder="Inner-bracket target/content"/>
@@ -238,13 +232,13 @@
       <!-- <form>     -->
         <input type="button" type="button" class="btn btn-light" onclick="UndoLedger()" value="Undo last Ledger Entry">
         <input type="button" type="button" class="btn btn-secondary" onclick="ClearLedger()" value="Clear Ledger">
-        <input type="button" class="btn btn-primary" onclick="EntryIt()" value="EntryIt!">
+        <input type="button" class="btn btn-primary" onclick="EntryIt()" value="Add Entry!">
       <!-- </form>     -->
 
 
       <!-- // https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule -->
       <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
-        <span id="LabelEntryTable" style="font-size: 40px; background-color: #F3F5F6; padding: 0px 5px;">
+        <span id="EntriesTable" style="font-size: 40px; background-color: #F3F5F6; padding: 0px 5px;">
           Entry Table
         </span>
       </div><br><br>

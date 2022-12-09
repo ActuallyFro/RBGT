@@ -216,6 +216,13 @@ function ToggleDarkMode(isDarkMode){
   }
 }
 
+function MenuClearStorage(debug=true){
+  if (debug){
+    console.log("[DEBUG] User clicked ClearStorage");
+  }
+  LocalStorageClear(true);  
+}
+
 // 1. Bracket Buttons setup:
 //========================== 
 function SetupBracketButtons(debug=false){
@@ -291,7 +298,7 @@ function SetupAllTargets() {
 function SetupTargetsBasedOnBracketPick(SelectedBracket){
   // console.log("Selected Bracket: '" + SelectedBracket + "'");
   document.getElementById("targets").innerHTML = null; //reset targets
-  document.getElementById("TargetButtons").innerHTML = null; //reset buttons
+  // document.getElementById("TargetButtons").innerHTML = null; //reset buttons
 
   if (SelectedBracket == "") {
     LoadAllTargetsAsOptions(); //(true)
@@ -320,7 +327,7 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket){
 
           var safeStr = targets[j][0].replace(/'/g, "\\'");
           
-          document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + targets[j][0] + "</button>";
+          // document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + targets[j][0] + "</button>";
 
           foundTargets++;
         }
@@ -557,9 +564,16 @@ function AddNodeOrEdge(debug=true) {
   //III. determine target from provided input field
   var tempTarget = document.getElementById("target").value;
 
+  if (tempTarget == ""){
+    console.log("[ERROR] [AddNodeOrEdge()] Target is empty! Skipping add!");
+    return;
+  }
+
+
+
   // IV. Add to Ledger
-  var LeftSideBracket = currentBracket.slice(0,CurrentBracketWidth);
-  var RightSideBracket = currentBracket.slice(-CurrentBracketWidth, Currentobjectsize);
+  // var LeftSideBracket = currentBracket.slice(0,CurrentBracketWidth);
+  // var RightSideBracket = currentBracket.slice(-CurrentBracketWidth, Currentobjectsize);
 
   //isEntryEmpty =?= hasBracketBuildingStarted??
   if (isEntryEmpty){    
@@ -573,11 +587,13 @@ function AddNodeOrEdge(debug=true) {
 
   // if (!isInnerBracketToggled) {
     if (debug){
-      console.log("[DEBUG] [AddNodeOrEdge()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
+      // console.log("[DEBUG] [AddNodeOrEdge()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
+      console.log("[DEBUG] [AddNodeOrEdge()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + tempTarget );
     }
     // document.getElementById("ledger").value += LeftSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
     // document.getElementById("ledger").value += RightSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
-    addLedgerStringAtEnd(LeftSideBracket + tempTarget + RightSideBracket);
+    // addLedgerStringAtEnd(LeftSideBracket + tempTarget + RightSideBracket);
+    addLedgerStringAtEnd(tempTarget);
 
     CheckAndAddTarget();
 
@@ -653,15 +669,23 @@ function EntryIt() {
   LocalStorageEntriesSave();
 
   //Any time EntryIt() is called -- reset the inner-bracket toggles
-  ToggleDisableInnerbracket();
+  // ToggleDisableInnerbracket();
 
   hasBracketBuildingStarted = false;
 }
 
 //4. RemoveLastEntry 
 //================
-function RemoveLastEntry() {
+function RemoveLastEntry(debug=true) {
+  if (debug){
+    console.log("[DEBUG] [RemoveLastEntry()] DONE!!!");
+  }
+
+
   if (isEntryEmpty){
+    if (debug){
+      console.log("[DEBUG] [RemoveLastEntry()] {Empty Ledger}! NO Action!");
+    }
     return;
   }
 
@@ -671,8 +695,14 @@ function RemoveLastEntry() {
     table.removeChild(table.children[table.children.length - 1]);
 
     LocalStorageEntriesSave();
-
+    if (debug){
+      console.log("[DEBUG] [RemoveLastEntry()] Removed entry & saved entries!");
+    }
+  
   } else {
+    if (debug){
+      console.log("[DEBUG] [RemoveLastEntry()] Running ClearEntry()!");
+    }
     ClearEntry();
   }
 }
@@ -802,10 +832,13 @@ function LoadEntryArrayIntoTable(){  // \" class=\"table table-striped\"><tbody 
   }
 }
 
-function LoadArrayIntoTargets(PassedArray){ //Passed JSON Parsed from String
+function LoadArrayIntoTargets(PassedArray, debug=false){ //Passed JSON Parsed from String
   targets = [];
   for (var i = 0; i < PassedArray.length; i++) {
     targets.push(PassedArray[i]);
+    if(debug){
+      console.log("[DEBUG] [LoadArrayIntoTargets()] Loaded Target: '"+targets[i][0]+"'");
+    }
   }
 
 }
@@ -840,7 +873,7 @@ function LoadAllTargetsAsOptions(debug=false){ //this vs. SetupTargetsBasedOnB
       }
   
       document.getElementById("targets").appendChild(option);
-      document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + targets[j][0] + "</button>";
+      // document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + targets[j][0] + "</button>";
 
       if (hasTwoTargets){
         currentTarget = secondaryTarget;
@@ -996,7 +1029,7 @@ function LocalStorageLoadMainKeys(debug=false){
 
         var loadedStorage = localStorage.getItem('Builder-Targets');
         var parsedTarget = JSON.parse(loadedStorage);
-        LoadArrayIntoTargets(parsedTarget);
+        LoadArrayIntoTargets(parsedTarget, true);
         LoadAllTargetsAsOptions(); //(true)
 
         SetupAllTargets();
