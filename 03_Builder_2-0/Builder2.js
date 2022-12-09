@@ -18,7 +18,7 @@
 // 0. Add in hooks to check for existing content, and load as appropriate... {#0} |< DONE >|
 //   a. load Entries <import like Entry file import/load> {#a}
 //   b. load targets <import like TARGET file import/load> {#b}
-// 1. brackets -- N/A, since these are static/look-ups
+// 1. objects -- N/A, since these are static/look-ups
 // 2. targets -- yes (curretly are exported too)  {#2}
 //   a. Needs a reset option {#a}
 //   b. LocalStorage then needs to be added {#b} <WHEN a NEW target is added -- export list>
@@ -36,68 +36,38 @@
 // I. Vars and Lookups
 
 // Global var to store the propsed ledger entry, as array of strings
-var isLedgerEmpty = true;
+// var isEntryEmpty = true;
 var isEntryEmpty = true;
-var oldLedger = [];
+var oldEntry = [];
 var Entry = [];
 
-var brackets = [
+var objects = [
 ["", "", "", ""],
-["", "=== Location Brackets ===", "GUI - Selection Title", "Disabled"],
-["༺ ༻", "Realm", "Locations", ""],
-["〖 〗", "City", "Locations", ""],
-["《 》", "District", "Locations", ""],
-["〈 〉", "Place/Building", "Locations", ""],
-["⦓ ⦔", "Inner Place/Building (e.g., Room)", "Locations", ""],
+["", "=== Graph objects ===", "GUI - Selection Title", "Disabled"],
+["Node", "Graph", "GraphObjects", ""],
+["Edge", "Graph", "GraphObjects", ""]
 
-["", "=== Timing Brackets ===", "GUI - Selection Title", "Disabled"],
-["⟅ ⟆", "Round", "Timing", "Numbers"],
-["⧼ ⧽", "Time/Duration", "Timing", "Ignore"],
-
-["", "=== N/PC Brackets ===", "GUI - Selection Title", "Disabled"],
-["[ ]", "PC or NPC", "PC or NPC Level Actions", ""],
-["] [", "Hostile NPC/encounter (Single)", "PC or NPC Level Actions", ""],
-["⟦ ⟧", "Grouping of PCs/NPC", "PC or NPC Level Actions", ""],
-["⟧ ⟦", "Grouping of Hostile NPCs/encounter", "PC or NPC Level Actions", ""],
-
-["", "=== Event/Action Brackets ===", "GUI - Selection Title", "Disabled"],
-["⌊   ⌋", "Event/Encounter - Floor", "Event or Encounter", "Ignore"],
-["⌈   ⌉", "Event/Encounter - Ceiling", "Event or Encounter", "Ignore"],
-["( )", "Action", "Event or Encounter", "FilterAction"],
-["< >", "Movement", "Event or Encounter", "Ignore"],
-["(( ))", "Comment", "General Comment", ""],
-
-["", "=== Object Brackets ===", "GUI - Selection Title", "Disabled"],
-["{ }", "Item", "Object", "Ignore"],
-["⸢   ⸣", "Right hand", "Object", "Ignore"],
-["⸤   ⸥", "Left hand", "Object", "Ignore"],
-["⸢   ⸥", "Both hands/two handed", "Object", "Ignore"],
-["⦇ ⦈", "Armor class", "Object", "Numbers"],
-["⦉ ⦊", "HP Amount", "Object", "Numbers"],
-
-["", "=== Result Brackets ===", "GUI - Selection Title", "Disabled"],
-["⟮ ⟯", "Dice Roll Success (check)", "Results", "Dice"],
-["⟯ ⟮", "Dice Roll Failure (check)", "Results", "Dice"],
-["⧘ ⧙", "Damage Amount", "Results", "Numbers"],
-["〘 〙", "Dice Roll Initiative", "Results", "Dice"]
+// ["", "=== Timing objects ===", "GUI - Selection Title", "Disabled"],
+// ["⟅ ⟆", "Round", "Timing", "Numbers"],
+// ["⧼ ⧽", "Time/Duration", "Timing", "Ignore"]
 ];
 
 var targets = [
-["Grevnyrch", "Locations", "G"],
-["Kla'Bbbert", "Locations", "KB"]
+// ["Grevnyrch", "Locations", "G"],
+// ["Kla'Bbbert", "Locations", "KB"]
 ];
 
-var hasBracketBuildingStarted = false;
+// var hasBracketBuildingStarted = false;
 
-var isShowingNumbers = false;
-var isInnerBracketToggled = false;
-var isAutoBracketToggled = true;
+// var isShowingNumbers = false;
+// var isInnerBracketToggled = false;
+// var isAutoBracketToggled = true;
 var hasBracketBeenPlaced = false;
 
-var LastBracketSize = 0;
-var LastBracketWidth = 0; //SHOULD be (Size-1)/2 -- but I cannot say 100% ALWAYS will be...
-var LastBracket ="";
-var isInnerBracket = false;
+// var Lastobjectsize = 0;
+// var LastBracketWidth = 0; //SHOULD be (Size-1)/2 -- but I cannot say 100% ALWAYS will be...
+// var LastBracket ="";
+// var isInnerBracket = false;
 //////////////////////////////////////
 
 //////////////////////////////////////
@@ -118,60 +88,60 @@ window.onload = function() {
 
   // 3. Add shortcut buttons to Shortcut Divs
   //----------------------------
-  SetupInnerBracketShortcutsDice();
-  SetupInnerBracketShortcutsActionActivities();
-  SetupInnerBracketShortcutsNandPCs();
+  // SetupInnerobjectshortcutsDice();
+  // SetupInnerobjectshortcutsActionActivities();
+  // SetupInnerobjectshortcutsNandPCs();
 
   //4. Setup Event Listeners/Watchers
   SetupWatcherUserPicksBracketDropDown();
-  SetupWatcherUserTogglesAutoBracket();
-  SetupWatcherUserTogglesInnerBracket(); 
+  // SetupWatcherUserTogglesAutoBracket();
+  // SetupWatcherUserTogglesInnerBracket(); 
   SetupWatcherUserTogglesSettingDarkMode(); 
 
   //5. Setup default states
-  ToggleDisableInnerbracket();
-  ToggleEnableAutobracket();
-  hideShowDice(false);
+  // ToggleDisableInnerbracket();
+  // ToggleEnableAutobracket();
+  // hideShowDice(false);
   hasBracketBuildingStarted = false;
 }
 
-function SetupInnerBracketShortcutsDice(){
-  for (var k = 0; k <= 9; k++) {
-    document.getElementById("Dice").innerHTML += "<button type=\"button\" id=\"BtnDiceDark\" class=\"btn btn-dark\" onclick=\"addLedgerStringInnerBracket(" + k + ")\">" + k + "</button>";
-  }
+// function SetupInnerobjectshortcutsDice(){
+//   for (var k = 0; k <= 9; k++) {
+//     document.getElementById("Dice").innerHTML += "<button type=\"button\" id=\"BtnDiceDark\" class=\"btn btn-dark\" onclick=\"addLedgerStringInnerBracket(" + k + ")\">" + k + "</button>";
+//   }
 
-  document.getElementById("Dice").innerHTML += "<button type=\"button\"  class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('+')\"> + </button>";
-  document.getElementById("Dice").innerHTML += "<button type=\"button\" class=\"btn btn-danger\" onclick=\"addLedgerStringInnerBracket('-')\"> - </button>";
-  document.getElementById("Dice").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('=')\"> = </button>";
+//   document.getElementById("Dice").innerHTML += "<button type=\"button\"  class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('+')\"> + </button>";
+//   document.getElementById("Dice").innerHTML += "<button type=\"button\" class=\"btn btn-danger\" onclick=\"addLedgerStringInnerBracket('-')\"> - </button>";
+//   document.getElementById("Dice").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('=')\"> = </button>";
  
-}
+// }
 
-function SetupInnerBracketShortcutsActionActivities (){
-  document.getElementById("ActivityButtons").innerHTML += "<button type=\"button\"  class=\"btn btn-success\" onclick=\"addLedgerStringInnerBracket('→')\"> → </button>";
-}
+// function SetupInnerobjectshortcutsActionActivities (){
+//   document.getElementById("ActivityButtons").innerHTML += "<button type=\"button\"  class=\"btn btn-success\" onclick=\"addLedgerStringInnerBracket('→')\"> → </button>";
+// }
 
-function SetupInnerBracketShortcutsNandPCs (){
-  document.getElementById("NandPCButtons").innerHTML += "<button type=\"button\"  class=\"btn btn-primary\" onclick=\"addLedgerStringInnerBracket(';;')\"> ;; </button>";
-}
+// function SetupInnerobjectshortcutsNandPCs (){
+//   document.getElementById("NandPCButtons").innerHTML += "<button type=\"button\"  class=\"btn btn-primary\" onclick=\"addLedgerStringInnerBracket(';;')\"> ;; </button>";
+// }
 
 //BUG: target as the selction goes to an index of "n-1"; so if item #4 is selected, it will be 3...
 function SetupWatcherUserPicksBracketDropDown(debug=false){
   document.getElementById("BracketDropDown").addEventListener("change", function() {
     var selectedBracketTag = document.getElementById("BracketDropDown").value;
     if (debug){
-      console.Entry("[DEBUG] User selected dropdown:" + selectedBracketTag);  
+      console.log("[DEBUG] User selected dropdown:" + selectedBracketTag);  
     }
 
     SetupTargetsBasedOnBracketPick(selectedBracketTag);
 
     //Attempting to pass bracket number into UpdateTargetActivities()...
     var bracketNumber=0;
-    for (var i = 0; i < brackets.length; i++) {
-      var foundTargetBracket = brackets[i][0];
-      if (brackets[i][0] == selectedBracketTag) {
+    for (var i = 0; i < objects.length; i++) {
+      var foundTargetBracket = objects[i][0];
+      if (objects[i][0] == selectedBracketTag) {
         bracketNumber = i;
         if (debug){
-          console.Entry("[DEBUG] Bracket Number: " + bracketNumber);
+          console.log("[DEBUG] Bracket Number: " + bracketNumber);
         }
         break;
       }
@@ -179,32 +149,32 @@ function SetupWatcherUserPicksBracketDropDown(debug=false){
 
     UpdateTargetActivities(bracketNumber);
       
-    if(isAutoBracketToggled){
-      LedgerIt();
-      hasBracketBeenPlaced = true;
+    // if(isAutoBracketToggled){
+      // AddNodeOrEdge();
+      // hasBracketBeenPlaced = true;
       // ToggleEnableInnerbracket(); //--more Entryic is needed for deconflicting target buttons...  
-    }
+    // }
 
   });
   
 }
 
-function SetupWatcherUserTogglesAutoBracket(debug=false){
-  document.getElementById("toggleAutobracket").addEventListener("change", function() {
-    var isAutoBracket = document.getElementById("toggleAutobracket").checked;
-    isAutoBracketToggled = isAutoBracket;
-    if (debug){
-      console.Entry("[DEBUG] User toggled AutoBracket to: " + isAutoBracket);
-    }
-  });
-}
+// function SetupWatcherUserTogglesAutoBracket(debug=false){
+//   document.getElementById("toggleAutobracket").addEventListener("change", function() {
+//     var isAutoBracket = document.getElementById("toggleAutobracket").checked;
+//     isAutoBracketToggled = isAutoBracket;
+//     if (debug){
+//       console.log("[DEBUG] User toggled AutoBracket to: " + isAutoBracket);
+//     }
+//   });
+// }
 
 function SetupWatcherUserTogglesInnerBracket(debug=false){
   document.getElementById("toggleInnerbracket").addEventListener("change", function() {
     var isInnerBracket = document.getElementById("toggleInnerbracket").checked;
     isInnerBracketToggled = isInnerBracket;
     if (debug){
-      console.Entry("[DEBUG] User toggled InnerBracket to: " + isInnerBracket);
+      console.log("[DEBUG] User toggled InnerBracket to: " + isInnerBracket);
     }
   });
 }
@@ -213,7 +183,7 @@ function SetupWatcherUserTogglesSettingDarkMode(debug=false){
   document.getElementById("toggleSettingDarkMode").addEventListener("change", function() {
     var isDarkMode = document.getElementById("toggleSettingDarkMode").checked;
     if (debug){
-      console.Entry("[DEBUG] User toggled DarkMode to: " + isDarkMode);
+      console.log("[DEBUG] User toggled DarkMode to: " + isDarkMode);
     }
     ToggleDarkMode(isDarkMode);
   });
@@ -249,32 +219,32 @@ function ToggleDarkMode(isDarkMode){
 // 1. Bracket Buttons setup:
 //========================== 
 function SetupBracketButtons(debug=false){
-  for (var i = 0; i < brackets.length; i++) { //use btn-outline-* for more variants
-    if (brackets[i][2] == "Locations"){
-      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addBracket(" + i + ")\">" + brackets[i][0] + "</button>";
+  for (var i = 0; i < objects.length; i++) { //use btn-outline-* for more variants
+    if (objects[i][2] == "Locations"){
+      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
     
-    } else if (brackets[i][2] == "Timing"){
-      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-success\" onclick=\"addBracket(" + i + ")\">" + brackets[i][0] + "</button>";
+    } else if (objects[i][2] == "Timing"){
+      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-success\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
     
-    } else if (brackets[i][2] == "PC or NPC Level Actions"){
-      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-primary\" onclick=\"addBracket(" + i + ")\">" + brackets[i][0] + "</button>";
+    } else if (objects[i][2] == "PC or NPC Level Actions"){
+      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-primary\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
 
-    } else if (brackets[i][2] == "Event or Encounter"){
-      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-success\" onclick=\"addBracket(" + i + ")\">" + brackets[i][0] + "</button>";
+    } else if (objects[i][2] == "Event or Encounter"){
+      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-success\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
           
-    } else if (brackets[i][2] == "Object"){
-      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-warning\" onclick=\"addBracket(" + i + ")\">" + brackets[i][0] + "</button>";
+    } else if (objects[i][2] == "Object"){
+      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-warning\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
 
-    } else if (brackets[i][2] == "Results"){
-      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" id=\"BtnDiceDark\"class=\"btn btn-dark\" onclick=\"addBracket(" + i + ")\">" + brackets[i][0] + "</button>";
+    } else if (objects[i][2] == "Results"){
+      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" id=\"BtnDiceDark\"class=\"btn btn-dark\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
 
-    } else if (brackets[i][2] != "GUI - Selection Title" && brackets[i][2] != ""){
-      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-info\" onclick=\"addBracket(" + i + ")\">" + brackets[i][0] + "</button>";
+    } else if (objects[i][2] != "GUI - Selection Title" && objects[i][2] != ""){
+      document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-info\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
     }
   }
 
   if (debug){
-    console.Entry("[DEBUG] Bracket Buttons Setup -- created " + brackets.length - 1 + " buttons");
+    console.log("[DEBUG] Bracket Buttons Setup -- created " + objects.length - 1 + " buttons");
   }
 }
 
@@ -288,18 +258,18 @@ function SetupBracketButtonClear(){
 function SetupBracketDropDown(){
   document.getElementById("BracketDropDown").innerHTML = null; //reset buttons
 
-  for (var i = 0; i < brackets.length; i++) {
+  for (var i = 0; i < objects.length; i++) {
     var option = document.createElement("option");
 
-    option.value = brackets[i][0];
+    option.value = objects[i][0];
 
-    if (brackets[i][1] != ""){
-      option.text = brackets[i][1] + ": " + brackets[i][0];
+    if (objects[i][1] != ""){
+      option.text = objects[i][1] + ": " + objects[i][0];
     } else {
       option.text = "";
     }
 
-    if (brackets[i][3] == "Disabled") {
+    if (objects[i][3] == "Disabled") {
       option.disabled = true;
     }
     
@@ -319,7 +289,7 @@ function SetupAllTargets() {
 //3. Speciifc Class of Targets setup:
 //===================================
 function SetupTargetsBasedOnBracketPick(SelectedBracket){
-  // console.Entry("Selected Bracket: '" + SelectedBracket + "'");
+  // console.log("Selected Bracket: '" + SelectedBracket + "'");
   document.getElementById("targets").innerHTML = null; //reset targets
   document.getElementById("TargetButtons").innerHTML = null; //reset buttons
 
@@ -329,12 +299,12 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket){
   } else {
     var SelectedBracketWords = ""
 
-    for (var i = 0; i < brackets.length; i++) {
-      var foundTargetBracket = brackets[i][0];
-      // console.Entry("This(" + foundTargetBracket + ") vs. That(" + SelectedBracket + ")")
-      if (brackets[i][0] == SelectedBracket) {
-        //console.Entry("Found Bracket: " + foundTargetBracket);
-        SelectedBracketWords = brackets[i][2];
+    for (var i = 0; i < objects.length; i++) {
+      var foundTargetBracket = objects[i][0];
+      // console.log("This(" + foundTargetBracket + ") vs. That(" + SelectedBracket + ")")
+      if (objects[i][0] == SelectedBracket) {
+        //console.log("Found Bracket: " + foundTargetBracket);
+        SelectedBracketWords = objects[i][2];
         break;
       }
     }
@@ -357,7 +327,7 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket){
 
       }
     }
-    //console.Entry("Found " + foundTargets + " targets, based on Bracket selection");  
+    //console.log("Found " + foundTargets + " targets, based on Bracket selection");  
   }
 }
 
@@ -370,17 +340,17 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket){
 //===========================
 function UpdateTargetActivities(bracketNumber, debug=false) {
 
-  if (bracketNumber >= 0 && bracketNumber < brackets.length) {
+  if (bracketNumber >= 0 && bracketNumber < objects.length) {
     if(debug){
-      console.Entry("[DEBUG] [UpdateTargetActivities()] Changing selected index to: " + bracketNumber);
+      console.log("[DEBUG] [UpdateTargetActivities()] Changing selected index to: " + bracketNumber);
     }
     document.getElementById("BracketDropDown").selectedIndex = bracketNumber; //This is N/A for drop down, but is used for buttons!
 
-    if (brackets[bracketNumber][3] == "Dice" || brackets[bracketNumber][3] == "Numbers") {
-      hideShowDice(true);
+    if (objects[bracketNumber][3] == "Dice" || objects[bracketNumber][3] == "Numbers") {
+      //hideShowDice(true);
 
       if(debug){
-        console.Entry("[DEBUG] [UpdateTargetActivities()] Toggle Dice - on");
+        console.log("[DEBUG] [UpdateTargetActivities()] Toggle Dice - on");
       }
 
     // } else if (...) {
@@ -389,58 +359,58 @@ function UpdateTargetActivities(bracketNumber, debug=false) {
     //     N/PC's for: ⸢  ⸣ || ⸤  ⸥ || ⸢  ⸥
     //     Numbers for: ⦇⦈
 
-    } else {
-      hideShowDice(false);
-
-      if(debug){
-        console.Entry("[DEBUG] [UpdateTargetActivities()] Toggle Dice - off");
-      }
     }
+    // else {
+    //   //hideShowDice(false);
 
-
-  } else {
-    hideShowDice(false);
-
-    //Disable...
-    //     Actions for: ()
-    //     Numbers and Letters for: <>
-    //     N/PC's for: ⸢  ⸣ || ⸤  ⸥ || ⸢  ⸥
-    //     Numbers for: ⦇⦈
+    //   if(debug){
+    //     console.log("[DEBUG] [UpdateTargetActivities()] Toggle Dice - off");
+    //   }
+    // }
   }
+  //  else {
+  //   hideShowDice(false);
+
+  //   //Disable...
+  //   //     Actions for: ()
+  //   //     Numbers and Letters for: <>
+  //   //     N/PC's for: ⸢  ⸣ || ⸤  ⸥ || ⸢  ⸥
+  //   //     Numbers for: ⦇⦈
+  // }
 
 }
 
-//1. Generate Brackets:
+//1. Generate objects:
 //=====================
 function addBracket(bracketNumber, debug=false) {
   UpdateTargetActivities(bracketNumber);
 
   var selectedBracketTag = document.getElementById("BracketDropDown").value;
-  SetupTargetsBasedOnBracketPick(selectedBracketTag); //Determine bracket, to dynamically add targets buttons (brackets[i][2])
+  SetupTargetsBasedOnBracketPick(selectedBracketTag); //Determine bracket, to dynamically add targets buttons (objects[i][2])
 
   if(debug){
-    console.Entry("[DEBUG] [addBracket()] Adding Bracket: " + brackets[bracketNumber][0] +"; for selected bracket tag: '" + selectedBracketTag + "'");
+    console.log("[DEBUG] [addBracket()] Adding Bracket: " + objects[bracketNumber][0] +"; for selected bracket tag: '" + selectedBracketTag + "'");
   }
 
-  if(isAutoBracketToggled){
-    hasBracketBeenPlaced = true;
-    LedgerIt();
-  }
+  // if(isAutoBracketToggled){
+    // hasBracketBeenPlaced = true;
+    // AddNodeOrEdge();
+  // }
 }
 
 //2. Clear - Bracket
 //================== 
 function ClearBracket() {
   document.getElementById("BracketDropDown").value = "";
-  hideShowDice(false);
+  //hideShowDice(false);
 }
 
 //3. Clear - Ledger
 //================
 function ClearLedger() {
-  isLedgerEmpty = true;
+  isEntryEmpty = true;
   document.getElementById("ledger").value = "";
-  oldLedger = [];
+  oldEntry = [];
 }
 
 //4. Clear - Entry 
@@ -479,29 +449,29 @@ function ClearTargetArray() {
 }
 
 
-//7. Show/Hide Dice:
-//================== 
-function hideShowDice(showDice=false) { // https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
-  var x = document.getElementById("Dice");
-  if (isShowingNumbers && showDice){
-    return;
-  }
+// //7. Show/Hide Dice:
+// //================== 
+// function hideShowDice(showDice=false) { // https://www.w3schools.com/howto/howto_js_toggle_hide_show.asp
+//   var x = document.getElementById("Dice");
+//   if (isShowingNumbers && showDice){
+//     return;
+//   }
 
-  if (x.style.display === "none" && showDice) {
-    x.style.display = "block";
-    isShowingNumbers = true;
-  } else {
-    x.style.display = "none";
-    isShowingNumbers = false;
-  }
-}
+//   if (x.style.display === "none" && showDice) {
+//     x.style.display = "block";
+//     isShowingNumbers = true;
+//   } else {
+//     x.style.display = "none";
+//     isShowingNumbers = false;
+//   }
+// }
 
 //8. Undo - Ledger
 //================
 function UndoLedger() {
-  if (oldLedger.length > 0) {
-    document.getElementById("ledger").value = oldLedger[oldLedger.length-1];
-    oldLedger.pop();  
+  if (oldEntry.length > 0) {
+    document.getElementById("ledger").value = oldEntry[oldEntry.length-1];
+    oldEntry.pop();  
 
   } else {
     ClearLedger();
@@ -529,21 +499,21 @@ function CheckAndAddTarget(){
     }
   }
 
-  var bracketSelectedOption = document.getElementById("BracketDropDown").selectedIndex;
+  var objectselectedOption = document.getElementById("BracketDropDown").selectedIndex;
 
   var BannedOption = true;
-  var bracketSetting = brackets[bracketSelectedOption][3];
-  // for (var j = 0; j < brackets.length; j++) {
-  if (bracketSetting != "Dice" && bracketSetting != "Ignore") {
+  var objectsetting = objects[objectselectedOption][3];
+  // for (var j = 0; j < objects.length; j++) {
+  if (objectsetting != "Dice" && objectsetting != "Ignore") {
     BannedOption = false; //target exists
   }
 
   var Repeat = false;
   for (var k = 0; k < targets.length; k++) {
-    // console.Entry("[DEBUG] [CheckAndAddTarget()] Comparing " + targetToCheck + " to " + targets[k][0]);
+    // console.log("[DEBUG] [CheckAndAddTarget()] Comparing " + targetToCheck + " to " + targets[k][0]);
     if (targets[k][0] == targetToCheck) {
       Repeat = true; //target exists
-      // console.Entry("[DEBUG] [CheckAndAddTarget()] Repeating Target... skipping!");
+      // console.log("[DEBUG] [CheckAndAddTarget()] Repeating Target... skipping!");
     }
   }
 
@@ -553,9 +523,9 @@ function CheckAndAddTarget(){
     // document.getElementById("targets").appendChild(option);
     
     //add to targets[]
-    console.Entry("[DEBUG] [CheckAndAddTarget()] Adding Target: " + targetToCheck + " with category: " + brackets[bracketSelectedOption][2]);
-    // var newTarget = [targetToCheck, brackets[adjustedBracketNumber][2] , ""];
-    var newTarget = [targetToCheck, brackets[bracketSelectedOption][2] , ""];
+    console.log("[DEBUG] [CheckAndAddTarget()] Adding Target: " + targetToCheck + " with category: " + objects[objectselectedOption][2]);
+    // var newTarget = [targetToCheck, objects[adjustedBracketNumber][2] , ""];
+    var newTarget = [targetToCheck, objects[objectselectedOption][2] , ""];
     targets.push(newTarget);
 
     LocalStorageTargetsSave(); //(true)
@@ -563,47 +533,47 @@ function CheckAndAddTarget(){
 
 }
 
-//2. LedgerIt 
+//2. AddNodeOrEdge 
 //===========
-function LedgerIt(debug=true) {
+function AddNodeOrEdge(debug=true) {
   if (debug){
-    console.Entry("[DEBUG] [LedgerIt()] Setting hasBracketBeenPlaced is: " + hasBracketBeenPlaced);
+    console.log("[DEBUG] [AddNodeOrEdge()] Setting hasBracketBeenPlaced is: " + hasBracketBeenPlaced);
   }
 
   //I. back, to allow a "rewind" of the ledger
-  oldLedger.push(document.getElementById("ledger").value); //This is used for "Undo" Ledger Entry
+  oldEntry.push(document.getElementById("ledger").value); //This is used for "Undo" Ledger Entry
 
   //II. Lookup Bracket, based on Bracket selection , set new size/width
   var obj = document.getElementById("BracketDropDown");
   var currentBracket = obj.options[obj.selectedIndex].value;
 
-  CurrentBracketSize = currentBracket.length;
-  CurrentBracketWidth = (CurrentBracketSize - 1)/2;
+  Currentobjectsize = currentBracket.length;
+  CurrentBracketWidth = (Currentobjectsize - 1)/2;
 
-  if (LastBracketWidth < 1){
-    console.Entry("[ERROR] Provided bracket is formmatted WRONG! (len: " + CurrentBracketSize + ")");
-    //return;
-  }
+  // if (LastBracketWidth < 1){
+  //   console.log("[ERROR] Provided bracket is formmatted WRONG! (len: " + Currentobjectsize + ")");
+  //   //return;
+  // }
   //III. determine target from provided input field
   var tempTarget = document.getElementById("target").value;
 
   // IV. Add to Ledger
   var LeftSideBracket = currentBracket.slice(0,CurrentBracketWidth);
-  var RightSideBracket = currentBracket.slice(-CurrentBracketWidth, CurrentBracketSize);
+  var RightSideBracket = currentBracket.slice(-CurrentBracketWidth, Currentobjectsize);
 
-  //isLedgerEmpty =?= hasBracketBuildingStarted??
-  if (isLedgerEmpty){    
+  //isEntryEmpty =?= hasBracketBuildingStarted??
+  if (isEntryEmpty){    
     if (debug){
-      console.Entry("[DEBUG] [LedgerIt()] {Empty Ledger} Updating flags!");
+      console.log("[DEBUG] [AddNodeOrEdge()] {Empty Ledger} Updating flags!");
     }
 
-    isLedgerEmpty = false;
+    isEntryEmpty = false;
     hasBracketBuildingStarted = true;
   }
 
-  if (!isInnerBracketToggled) {
+  // if (!isInnerBracketToggled) {
     if (debug){
-      console.Entry("[DEBUG] [LedgerIt()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
+      console.log("[DEBUG] [AddNodeOrEdge()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
     }
     // document.getElementById("ledger").value += LeftSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
     // document.getElementById("ledger").value += RightSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
@@ -611,32 +581,33 @@ function LedgerIt(debug=true) {
 
     CheckAndAddTarget();
 
-    LastBracketSize = CurrentBracketSize;
-    LastBracketWidth = CurrentBracketWidth;
-    LastBracket = currentBracket;
+    // Lastobjectsize = Currentobjectsize;
+    // LastBracketWidth = CurrentBracketWidth;
+    // LastBracket = currentBracket;
 
-  } else { //isInnerBracketToggled
-    if (hasBracketBuildingStarted && LastBracket == currentBracket){
-      if (debug){
-        console.Entry("[DEBUG] [LedgerIt()] {isInnerBracketToggled} Adding to Ledger: " + tempTarget);
-      }
-      addLedgerStringInnerBracket(tempTarget);
+  // }
+  // else { //isInnerBracketToggled
+  //   if (hasBracketBuildingStarted && LastBracket == currentBracket){
+  //     if (debug){
+  //       console.log("[DEBUG] [AddNodeOrEdge()] {isInnerBracketToggled} Adding to Ledger: " + tempTarget);
+  //     }
+  //     addLedgerStringInnerBracket(tempTarget);
       
-    } else { //deals with the nesting of brackets --- ex: [PC](A→]enemy NPC[]); the ][-bracket is nested within the ()-bracket
-      if (debug){
-        console.Entry("[DEBUG] [LedgerIt()] {isInnerBracketToggled} Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
-      }
-      addLedgerStringInnerBracket(LeftSideBracket+tempTarget+RightSideBracket);
-    }
+  //   } else { //deals with the nesting of objects --- ex: [PC](A→]enemy NPC[]); the ][-bracket is nested within the ()-bracket
+  //     if (debug){
+  //       console.log("[DEBUG] [AddNodeOrEdge()] {isInnerBracketToggled} Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
+  //     }
+  //     addLedgerStringInnerBracket(LeftSideBracket+tempTarget+RightSideBracket);
+  //   }
 
-  }
+  // }
 
   // if (!hasBracketBuildingStarted){
   //   hasBracketBuildingStarted = true;
   // }
 
   if (debug){
-    console.Entry("[DEBUG] [LedgerIt()] DONE!!!");
+    console.log("[DEBUG] [AddNodeOrEdge()] DONE!!!");
   }
 
   //move cursor to the end of the ledger input field
@@ -650,14 +621,14 @@ function LedgerIt(debug=true) {
 //3. EntryIt 
 //===========
 function EntryIt() {
-  if (isLedgerEmpty){
-    LedgerIt(); //Auto-ledger then Entry it
+  if (isEntryEmpty){
+    AddNodeOrEdge(); //Auto-ledger then Entry it
   }
 
   if (isEntryEmpty){
     isEntryEmpty = false;
     document.getElementById("Entries").innerHTML = "<table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"EntryTableBody\"></tbody></table>";
-    //console.Entry("[DEBUG] [EntryIt()] Entries table created");
+    //console.log("[DEBUG] [EntryIt()] Entries table created");
   } 
 
   var obj = document.getElementById("ledger");
@@ -715,14 +686,14 @@ function addLedgerStringInnerBracket(PassedString){
   var tempLedgerLastChar = obj.value.slice(-LastBracketWidth,obj.value.length);
   obj.value = tempLedger + PassedString + tempLedgerLastChar;
 
-  console.Entry("[DEBUG] [addLedgerStringInnerBracket()] Ledger: '" + obj.value + "'");
+  console.log("[DEBUG] [addLedgerStringInnerBracket()] Ledger: '" + obj.value + "'");
 
   //Any impacts of "isInnerBracketToggled" == true ? <-- NO
 
-  //Modify Activites are ALWAYS inner-bracket item; to save user click(s) this check will auto-toggle the next entry to be an innerbracket action
-  if (PassedString == ";;"){
-    ToggleEnableInnerbracket();
-  }
+  // //Modify Activites are ALWAYS inner-bracket item; to save user click(s) this check will auto-toggle the next entry to be an innerbracket action
+  // if (PassedString == ";;"){
+  //   ToggleEnableInnerbracket();
+  // }
 
 }
 
@@ -730,7 +701,7 @@ function addLedgerStringAtEnd(PassedString){
   var obj = document.getElementById("ledger");
   obj.value += PassedString;
 
-  console.Entry("[DEBUG] [addLedgerStringAtEnd()] Ledger: '" + obj.value + "'");
+  console.log("[DEBUG] [addLedgerStringAtEnd()] Ledger: '" + obj.value + "'");
 }
 
 // function addLedgerStringAtEndBracket(PassedString){
@@ -739,34 +710,33 @@ function addLedgerStringAtEnd(PassedString){
 
 //TODO: bracket Left/Right side determination to then have: Left + Passed + Right....
 
-//   console.Entry("[DEBUG] [addLedgerStringAtEndBracket()] Ledger: '" + obj.value + "'");
+//   console.log("[DEBUG] [addLedgerStringAtEndBracket()] Ledger: '" + obj.value + "'");
 // }
 
-function ToggleDisableAutobracket(){
-  //console.Entry("[DEBUG] [ToggleDisableAutobracket()]");
-  document.getElementById("toggleAutobracket").checked = false;
-  isAutoBracketToggled = false;
+// function ToggleDisableAutobracket(){
+//   //console.log("[DEBUG] [ToggleDisableAutobracket()]");
+//   document.getElementById("toggleAutobracket").checked = false;
+//   isAutoBracketToggled = false;
+// }
+
+// function ToggleEnableAutobracket(){
+//   //console.log("[DEBUG] [ToggleEnableAutobracket()]");
+//   document.getElementById("toggleAutobracket").checked = true;
+//   isAutoBracketToggled = true;
+// }
+
+// function ToggleDisableInnerbracket(){
+//   //console.log("[DEBUG] [ToggleDisableInnerbracket()]");
+//   document.getElementById("toggleInnerbracket").checked = false;
+//   isInnerBracketToggled = false;
   
-}
+// }
 
-function ToggleEnableAutobracket(){
-  //console.Entry("[DEBUG] [ToggleEnableAutobracket()]");
-  document.getElementById("toggleAutobracket").checked = true;
-  isAutoBracketToggled = true;
-}
-
-function ToggleDisableInnerbracket(){
-  //console.Entry("[DEBUG] [ToggleDisableInnerbracket()]");
-  document.getElementById("toggleInnerbracket").checked = false;
-  isInnerBracketToggled = false;
-  
-}
-
-function ToggleEnableInnerbracket(){
-  //console.Entry("[DEBUG] [ToggleEnableInnerbracket()]");
-  document.getElementById("toggleInnerbracket").checked = true;
-  isInnerBracketToggled = true;
-}
+// function ToggleEnableInnerbracket(){
+//   //console.log("[DEBUG] [ToggleEnableInnerbracket()]");
+//   document.getElementById("toggleInnerbracket").checked = true;
+//   isInnerBracketToggled = true;
+// }
 
 
 
@@ -805,7 +775,7 @@ function ExportEntryToJson() {
 
   var date = new Date();
   var textIso = date.toISOString();  
-  console.Entry("[DEBUG] [ExportEntryToJson()] date str:<" + textIso+">");
+  console.log("[DEBUG] [ExportEntryToJson()] date str:<" + textIso+">");
 
   saveAs(blob, "GSL_Entry_"+textIso+".json");
 }
@@ -849,7 +819,7 @@ function LoadAllTargetsAsOptions(debug=false){ //this vs. SetupTargetsBasedOnB
     //TODO:
     if (currentTarget.includes(";;")) {
       if (debug) {
-        console.Entry("[DEBUG] [LoadAllTargetsAsOptions()] Target '"+targets[j][0]+"' includes ';;' !");
+        console.log("[DEBUG] [LoadAllTargetsAsOptions()] Target '"+targets[j][0]+"' includes ';;' !");
       }
 
       currentTarget = currentTarget.split(";;")[0];
@@ -865,8 +835,8 @@ function LoadAllTargetsAsOptions(debug=false){ //this vs. SetupTargetsBasedOnB
       var safeStr = targets[j][0].replace(/'/g, "\\'");
   
       if (debug){
-        console.Entry("[DEBUG] [LoadAllTargetsAsOptions()] '"+targets[j][0]+"'");
-        console.Entry("safeStr: '" + safeStr + "'");
+        console.log("[DEBUG] [LoadAllTargetsAsOptions()] '"+targets[j][0]+"'");
+        console.log("safeStr: '" + safeStr + "'");
       }
   
       document.getElementById("targets").appendChild(option);
@@ -965,21 +935,21 @@ function saveAs(blob, filename) {
 function LocalStorageClear(debug=false){
   localStorage.clear();  
   if (debug){
-    console.Entry("[DEBUG][LocalStorageClear] Cleared all user/page created keys!");
+    console.log("[DEBUG][LocalStorageClear] Cleared all user/page created keys!");
   }
 }
 
 function LocalStorageClearEntriesOnly(debug=false){
   localStorage.removeItem('Builder-Entries');
   if (debug){
-    console.Entry("[DEBUG][LocalStorageClear] Cleared all user/page created keys - for Entries!");
+    console.log("[DEBUG][LocalStorageClear] Cleared all user/page created keys - for Entries!");
   }
 }
 
 function LocalStorageClearTargetsOnly(debug=false){
   localStorage.removeItem('Builder-Targets');
   if (debug){
-    console.Entry("[DEBUG][LocalStorageClear] Cleared all user/page created keys - for Targets!");
+    console.log("[DEBUG][LocalStorageClear] Cleared all user/page created keys - for Targets!");
   }
 }
 
@@ -994,12 +964,12 @@ function LocalStorageLoadMainKeys(debug=false){
     if(window.localStorage.hasOwnProperty(key)){ //aka: NOT inherited; otherwise ALL defaults counted (e.g., length, clear, get, remove, set, etc.)
       totalKeys++;
       if (debug){
-        console.Entry("[DEBUG][LocalStorageLoadMainKeys] Found key: '" + key + "'");
-        console.Entry( key + " = " + ((window.localStorage[key].length * 16)/(8 * 1024)).toFixed(2) + ' KB' );
+        console.log("[DEBUG][LocalStorageLoadMainKeys] Found key: '" + key + "'");
+        console.log( key + " = " + ((window.localStorage[key].length * 16)/(8 * 1024)).toFixed(2) + ' KB' );
       }  
       if (key === "Builder-Entries"){
         if (debug){
-          console.Entry("[DEBUG][LocalStorageLoadMainKeys] Loading Entries saved in 'Builder-Entries'!");
+          console.log("[DEBUG][LocalStorageLoadMainKeys] Loading Entries saved in 'Builder-Entries'!");
         }
         
         //Load content into Entry[]
@@ -1007,9 +977,9 @@ function LocalStorageLoadMainKeys(debug=false){
         var parsedEntry = JSON.parse(storedEntries);
         LoadArrayIntoEntry(parsedEntry);
         if (debug){
-          console.Entry("[DEBUG][LocalStorageLoadMainKeys] Loaded string <" + storedEntries + ">");
-          console.Entry("[DEBUG][LocalStorageLoadMainKeys] Parsed string <" + parsedEntry + ">");
-          console.Entry("[DEBUG][LocalStorageLoadMainKeys] Loaded '" + Entry.length + "' Entries");
+          console.log("[DEBUG][LocalStorageLoadMainKeys] Loaded string <" + storedEntries + ">");
+          console.log("[DEBUG][LocalStorageLoadMainKeys] Parsed string <" + parsedEntry + ">");
+          console.log("[DEBUG][LocalStorageLoadMainKeys] Loaded '" + Entry.length + "' Entries");
         }
 
         //(c) - load Entry[] entries into <table>
@@ -1021,7 +991,7 @@ function LocalStorageLoadMainKeys(debug=false){
       } else if (key === "Builder-Targets"){
         debug = true; //BAD -- REMOVE!
         if (debug){
-          console.Entry("[DEBUG][LocalStorageLoadMainKeys] Loading Targets saved in 'Builder-Targets'!");
+          console.log("[DEBUG][LocalStorageLoadMainKeys] Loading Targets saved in 'Builder-Targets'!");
         }
 
         var loadedStorage = localStorage.getItem('Builder-Targets');
@@ -1047,8 +1017,8 @@ function LocalStorageEntriesSave(debug=false){
   var newEntriesStr = EntriesStringifyAsJSON();
 
   if (debug){
-    console.Entry("[DEBUG][LocalStorageEntriesSave] Saving Entries to localstorage...");    
-    console.Entry("[DEBUG][LocalStorageEntriesSave] NewString: " + newEntriesStr);
+    console.log("[DEBUG][LocalStorageEntriesSave] Saving Entries to localstorage...");    
+    console.log("[DEBUG][LocalStorageEntriesSave] NewString: " + newEntriesStr);
   }
 
   localStorage.setItem('Builder-Entries', newEntriesStr);
@@ -1061,8 +1031,8 @@ function LocalStorageTargetsSave(debug=false){
   var newTargetStr = TargetArrayStringifyAsJSON();
 
   if (debug){
-    console.Entry("[DEBUG][LocalStorageTargetsSave] Saving Targets to localstorage...");    
-    console.Entry("[DEBUG][LocalStorageTargetsSave] NewString: " + newTargetStr);
+    console.log("[DEBUG][LocalStorageTargetsSave] Saving Targets to localstorage...");    
+    console.log("[DEBUG][LocalStorageTargetsSave] NewString: " + newTargetStr);
   }
 
   localStorage.setItem('Builder-Targets', newTargetStr);
