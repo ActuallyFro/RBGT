@@ -302,7 +302,7 @@ function SetupAllTargets() {
 //===================================
 function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
   // console.log("Selected Bracket: '" + SelectedBracket + "'");
-  document.getElementById("targets").innerHTML = null; //reset targets
+  document.getElementById("OptionAttributeEntryIDList").innerHTML = null; //reset targets
   // document.getElementById("TargetButtons").innerHTML = null; //reset buttons
 
   if (debug){
@@ -505,6 +505,18 @@ function ClearEntry() {
   LocalStorageClearEntriesOnly();
 }
 
+function ClearGraphEntryEdge(debug=false){
+  if(debug){
+    console.log("[DEBUG] [ClearGraphEntryEdge()] Clearing Edge Entry");
+  }
+
+  ClearObjectsEntry();
+
+  document.getElementById("OptionAttributeEntryGraphEdgeFieldSource").value = "";
+  document.getElementById("OptionAttributeEntryGraphEdgeFieldTarget").value = "";
+}
+
+
 //5. Clear - Tag
 //=============
 function ClearTag() {
@@ -514,7 +526,7 @@ function ClearTag() {
 //6. Clear - Target
 //================
 function ClearObjectsEntry() {
-  document.getElementById("target").value = "";
+  document.getElementById("OptionAttributeEntryID").value = "";
 }
 
 function ClearTargetArray() {
@@ -932,7 +944,7 @@ function LoadAllTargetsAsOptions(debug=false){ //this vs. SetupTargetsBasedOnB
         console.log("safeStr: '" + safeStr + "'");
       }
   
-      document.getElementById("targets").appendChild(option);
+      document.getElementById("OptionAttributeEntryIDList").appendChild(option);
       // document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + targets[j][0] + "</button>";
 
       if (hasTwoTargets){
