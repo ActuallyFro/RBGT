@@ -321,7 +321,7 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
     if (SelectedBracket == "Node") {
       document.getElementById("SelectionMenuOption").innerHTML = "<u><b>Graph - Node Options:</b></u>";
 
-      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"form-group\" id=\"fieldNodeDivGroup\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"form-group\" id=\"OptionAttributeEntryGraphNodeDivGroup\">";
 
       //TOOLTIP:
       // document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"tooltip\"><h3><label for=\"dynamicNodeDataFields\">Data Tag(s):</label></h3>";
@@ -358,13 +358,13 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
       // document.getElementById("SelectionMenuOption").innerHTML += "  </span>";
       // document.getElementById("SelectionMenuOption").innerHTML += "</div>";
 
-      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"dynamicNodeDataFields\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"OptionAttributeEntryGraphNodeFieldsDynamic\">";
       document.getElementById("SelectionMenuOption").innerHTML += "  <!-- Source: https://www.codexworld.com/add-remove-input-fields-dynamically-using-jquery/ -->";
       document.getElementById("SelectionMenuOption").innerHTML += "  <div>";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"fieldNodeKeyVal\">Key</label>";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" name=\"fieldNodeKeyVal\" value=\"\"/>";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"fieldNodeDataVal\">Value</label>";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <textarea name=\"fieldNodeDataVal\" placeholder=\"\"></textarea>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"OptionAttributeEntryGraphNodeFieldKeyVal\">Key</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" name=\"OptionAttributeEntryGraphNodeFieldKeyVal\" value=\"\"/>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"OptionAttributeEntryGraphNodeFieldDataVal\">Value</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <textarea name=\"OptionAttributeEntryGraphNodeFieldDataVal\" placeholder=\"\"></textarea>";
       document.getElementById("SelectionMenuOption").innerHTML += "      <a href=\"javascript:void(0);\" class=\"add_button\" title=\"Add field\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-plus\" viewBox=\"0 0 16 16\">";
       document.getElementById("SelectionMenuOption").innerHTML += "        <path d=\"M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z\"/>";
       document.getElementById("SelectionMenuOption").innerHTML += "        <path d=\"M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z\"/>";
@@ -379,16 +379,16 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
 
     } else if (SelectedBracket == "Edge") {
       document.getElementById("SelectionMenuOption").innerHTML = "<u><b>Graph - Edge Options:</b></u>";
-    
-      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"form-group\" id=\"fieldEdgeDivGroup\">";
+    OptionAttributeEntryGraphNodeDivGroup
+      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"form-group\" id=\"OptionAttributeEntryGraphEdgeDivGroup\">";
       document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"row\">";
       document.getElementById("SelectionMenuOption").innerHTML += "  <div class=\"col-6\">";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"fieldEdgeSource\">Source</label>";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" class=\"form-control w-100\" id=\"fieldEdgeSource\" placeholder=\"the 'id' for source\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"OptionAttributeEntryGraphEdgeFieldSource\">Source</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" class=\"form-control w-100\" id=\"OptionAttributeEntryGraphEdgeFieldSource\" placeholder=\"the 'id' for source\">";
       document.getElementById("SelectionMenuOption").innerHTML += "  </div>";
       document.getElementById("SelectionMenuOption").innerHTML += "  <div class=\"col-6\">";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"fieldEdgeTarget\">Target</label>";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" class=\"form-control w-100\" id=\"fieldEdgeTarget\" placeholder=\"the 'id' for target\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"OptionAttributeEntryGraphEdgeFieldTarget\">Target</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" class=\"form-control w-100\" id=\"OptionAttributeEntryGraphEdgeFieldTarget\" placeholder=\"the 'id' for target\">";
       document.getElementById("SelectionMenuOption").innerHTML += "  </div>";
       document.getElementById("SelectionMenuOption").innerHTML += "</div>";
       document.getElementById("SelectionMenuOption").innerHTML += "</div>";
