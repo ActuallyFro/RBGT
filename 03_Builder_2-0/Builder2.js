@@ -199,7 +199,10 @@ function ToggleDarkMode(isDarkMode){
     }
 
     document.getElementById("LabelEntryTable").style = "font-size: 40px; background-color: #000000; padding: 0px 5px;"
-    document.getElementById("TableEntryTable").className = "table table-striped table-dark table-bordered table-hover text-white";
+    doesTableEntryTableExist = document.getElementById("TableEntryTable");
+    if (doesTableEntryTableExist){
+      document.getElementById("TableEntryTable").className = "table table-striped table-dark table-bordered table-hover text-white";
+    }
 
   } else {
     document.getElementById("body").className = "bg-light text-dark";
@@ -211,7 +214,10 @@ function ToggleDarkMode(isDarkMode){
     }
 
     document.getElementById("LabelEntryTable").style = "font-size: 40px; background-color: #F3F5F6; padding: 0px 5px;"
-    document.getElementById("TableEntryTable").className = "table table-striped"
+    doesTableEntryTableExist = document.getElementById("TableEntryTable");
+    if (doesTableEntryTableExist){
+      document.getElementById("TableEntryTable").className = "table table-striped"
+    }
 
   }
 }
@@ -315,9 +321,82 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
     if (SelectedBracket == "Node") {
       document.getElementById("SelectionMenuOption").innerHTML = "<u><b>Graph - Node Options:</b></u>";
 
+      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"form-group\" id=\"fieldNodeDivGroup\">";
+
+      //TOOLTIP:
+      // document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"tooltip\"><h3><label for=\"dynamicNodeDataFields\">Data Tag(s):</label></h3>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "  <span class=\"tooltiptext\"><u>The .gxl file has 3 main node items: </u>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    1) Element Name (id)- the reference for edges";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    2) Name Key - (nameNode) - human readable name";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    3) Description Key (descriptionNode)- HTML Optional, details about the node";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <b>Example:</b>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <b>1) id: boss_01_Andariel </b>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <b>2) key \"nameNode\": Andariel </b>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <b>3) key \"descriptionNode\": &lt;![CDATA[ <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;ul style=\"list-style-type:disc\"&gt; <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;li&gt;Lessor Evil: Maiden of Anguish&lt;/li&gt; <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;li&gt;Once overthrew the three Prime Evils&lt;/li&gt; <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;/ul&gt; <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "      <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;p&gt;Source: http://classic.battle.net/diablo2exp/monsters/act1-andariel.shtml&lt;/p&gt;<br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "        ]]&gt;";
+
+      // document.getElementById("SelectionMenuOption").innerHTML += "    </b>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "  </span>";
+      // document.getElementById("SelectionMenuOption").innerHTML += "</div>";
+
+      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"dynamicNodeDataFields\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "  <!-- Source: https://www.codexworld.com/add-remove-input-fields-dynamically-using-jquery/ -->";
+      document.getElementById("SelectionMenuOption").innerHTML += "  <div>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"fieldNodeKeyVal\">Key</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" name=\"fieldNodeKeyVal\" value=\"\"/>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"fieldNodeDataVal\">Value</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <textarea name=\"fieldNodeDataVal\" placeholder=\"\"></textarea>";
+      document.getElementById("SelectionMenuOption").innerHTML += "      <a href=\"javascript:void(0);\" class=\"add_button\" title=\"Add field\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-plus\" viewBox=\"0 0 16 16\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "        <path d=\"M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z\"/>";
+      document.getElementById("SelectionMenuOption").innerHTML += "        <path d=\"M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z\"/>";
+      document.getElementById("SelectionMenuOption").innerHTML += "      </svg></a>";
+      document.getElementById("SelectionMenuOption").innerHTML += "  </div>";
+      document.getElementById("SelectionMenuOption").innerHTML += "</div>";
+      document.getElementById("SelectionMenuOption").innerHTML += "</div>  ";
+
+
+      document.getElementById("SelectionMenuOption").innerHTML += "<hr>";
+      document.getElementById("SelectionMenuOption").innerHTML += "<input type=\"button\" class=\"btn btn-danger\" value=\"Clear Node Entry\" onclick=\"ClearGraphEntryNode()\">";
+
     } else if (SelectedBracket == "Edge") {
       document.getElementById("SelectionMenuOption").innerHTML = "<u><b>Graph - Edge Options:</b></u>";
     
+      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"form-group\" id=\"fieldEdgeDivGroup\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"row\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "  <div class=\"col-6\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"fieldEdgeSource\">Source</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" class=\"form-control w-100\" id=\"fieldEdgeSource\" placeholder=\"the 'id' for source\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "  </div>";
+      document.getElementById("SelectionMenuOption").innerHTML += "  <div class=\"col-6\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"fieldEdgeTarget\">Target</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" class=\"form-control w-100\" id=\"fieldEdgeTarget\" placeholder=\"the 'id' for target\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "  </div>";
+      document.getElementById("SelectionMenuOption").innerHTML += "</div>";
+      document.getElementById("SelectionMenuOption").innerHTML += "</div>";
+
+
+      document.getElementById("SelectionMenuOption").innerHTML += "<hr>";
+      document.getElementById("SelectionMenuOption").innerHTML += "<input type=\"button\" class=\"btn btn-danger\" value=\"Clear Edge Entry\" onclick=\"ClearGraphEntryEdge()\">";
+
     }
 
     // var SelectedBracketWords = ""
