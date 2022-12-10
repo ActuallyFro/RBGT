@@ -150,7 +150,7 @@ function SetupWatcherUserPicksBracketDropDown(debug=false){
     // UpdateTargetActivities(bracketNumber);
       
     // if(isAutoBracketToggled){
-      // AddNodeOrEdge();
+      // AddObject();
       // hasBracketBeenPlaced = true;
       // ToggleEnableInnerbracket(); //--more Entryic is needed for deconflicting target buttons...  
     // }
@@ -306,7 +306,7 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
   if (SelectedBracket == "") {
     LoadAllTargetsAsOptions(); //(true) //TODO: figure out what this does...
     // console.log("[WARNING] No type selected!");
-    document.getElementById("SelectionMenuOption").innerHTML = "";
+    document.getElementById("SelectionMenuOption").innerHTML = "<i>{Select above}</i>";
 
   } else {
 
@@ -400,13 +400,13 @@ function ClearBracket() {
   document.getElementById("BracketDropDown").value = "";
 }
 
-//3. Clear - Ledger
-//================
-function ClearLedger() {
-  isEntryEmpty = true;
-  document.getElementById("ledger").value = "";
-  oldEntry = [];
-}
+// //3. Clear - Ledger
+// //================
+// function ClearLedger() {
+//   isEntryEmpty = true;
+//   document.getElementById("ledger").value = "";
+//   oldEntry = [];
+// }
 
 //4. Clear - Entry 
 //=============
@@ -416,7 +416,12 @@ function ClearEntry() {
   }
 
   isEntryEmpty = true;
-  document.getElementById("Entries").innerHTML = "<div id=\"EntryTableDiv\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
+
+  debug = true; //BAD -- REMOVE!
+  if (debug){
+    console.log("[DEBUG][ClearEntry] NO entries -- showing empty table!");
+  }
+  document.getElementById("EntriesContainer").innerHTML = "<div id=\"EntryTableDiv\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
 
   Entry = [];
   LocalStorageClearEntriesOnly();
@@ -430,7 +435,7 @@ function ClearTag() {
 
 //6. Clear - Target
 //================
-function ClearTarget() {
+function ClearObjectsEntry() {
   document.getElementById("target").value = "";
 }
 
@@ -443,17 +448,17 @@ function ClearTargetArray() {
   LocalStorageClearTargetsOnly();
 }
 
-//8. Undo - Ledger
-//================
-function UndoLedger() {
-  if (oldEntry.length > 0) {
-    document.getElementById("ledger").value = oldEntry[oldEntry.length-1];
-    oldEntry.pop();  
+// //8. Undo - Ledger
+// //================
+// function UndoLedger() {
+//   if (oldEntry.length > 0) {
+//     document.getElementById("ledger").value = oldEntry[oldEntry.length-1];
+//     oldEntry.pop();  
 
-  } else {
-    ClearLedger();
-  }
-}
+//   } else {
+//     ClearLedger();
+//   }
+// }
 
 //////////////////////////////////////
 
@@ -510,11 +515,11 @@ function CheckAndAddTarget(){
 
 }
 
-//2. AddNodeOrEdge 
+//2. AddObject 
 //===========
-function AddNodeOrEdge(debug=true) {
+function AddObject(debug=true) {
   if (debug){
-    console.log("[DEBUG] [AddNodeOrEdge()] Setting hasBracketBeenPlaced is: " + hasBracketBeenPlaced);
+    console.log("[DEBUG] [AddObject()] Setting hasBracketBeenPlaced is: " + hasBracketBeenPlaced);
   }
 
   //I. back, to allow a "rewind" of the ledger
@@ -535,7 +540,7 @@ function AddNodeOrEdge(debug=true) {
   var tempTarget = document.getElementById("target").value;
 
   if (tempTarget == ""){
-    console.log("[ERROR] [AddNodeOrEdge()] Target is empty! Skipping add!");
+    console.log("[ERROR] [AddObject()] Target is empty! Skipping add!");
     return;
   }
 
@@ -548,7 +553,7 @@ function AddNodeOrEdge(debug=true) {
   //isEntryEmpty =?= hasBracketBuildingStarted??
   if (isEntryEmpty){    
     if (debug){
-      console.log("[DEBUG] [AddNodeOrEdge()] {Empty Ledger} Updating flags!");
+      console.log("[DEBUG] [AddObject()] {Empty Ledger} Updating flags!");
     }
 
     isEntryEmpty = false;
@@ -557,8 +562,8 @@ function AddNodeOrEdge(debug=true) {
 
   // if (!isInnerBracketToggled) {
     if (debug){
-      // console.log("[DEBUG] [AddNodeOrEdge()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
-      console.log("[DEBUG] [AddNodeOrEdge()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + tempTarget );
+      // console.log("[DEBUG] [AddObject()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
+      console.log("[DEBUG] [AddObject()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + tempTarget );
     }
     // document.getElementById("ledger").value += LeftSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
     // document.getElementById("ledger").value += RightSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
@@ -575,13 +580,13 @@ function AddNodeOrEdge(debug=true) {
   // else { //isInnerBracketToggled
   //   if (hasBracketBuildingStarted && LastBracket == currentBracket){
   //     if (debug){
-  //       console.log("[DEBUG] [AddNodeOrEdge()] {isInnerBracketToggled} Adding to Ledger: " + tempTarget);
+  //       console.log("[DEBUG] [AddObject()] {isInnerBracketToggled} Adding to Ledger: " + tempTarget);
   //     }
   //     addLedgerStringInnerBracket(tempTarget);
       
   //   } else { //deals with the nesting of objects --- ex: [PC](A→]enemy NPC[]); the ][-bracket is nested within the ()-bracket
   //     if (debug){
-  //       console.log("[DEBUG] [AddNodeOrEdge()] {isInnerBracketToggled} Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
+  //       console.log("[DEBUG] [AddObject()] {isInnerBracketToggled} Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
   //     }
   //     addLedgerStringInnerBracket(LeftSideBracket+tempTarget+RightSideBracket);
   //   }
@@ -593,7 +598,7 @@ function AddNodeOrEdge(debug=true) {
   // }
 
   if (debug){
-    console.log("[DEBUG] [AddNodeOrEdge()] DONE!!!");
+    console.log("[DEBUG] [AddObject()] DONE!!!");
   }
 
   //move cursor to the end of the ledger input field
@@ -606,14 +611,18 @@ function AddNodeOrEdge(debug=true) {
 
 //3. EntryIt 
 //===========
-function EntryIt() {
+function EntryIt(debug=true) {
+  if (debug){
+    console.log("[DEBUG] [EntryIt()] Started");
+  }
+
   if (isEntryEmpty){
-    AddNodeOrEdge(); //Auto-ledger then Entry it
+    AddObject(); //Auto-ledger then Entry it
   }
 
   if (isEntryEmpty){
     isEntryEmpty = false;
-    document.getElementById("Entries").innerHTML = "<table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"EntryTableBody\"></tbody></table>";
+    document.getElementById("EntriesContainer").innerHTML = "<table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"TableEntryBody\"></tbody></table>";
     //console.log("[DEBUG] [EntryIt()] Entries table created");
   } 
 
@@ -627,10 +636,10 @@ function EntryIt() {
   safeCurrentStr = currentLedger.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   cell.innerHTML = safeCurrentStr;
   row.appendChild(cell);
-  document.getElementById("EntriesTable").appendChild(row);
+  document.getElementById("TableEntryTable").appendChild(row);
 
   CheckAndAddTarget();
-  ClearLedger();
+  // ClearLedger();
   ClearTag();
   ClearTarget();
 
@@ -640,6 +649,11 @@ function EntryIt() {
   // ToggleDisableInnerbracket();
 
   hasBracketBuildingStarted = false;
+
+  if (debug){
+    console.log("[DEBUG] [EntryIt()] DONE!!!");
+  }
+
 }
 
 //4. RemoveLastEntry 
@@ -659,7 +673,7 @@ function RemoveLastEntry(debug=true) {
 
   Entry.pop();
   if (Entry.length > 0){
-    var table = document.getElementById('EntriesTable');
+    var table = document.getElementById('TableEntryTable');
     table.removeChild(table.children[table.children.length - 1]);
 
     LocalStorageEntriesSave();
@@ -787,8 +801,8 @@ function LoadArrayIntoEntry(PassedArray){ //Passed JSON Parsed from String
   }
 }
 
-function LoadEntryArrayIntoTable(){  // \" class=\"table table-striped\"><tbody id=\"EntryTableBody
-  document.getElementById("Entries").innerHTML = "<table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"EntryTableBody\"></tbody></table>";
+function LoadEntryArrayIntoTable(){  // \" class=\"table table-striped\"><tbody id=\"TableEntryBody
+  document.getElementById("EntriesContainer").innerHTML = "<table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"TableEntryBody\"></tbody></table>";
   for (var j = 0; j < Entry.length; j++) {
     var row = document.createElement("tr");
     var cell = document.createElement("td");
@@ -796,7 +810,7 @@ function LoadEntryArrayIntoTable(){  // \" class=\"table table-striped\"><tbody 
     cell.innerHTML = Entry[j];
     row.appendChild(cell);
 
-    document.getElementById("EntriesTable").appendChild(row);      
+    document.getElementById("TableEntryTable").appendChild(row);      
   }
 }
 
@@ -1006,7 +1020,12 @@ function LocalStorageLoadMainKeys(debug=false){
   }
 
   if (!loadedEntries){
-    document.getElementById("Entries").innerHTML = "<div id=\"Entriestatus\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
+    debug = true; //BAD -- REMOVE!
+    if (debug){
+      console.log("[DEBUG][LocalStorageLoadMainKeys] NO entries -- showing empty table!");
+    }
+
+    document.getElementById("EntriesContainer").innerHTML = "<div id=\"EntriesStatus\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
   }
 
   return totalKeys;

@@ -70,7 +70,7 @@
               <li><hr class="dropdown-divider"></li>
 
               <li style="padding-left:1em">
-                <input type="button" class="btn btn-primary" onclick="ClearTargetArray()" value="Clear Saved Targets">
+                <input type="button" class="btn btn-primary" onclick="ClearObjectsEntryArray()" value="Clear Saved Targets">
               </li>
   
           </ul>
@@ -155,14 +155,12 @@
   <div class="row">
     <div class="col-sm-12">
       <form>
-        <label for="BracketDropDown">Attribute type:</label>
+        <label for="BracketDropDown">Select:</label>
         <select id="BracketDropDown"></select>
       </form>
-    </div>  
+    </div>
+    <br><br>
   
-    <!-- <div class="col-sm-12" id="BracketButtons"></div> -->
-    <div class="col-sm-12" id="SelectionMenuOption"></div><br>
-
     <!-- src: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch -->
     <!-- <div class="col-sm-12" id="ToggleInnerButtons">
       Auto-ledger bracket when selected: 
@@ -187,30 +185,43 @@
   <div class="container">
   <div class="row">
       
-      <h2>2. Pick/enter a target</h2>
+      <h2>2. Update Attributes</h2>
+        <!-- <div class="col-sm-12" id="BracketButtons"></div> -->
       <!-- <div class="col-sm-12" id="TargetButtons"></div> -->
       <form>
-        <label for="target">Target:</label>
-        <input type="text" list="targets" id="target" name="target" placeholder="Inner-bracket target/content"/>
+        <label for="target">Element Name:</label>
+        <input type="text" list="targets" id="target" name="target" placeholder="Reference name for element."/>
+
+        <div class="col-sm-12" id="SelectionMenuOption"></div>
 
         <datalist id="targets"></datalist>
-        <input type="button" class="btn btn-primary" value="Clear target" onclick="ClearTarget()">
+
+
+        <hr>
+        <input type="button" class="btn btn-primary" value="Clear Object Entry" onclick="ClearObjectsEntry()">
         <!-- <input type="button" class="btn btn-warning" onclick="AddTargetIntraBracket()" value="Inner Bracket It!"> -->
-        <input type="button" class="btn btn-primary" onclick="AddNodeOrEdge(true)" value="Add It!">
-        <br>
       </form><br>  
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
 
       <!-- <div id="ledger" style="background-color:rgba(72, 72, 255, 0.571);">
         <h2><i>{Ledger is empty}</i></h2>
       </div> -->
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <input type="text" class="form-control" id="ledger" aria-describedby="ledgerSmTxt" placeholder="{Ledger is empty}">
-        <!-- <small id="ledgerSmTxt" class="form-text text-muted">Subledger will object within last bracket in the ledger</small> -->
-      </div>
+        <!-- <small id="ledgerSmTxt" class="form-text text-muted">Subledger will object within last bracket in the ledger</small> 
+      </div> -->
 
-      <h2>3. Modify Activities for target</h2>
-        <!-- <form>
+      <hr>
+
+      <h2>3. Add to Scratch Pad</h2>
+      <!-- <input type="button" class="btn btn-primary" onclick="AddObject(true)" value="Add It!"> -->
+      <input type="button" class="btn btn-primary" onclick="EntryIt(true)" value="Add It!">
+      <!-- <form>
   
         <select id="operator">
         <option></option>
@@ -231,20 +242,21 @@
 
     
       <!-- <form>     -->
-        <input type="button" type="button" class="btn btn-light" onclick="UndoLedger()" value="Undo last Ledger Entry">
+
+        <!-- <input type="button" type="button" class="btn btn-light" onclick="UndoLedger()" value="Undo last Ledger Entry">
         <input type="button" type="button" class="btn btn-secondary" onclick="ClearLedger()" value="Clear Ledger">
-        <input type="button" class="btn btn-primary" onclick="EntryIt()" value="Add Entry!">
+        <input type="button" class="btn btn-primary" onclick="EntryIt()" value="Add Entry!"> -->
       <!-- </form>     -->
 
 
       <!-- // https://stackoverflow.com/questions/2812770/add-centered-text-to-the-middle-of-a-horizontal-rule -->
       <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center">
-        <span id="EntriesTable" style="font-size: 40px; background-color: #F3F5F6; padding: 0px 5px;">
+        <span id="LabelEntryTable" style="font-size: 40px; background-color: #F3F5F6; padding: 0px 5px;">
           Entry Table
         </span>
       </div><br><br>
 
-      <p id="Entries"></p>
+      <div id="EntriesContainer"></div>
       <form>
         <input type="button" onclick="RemoveLastEntry()" value="Remove Last Entry">
       </form>
