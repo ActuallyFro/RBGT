@@ -379,11 +379,10 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
 
     } else if (SelectedBracket == "Edge") {
       document.getElementById("SelectionMenuOption").innerHTML = "<u><b>Graph - Edge Options:</b></u>";
-    OptionAttributeEntryGraphNodeDivGroup
       document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"form-group\" id=\"OptionAttributeEntryGraphEdgeDivGroup\">";
       document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"row\">";
       document.getElementById("SelectionMenuOption").innerHTML += "  <div class=\"col-6\">";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"OptionAttributeEntryGraphEdgeFieldSource\">Source</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"eFieldSource\">Source</label>";
       document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" class=\"form-control w-100\" id=\"OptionAttributeEntryGraphEdgeFieldSource\" placeholder=\"the 'id' for source\">";
       document.getElementById("SelectionMenuOption").innerHTML += "  </div>";
       document.getElementById("SelectionMenuOption").innerHTML += "  <div class=\"col-6\">";
