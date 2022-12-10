@@ -376,6 +376,7 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
 
       document.getElementById("SelectionMenuOption").innerHTML += "<hr>";
       document.getElementById("SelectionMenuOption").innerHTML += "<input type=\"button\" class=\"btn btn-danger\" value=\"Clear Node Entry\" onclick=\"ClearGraphEntryNode()\">";
+      document.getElementById("hiddenGlobalObjectType").value = "GraphNode";
 
     } else if (SelectedBracket == "Edge") {
       document.getElementById("SelectionMenuOption").innerHTML = "<u><b>Graph - Edge Options:</b></u>";
@@ -395,6 +396,12 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
 
       document.getElementById("SelectionMenuOption").innerHTML += "<hr>";
       document.getElementById("SelectionMenuOption").innerHTML += "<input type=\"button\" class=\"btn btn-danger\" value=\"Clear Edge Entry\" onclick=\"ClearGraphEntryEdge()\">";
+      document.getElementById("hiddenGlobalObjectType").value = "GraphEdge";
+
+//       document.getElementById("hiddenGlobalObjectType").value = "GraphEdge";
+//<input type="button" class="btn btn-primary" onclick="EntryIt(true)" value="Add It!">
+
+// update onClick="EntryIt(true)" to onClick="EntryIt(true, 'GraphEdge')" for id
 
     }
 
@@ -702,8 +709,10 @@ function AddObject(debug=true) {
 //3. EntryIt 
 //===========
 function EntryIt(debug=true) {
+  type = document.getElementById("hiddenGlobalObjectType").value;
   if (debug){
     console.log("[DEBUG] [EntryIt()] Started");
+    console.log("[DEBUG] [EntryIt()] Type: " + type);
   }
 
   if (isEntryEmpty){
