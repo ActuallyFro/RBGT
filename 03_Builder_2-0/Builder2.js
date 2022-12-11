@@ -701,7 +701,7 @@ function LocalStorageClear(debug=false){
 }
 
 function LocalStorageClearEntriesOnly(debug=false){
-  localStorage.removeItem('Builder-Entries');
+  localStorage.removeItem('Builder-TableEntries');
   if (debug){
     console.log("[DEBUG][LocalStorageClear] Cleared all user/page created keys - for Entries!");
   }
@@ -729,12 +729,12 @@ function LocalStorageLoadMainKeys(debug=true){
         console.log("[DEBUG][LocalStorageLoadMainKeys()]     " + key + " = " + ((window.localStorage[key].length * 16)/(8 * 1024)).toFixed(2) + ' KB' );
       }
 
-      if (key === "Builder-Entries"){
+      if (key === "Builder-TableEntries"){
         if (debug){
-          console.log("[DEBUG][LocalStorageLoadMainKeys()] Loading Entries saved in 'Builder-Entries'!");
+          console.log("[DEBUG][LocalStorageLoadMainKeys()] Loading Entries saved in 'Builder-TableEntries'!");
         }
         
-        var storedEntries = localStorage.getItem('Builder-Entries');
+        var storedEntries = localStorage.getItem('Builder-TableEntries');
         var parsedEntry = JSON.parse(storedEntries);
         LoadArrayIntoEntry(parsedEntry);
 
@@ -786,7 +786,7 @@ function LocalStorageEntriesSave(debug=false){
     console.log("[DEBUG][LocalStorageEntriesSave] NewString: " + newEntriesStr);
   }
 
-  localStorage.setItem('Builder-Entries', newEntriesStr);
+  localStorage.setItem('Builder-TableEntries', newEntriesStr);
 
 }
 
