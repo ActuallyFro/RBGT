@@ -247,7 +247,7 @@ function ClearEntry() {
   if (debug){
     console.log("[DEBUG][ClearEntry] NO entries -- showing empty table!");
   }
-  document.getElementById("EntriesContainer").innerHTML = "<div id=\"EntryTableDiv\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
+  document.getElementById("EntriesContainer").innerHTML = "<br><br><div id=\"EntryTableDiv\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
 
   Entry = [];
   LocalStorageClearEntriesOnly();
@@ -756,7 +756,7 @@ function LocalStorageLoadMainKeys(debug=false){
       console.log("[DEBUG][LocalStorageLoadMainKeys] NO entries -- showing empty table!");
     }
 
-    document.getElementById("EntriesContainer").innerHTML = "<div id=\"EntriesStatus\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
+    document.getElementById("EntriesContainer").innerHTML = "<br><br><div id=\"EntriesStatus\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
   }
 
   return totalKeys;
