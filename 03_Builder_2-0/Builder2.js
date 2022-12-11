@@ -350,6 +350,8 @@ function ClearTargetArray() {
 //1. Target - Check if Exists, Add if not
 //=======================================
 function CheckAndAddTarget(){
+
+  //Likely: OptionAttributeEntryID
   var targetToCheck = document.getElementById("target").value;
 
   if (targetToCheck == ""){
@@ -386,7 +388,6 @@ function CheckAndAddTarget(){
     // option.text = targetToCheck;
     // document.getElementById("targets").appendChild(option);
     
-    //add to targets[]
     console.log("[DEBUG] [CheckAndAddTarget()] Adding Target: " + targetToCheck + " with category: " + objects[objectselectedOption][2]);
     // var newTarget = [targetToCheck, objects[adjustedBracketNumber][2] , ""];
     var newTarget = [targetToCheck, objects[objectselectedOption][2] , ""];
@@ -404,33 +405,15 @@ function AddObject(debug=true) {
     console.log("[DEBUG] [AddObject()] Setting hasBracketBeenPlaced is: " + hasBracketBeenPlaced);
   }
 
-  //I. push back, to allow a "rewind" of the ledger
-  oldEntry.push(document.getElementById("ledger").value); //This is used for "Undo" Ledger Entry
+  //TODO: Remove oldEntry IF it's just used for ledger... :
+  // oldEntry.push(document.getElementById("ledger").value); //This is used for "Undo" Ledger Entry
 
-  //II. Lookup Bracket, based on Bracket selection , set new size/width
-  // var obj = document.getElementById("BracketDropDown");
-  // var currentBracket = obj.options[obj.selectedIndex].value;
-
-  // Currentobjectsize = currentBracket.length;
-  // CurrentBracketWidth = (Currentobjectsize - 1)/2;
-
-  // if (LastBracketWidth < 1){
-  //   console.log("[ERROR] Provided bracket is formmatted WRONG! (len: " + Currentobjectsize + ")");
-  //   //return;
-  // }
-  //III. determine target from provided input field
   var tempTarget = document.getElementById("target").value;
 
   if (tempTarget == ""){
     console.log("[ERROR] [AddObject()] Target is empty! Skipping add!");
     return;
   }
-
-
-
-  // IV. Add to Ledger
-  // var LeftSideBracket = currentBracket.slice(0,CurrentBracketWidth);
-  // var RightSideBracket = currentBracket.slice(-CurrentBracketWidth, Currentobjectsize);
 
   //isEntryEmpty =?= hasBracketBuildingStarted??
   if (isEntryEmpty){    
@@ -439,45 +422,9 @@ function AddObject(debug=true) {
     }
 
     isEntryEmpty = false;
-    // hasBracketBuildingStarted = true;
   }
 
-  // if (!isInnerBracketToggled) {
-    if (debug){
-      // console.log("[DEBUG] [AddObject()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
-      console.log("[DEBUG] [AddObject()] {Empty Ledger | !isInnerBracketToggled } Adding to Ledger: " + tempTarget );
-    }
-    // document.getElementById("ledger").value += LeftSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
-    // document.getElementById("ledger").value += RightSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
-    // addLedgerStringAtEnd(LeftSideBracket + tempTarget + RightSideBracket);
-    // addLedgerStringAtEnd(tempTarget);
-
-    CheckAndAddTarget();
-
-    // Lastobjectsize = Currentobjectsize;
-    // LastBracketWidth = CurrentBracketWidth;
-    // LastBracket = currentBracket;
-
-  // }
-  // else { //isInnerBracketToggled
-  //   if (hasBracketBuildingStarted && LastBracket == currentBracket){
-  //     if (debug){
-  //       console.log("[DEBUG] [AddObject()] {isInnerBracketToggled} Adding to Ledger: " + tempTarget);
-  //     }
-  //     addLedgerStringInnerBracket(tempTarget);
-      
-  //   } else { //deals with the nesting of objects --- ex: [PC](A→]enemy NPC[]); the ][-bracket is nested within the ()-bracket
-  //     if (debug){
-  //       console.log("[DEBUG] [AddObject()] {isInnerBracketToggled} Adding to Ledger: " + LeftSideBracket + tempTarget + RightSideBracket);
-  //     }
-  //     addLedgerStringInnerBracket(LeftSideBracket+tempTarget+RightSideBracket);
-  //   }
-
-  // }
-
-  // if (!hasBracketBuildingStarted){
-  //   hasBracketBuildingStarted = true;
-  // }
+  CheckAndAddTarget();
 
   if (debug){
     console.log("[DEBUG] [AddObject()] DONE!!!");
@@ -708,47 +655,44 @@ function LoadAllTargetsAsOptions(debug=false){ //this vs. SetupTargetsBasedOnB
     var hasTwoTargets = false;
     var currentTarget = targets[j][0];
     var secondaryTarget = "";
-    /////////////
-    //TODO:
-    if (currentTarget.includes(";;")) {
-      if (debug) {
-        console.log("[DEBUG] [LoadAllTargetsAsOptions()] Target '"+targets[j][0]+"' includes ';;' !");
-      }
+    // /////////////
+    // //TODON'T:
+    // if (currentTarget.includes(";;")) {
+    //   if (debug) {
+    //     console.log("[DEBUG] [LoadAllTargetsAsOptions()] Target '"+targets[j][0]+"' includes ';;' !");
+    //   }
 
-      currentTarget = currentTarget.split(";;")[0];
-      secondaryTarget = targets[j][0].split(";;")[1];
-      hasTwoTargets = true;
-    }
-    /////////////
-    var isDone = true;
-    do {
+    //   currentTarget = currentTarget.split(";;")[0];
+    //   secondaryTarget = targets[j][0].split(";;")[1];
+    //   hasTwoTargets = true;
+    // }
+    // /////////////
+    // var isDone = true;
+    // do {
       var option = document.createElement("option");
       option.text = currentTarget;
   
-      var safeStr = targets[j][0].replace(/'/g, "\\'");
+      // var safeStr = targets[j][0].replace(/'/g, "\\'");
   
       if (debug){
         console.log("[DEBUG] [LoadAllTargetsAsOptions()] '"+targets[j][0]+"'");
-        console.log("safeStr: '" + safeStr + "'");
+        // console.log("safeStr: '" + safeStr + "'");
       }
   
       document.getElementById("OptionAttributeEntryIDList").appendChild(option);
       // document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + targets[j][0] + "</button>";
 
-      if (hasTwoTargets){
-        currentTarget = secondaryTarget;
-        hasTwoTargets = false;
-      } else {
-        isDone = false;
-      }
+    //   if (hasTwoTargets){
+    //     currentTarget = secondaryTarget;
+    //     hasTwoTargets = false;
+    //   } else {
+    //     isDone = false;
+    //   }
 
-    } while (isDone);
+    // } while (isDone);
 
     /////////////
   } 
-
-
-
 }
 
 
