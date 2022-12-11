@@ -22,7 +22,7 @@
 // 2. targets -- yes (curretly are exported too)  {#2}
 //   a. Needs a reset option {#a}
 //   b. LocalStorage then needs to be added {#b} <WHEN a NEW target is added -- export list>
-// 3. ledger -- no (these are dynamically built, treated as draft, when an entry is considered valid -- it moves to a Entry)
+// (REMOVED) 3. ledger -- no (these are dynamically built, treated as draft, when an entry is considered valid -- it moves to a Entry)
 // 4. Entries -- yes (curretly are exported too) {#1}
 //   a. LocalStorage needs to be added to reset {#a}  <WHEN a NEW Entry is added -- export list>
 //
@@ -35,39 +35,21 @@
 //////////////////////////////////////
 // I. Vars and Lookups
 
-// Global var to store the propsed ledger entry, as array of strings
 // var isEntryEmpty = true;
 var isEntryEmpty = true;
 var oldEntry = [];
 var Entry = [];
 
 var objects = [
-["", "", "", ""],
-["", "=== Graph objects ===", "GUI - Selection Title", "Disabled"],
-["Node", "Graph", "GraphObjects", ""],
-["Edge", "Graph", "GraphObjects", ""]
-
-// ["", "=== Timing objects ===", "GUI - Selection Title", "Disabled"],
-// ["⟅ ⟆", "Round", "Timing", "Numbers"],
-// ["⧼ ⧽", "Time/Duration", "Timing", "Ignore"]
+  ["", "", "", ""],
+  ["", "=== Graph objects ===", "GUI - Selection Title", "Disabled"],
+  ["Node", "Graph", "GraphObjects", ""],
+  ["Edge", "Graph", "GraphObjects", ""]
 ];
 
-var targets = [
-// ["Grevnyrch", "Locations", "G"],
-// ["Kla'Bbbert", "Locations", "KB"]
-];
-
-// var hasBracketBuildingStarted = false;
-
-// var isShowingNumbers = false;
-// var isInnerBracketToggled = false;
-// var isAutoBracketToggled = true;
-var hasBracketBeenPlaced = false;
+var targets = [];
 
 // var Lastobjectsize = 0;
-// var LastBracketWidth = 0; //SHOULD be (Size-1)/2 -- but I cannot say 100% ALWAYS will be...
-// var LastBracket ="";
-// var isInnerBracket = false;
 //////////////////////////////////////
 
 //////////////////////////////////////
@@ -82,9 +64,7 @@ window.onload = function() {
   var totalLSKeys = LocalStorageLoadMainKeys(); //LocalStorageLoadMainKeys(true)
 
   //2. Setup Page Elements
-  // SetupBracketButtons();
   SetupBracketDropDown();
-  //SetupBracketButtonClear();
 
   // 3. Add shortcut buttons to Shortcut Divs
   //----------------------------
@@ -98,33 +78,8 @@ window.onload = function() {
   // SetupWatcherUserTogglesInnerBracket(); 
   SetupWatcherUserTogglesSettingDarkMode(); 
 
-  //5. Setup default states
-  // ToggleDisableInnerbracket();
-  // ToggleEnableAutobracket();
-  // hideShowDice(false);
-  hasBracketBuildingStarted = false;
 }
 
-// function SetupInnerobjectshortcutsDice(){
-//   for (var k = 0; k <= 9; k++) {
-//     document.getElementById("Dice").innerHTML += "<button type=\"button\" id=\"BtnDiceDark\" class=\"btn btn-dark\" onclick=\"addLedgerStringInnerBracket(" + k + ")\">" + k + "</button>";
-//   }
-
-//   document.getElementById("Dice").innerHTML += "<button type=\"button\"  class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('+')\"> + </button>";
-//   document.getElementById("Dice").innerHTML += "<button type=\"button\" class=\"btn btn-danger\" onclick=\"addLedgerStringInnerBracket('-')\"> - </button>";
-//   document.getElementById("Dice").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('=')\"> = </button>";
- 
-// }
-
-// function SetupInnerobjectshortcutsActionActivities (){
-//   document.getElementById("ActivityButtons").innerHTML += "<button type=\"button\"  class=\"btn btn-success\" onclick=\"addLedgerStringInnerBracket('→')\"> → </button>";
-// }
-
-// function SetupInnerobjectshortcutsNandPCs (){
-//   document.getElementById("NandPCButtons").innerHTML += "<button type=\"button\"  class=\"btn btn-primary\" onclick=\"addLedgerStringInnerBracket(';;')\"> ;; </button>";
-// }
-
-//BUG: target as the selction goes to an index of "n-1"; so if item #4 is selected, it will be 3...
 function SetupWatcherUserPicksBracketDropDown(debug=false){
   document.getElementById("BracketDropDown").addEventListener("change", function() {
     var selectedBracketTag = document.getElementById("BracketDropDown").value;
@@ -133,50 +88,8 @@ function SetupWatcherUserPicksBracketDropDown(debug=false){
     }
 
     SetupTargetsBasedOnBracketPick(selectedBracketTag);
-
-    // //Attempting to pass bracket number into UpdateTargetActivities()...
-    // var bracketNumber=0;
-    // for (var i = 0; i < objects.length; i++) {
-    //   var foundTargetBracket = objects[i][0];
-    //   if (objects[i][0] == selectedBracketTag) {
-    //     bracketNumber = i;
-    //     if (debug){
-    //       console.log("[DEBUG] Bracket Number: " + bracketNumber);
-    //     }
-    //     break;
-    //   }
-    // }
-
-    // UpdateTargetActivities(bracketNumber);
-      
-    // if(isAutoBracketToggled){
-      // AddObject();
-      // hasBracketBeenPlaced = true;
-      // ToggleEnableInnerbracket(); //--more Entryic is needed for deconflicting target buttons...  
-    // }
-
   });
   
-}
-
-// function SetupWatcherUserTogglesAutoBracket(debug=false){
-//   document.getElementById("toggleAutobracket").addEventListener("change", function() {
-//     var isAutoBracket = document.getElementById("toggleAutobracket").checked;
-//     isAutoBracketToggled = isAutoBracket;
-//     if (debug){
-//       console.log("[DEBUG] User toggled AutoBracket to: " + isAutoBracket);
-//     }
-//   });
-// }
-
-function SetupWatcherUserTogglesInnerBracket(debug=false){
-  document.getElementById("toggleInnerbracket").addEventListener("change", function() {
-    var isInnerBracket = document.getElementById("toggleInnerbracket").checked;
-    isInnerBracketToggled = isInnerBracket;
-    if (debug){
-      console.log("[DEBUG] User toggled InnerBracket to: " + isInnerBracket);
-    }
-  });
 }
 
 function SetupWatcherUserTogglesSettingDarkMode(debug=false){
@@ -229,43 +142,7 @@ function MenuClearStorage(debug=true){
   LocalStorageClear(true);  
 }
 
-// 1. Bracket Buttons setup:
-//========================== 
-// function SetupBracketButtons(debug=false){
-//   for (var i = 0; i < objects.length; i++) { //use btn-outline-* for more variants
-//     if (objects[i][2] == "Locations"){
-//       document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
-    
-//     } else if (objects[i][2] == "Timing"){
-//       document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-success\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
-    
-//     } else if (objects[i][2] == "PC or NPC Level Actions"){
-//       document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-primary\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
-
-//     } else if (objects[i][2] == "Event or Encounter"){
-//       document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-success\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
-          
-//     } else if (objects[i][2] == "Object"){
-//       document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-warning\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
-
-//     } else if (objects[i][2] == "Results"){
-//       document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" id=\"BtnDiceDark\"class=\"btn btn-dark\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
-
-//     } else if (objects[i][2] != "GUI - Selection Title" && objects[i][2] != ""){
-//       document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-info\" onclick=\"addBracket(" + i + ")\">" + objects[i][0] + "</button>";
-//     }
-//   }
-
-//   if (debug){
-//     console.log("[DEBUG] Bracket Buttons Setup -- created " + objects.length - 1 + " buttons");
-//   }
-// }
-
-// function SetupBracketButtonClear(){
-//   document.getElementById("BracketButtons").innerHTML += "<button type=\"button\" class=\"btn btn-danger\" onclick=\"addBracket(0)\"> Clear </button>";
-// }
-
-// 2. Bracket Drop Down setup:
+// N1. NOT-Bracket, but Object Drop Down setup:
 //============================ 
 function SetupBracketDropDown(){
   document.getElementById("BracketDropDown").innerHTML = null; //reset buttons
@@ -404,96 +281,16 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
 // update onClick="EntryIt(true)" to onClick="EntryIt(true, 'GraphEdge')" for id
 
     }
-
-    // var SelectedBracketWords = ""
-
-    // for (var i = 0; i < objects.length; i++) {
-    //   var foundTargetBracket = objects[i][0];
-    //   // console.log("This(" + foundTargetBracket + ") vs. That(" + SelectedBracket + ")")
-    //   if (objects[i][0] == SelectedBracket) {
-    //     //console.log("Found Bracket: " + foundTargetBracket);
-    //     SelectedBracketWords = objects[i][2];
-    //     break;
-    //   }
-    // }
-
-    // var foundTargets = 0;
-    // for (var j = 0; j < targets.length; j++) {
-    //   if (targets[j][1] == SelectedBracketWords) {
-    //     var option = document.createElement("option");
-    //     option.text = targets[j][0];
-      
-    //     if (!targets[j][0].includes(";;")) { //;; denotes the 'full name';;'paraphrased name'
-    //       document.getElementById("targets").appendChild(option);
-
-    //       var safeStr = targets[j][0].replace(/'/g, "\\'");
-          
-    //       // document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + targets[j][0] + "</button>";
-
-    //       foundTargets++;
-    //     }
-
-    //   }
-    // }
-    //console.log("Found " + foundTargets + " targets, based on Bracket selection");  
   }
 }
+
 
 //////////////////////////////////////
 
 //////////////////////////////////////
 // III. GUI Usage Functions
 
-//0. Update Target Activities
-//===========================
-// function UpdateTargetActivities(bracketNumber, debug=false) {
-
-//   if (bracketNumber >= 0 && bracketNumber < objects.length) {
-//     if(debug){
-//       console.log("[DEBUG] [UpdateTargetActivities()] Changing selected index to: " + bracketNumber);
-//     }
-//     document.getElementById("BracketDropDown").selectedIndex = bracketNumber; //This is N/A for drop down, but is used for buttons!
-
-//     // if (objects[bracketNumber][3] == "Dice" || objects[bracketNumber][3] == "Numbers") {
-//     //   //hideShowDice(true);
-
-//     //   if(debug){
-//     //     console.log("[DEBUG] [UpdateTargetActivities()] Toggle Dice - on");
-//     //   }
-//     // }
-//   }
-
-
-// }
-
-//1. Generate objects:
-//=====================
-function addBracket(bracketNumber, debug=false) {
-  //UpdateTargetActivities(bracketNumber);
-
-  var selectedBracketTag = document.getElementById("BracketDropDown").value;
-  SetupTargetsBasedOnBracketPick(selectedBracketTag); //Determine bracket, to dynamically add targets buttons (objects[i][2])
-
-  if(debug){
-    console.log("[DEBUG] [addBracket()] Adding Bracket: " + objects[bracketNumber][0] +"; for selected bracket tag: '" + selectedBracketTag + "'");
-  }
-}
-
-//2. Clear - Bracket
-//================== 
-function ClearBracket() {
-  document.getElementById("BracketDropDown").value = "";
-}
-
-// //3. Clear - Ledger
-// //================
-// function ClearLedger() {
-//   isEntryEmpty = true;
-//   document.getElementById("ledger").value = "";
-//   oldEntry = [];
-// }
-
-//4. Clear - Entry 
+//N1. Clear - Entry 
 //=============
 function ClearEntry() {
   if (isEntryEmpty){
@@ -544,18 +341,6 @@ function ClearTargetArray() {
   targets = [];
   LocalStorageClearTargetsOnly();
 }
-
-// //8. Undo - Ledger
-// //================
-// function UndoLedger() {
-//   if (oldEntry.length > 0) {
-//     document.getElementById("ledger").value = oldEntry[oldEntry.length-1];
-//     oldEntry.pop();  
-
-//   } else {
-//     ClearLedger();
-//   }
-// }
 
 //////////////////////////////////////
 
@@ -619,15 +404,15 @@ function AddObject(debug=true) {
     console.log("[DEBUG] [AddObject()] Setting hasBracketBeenPlaced is: " + hasBracketBeenPlaced);
   }
 
-  //I. back, to allow a "rewind" of the ledger
+  //I. push back, to allow a "rewind" of the ledger
   oldEntry.push(document.getElementById("ledger").value); //This is used for "Undo" Ledger Entry
 
   //II. Lookup Bracket, based on Bracket selection , set new size/width
-  var obj = document.getElementById("BracketDropDown");
-  var currentBracket = obj.options[obj.selectedIndex].value;
+  // var obj = document.getElementById("BracketDropDown");
+  // var currentBracket = obj.options[obj.selectedIndex].value;
 
-  Currentobjectsize = currentBracket.length;
-  CurrentBracketWidth = (Currentobjectsize - 1)/2;
+  // Currentobjectsize = currentBracket.length;
+  // CurrentBracketWidth = (Currentobjectsize - 1)/2;
 
   // if (LastBracketWidth < 1){
   //   console.log("[ERROR] Provided bracket is formmatted WRONG! (len: " + Currentobjectsize + ")");
@@ -654,7 +439,7 @@ function AddObject(debug=true) {
     }
 
     isEntryEmpty = false;
-    hasBracketBuildingStarted = true;
+    // hasBracketBuildingStarted = true;
   }
 
   // if (!isInnerBracketToggled) {
@@ -665,7 +450,7 @@ function AddObject(debug=true) {
     // document.getElementById("ledger").value += LeftSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
     // document.getElementById("ledger").value += RightSideBracket; -- this is direct menthod of the 'addLedgerStringAtEnd'
     // addLedgerStringAtEnd(LeftSideBracket + tempTarget + RightSideBracket);
-    addLedgerStringAtEnd(tempTarget);
+    // addLedgerStringAtEnd(tempTarget);
 
     CheckAndAddTarget();
 
@@ -698,12 +483,10 @@ function AddObject(debug=true) {
     console.log("[DEBUG] [AddObject()] DONE!!!");
   }
 
-  //move cursor to the end of the ledger input field
-  var obj = document.getElementById("ledger");
+  //EXAMPLE: move cursor to the end of the ledger input field
+  // var obj = document.getElementById("ledger");
   //obj.focus(); // THIS will pop up a keyboard prompt on mobile devices
-  obj.setSelectionRange(obj.value.length, obj.value.length);
-
-
+  // obj.setSelectionRange(obj.value.length, obj.value.length);
 }
 
 //3. EntryIt 
@@ -715,9 +498,10 @@ function EntryIt(debug=true) {
     console.log("[DEBUG] [EntryIt()] Type: " + type);
   }
 
-  if (isEntryEmpty){
-    AddObject(); //Auto-ledger then Entry it
-  }
+  //Used in the ledger system...
+  // if (isEntryEmpty){
+  //   AddObject(); //Auto-ledger then Entry it
+  // }
 
   if (isEntryEmpty){
     isEntryEmpty = false;
@@ -727,6 +511,7 @@ function EntryIt(debug=true) {
 
   var obj = document.getElementById("ledger");
   var currentLedger = document.getElementById("ledger").value;
+  //MASSIVE array,  depending on type, and details of entries...
   Entry.push(currentLedger);
 
   var row = document.createElement("tr");
@@ -738,16 +523,10 @@ function EntryIt(debug=true) {
   document.getElementById("TableEntryTable").appendChild(row);
 
   CheckAndAddTarget();
-  // ClearLedger();
   ClearTag();
   ClearTarget();
 
   LocalStorageEntriesSave();
-
-  //Any time EntryIt() is called -- reset the inner-bracket toggles
-  // ToggleDisableInnerbracket();
-
-  hasBracketBuildingStarted = false;
 
   if (debug){
     console.log("[DEBUG] [EntryIt()] DONE!!!");
