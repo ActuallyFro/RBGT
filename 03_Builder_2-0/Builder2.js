@@ -17,9 +17,9 @@
 // ------------------
 // 0. Add in hooks to check for existing content, and load as appropriate... {#0} |< DONE >|
 //   a. load Entries <import like Entry file import/load> {#a}
-//   b. load targets <import like TARGET file import/load> {#b}
+//   b. load EntryIDTargets <import like TARGET file import/load> {#b}
 // 1. objects -- N/A, since these are static/look-ups
-// 2. targets -- yes (curretly are exported too)  {#2}
+// 2. EntryIDTargets -- yes (curretly are exported too)  {#2}
 //   a. Needs a reset option {#a}
 //   b. LocalStorage then needs to be added {#b} <WHEN a NEW target is added -- export list>
 // (REMOVED) 3. ledger -- no (these are dynamically built, treated as draft, when an entry is considered valid -- it moves to a Entry)
@@ -47,7 +47,7 @@ var objects = [
   ["Edge", "Graph", "GraphObjects", ""]
 ];
 
-var targets = [];
+var EntryIDTargets = [];
 
 // var Lastobjectsize = 0;
 //////////////////////////////////////
@@ -87,7 +87,7 @@ function SetupWatcherUserPicksBracketDropDown(debug=false){
       console.log("[DEBUG] User selected dropdown:" + selectedBracketTag);  
     }
 
-    SetupTargetsBasedOnBracketPick(selectedBracketTag);
+    SetupEntryIDTargetsBasedOnBracketPick(selectedBracketTag);
   });
   
 }
@@ -168,18 +168,18 @@ function SetupBracketDropDown(){
 
 }
 
-//2. All Targets setup:
+//2. All EntryIDTargets setup:
 //===================== 
-function SetupAllTargets() {
+function SetupAllEntryIDTargets() {
   //TO DO -- determine localstorage load, then run this.
-  SetupTargetsBasedOnBracketPick("");
+  SetupEntryIDTargetsBasedOnBracketPick("");
 }
 
-//3. Speciifc Class of Targets setup:
+//3. Speciifc Class of EntryIDTargets setup:
 //===================================
-function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
+function SetupEntryIDTargetsBasedOnBracketPick(SelectedBracket, debug=false){
   // console.log("Selected Bracket: '" + SelectedBracket + "'");
-  document.getElementById("OptionAttributeEntryIDList").innerHTML = null; //reset targets
+  document.getElementById("OptionAttributeEntryIDList").innerHTML = null; //reset EntryIDTargets
   // document.getElementById("TargetButtons").innerHTML = null; //reset buttons
 
   if (debug){
@@ -187,7 +187,7 @@ function SetupTargetsBasedOnBracketPick(SelectedBracket, debug=false){
   }
 
   if (SelectedBracket == "") {
-    LoadAllTargetsAsOptions(); //(true) //TODO: figure out what this does...
+    LoadAllEntryIDTargetsAsOptions(); //(true) //TODO: figure out what this does...
     // console.log("[WARNING] No type selected!");
     document.getElementById("SelectionMenuOption").innerHTML = "<i>{Select above}</i>";
 
@@ -323,9 +323,9 @@ function ClearGraphEntryEdge(debug=false){
 
 //5. Clear - Tag
 //=============
-function ClearTag() {
-  document.getElementById("BracketDropDown").value = "";
-}
+// function ClearTag() {
+//   document.getElementById("BracketDropDown").value = "";
+// }
 
 //6. Clear - Target
 //================
@@ -334,12 +334,12 @@ function ClearObjectsEntry() {
 }
 
 function ClearTargetArray() {
-  if (targets.length === 0) {
+  if (EntryIDTargets.length === 0) {
     return;
   }
 
-  targets = [];
-  LocalStorageClearTargetsOnly();
+  EntryIDTargets = [];
+  LocalStorageClearEntryIDTargetsOnly();
 }
 
 //////////////////////////////////////
@@ -351,17 +351,17 @@ function ClearTargetArray() {
 //=======================================
 function CheckAndAddTarget(){
 
-  //Likely: OptionAttributeEntryID
-  var targetToCheck = document.getElementById("target").value;
+  //Likely: all 'target' are 'OptionAttributeEntryID'
+  var EntryIDTargetToCheck = document.getElementById("OptionAttributeEntryID").value;
 
-  if (targetToCheck == ""){
+  if (EntryIDTargetToCheck == ""){
     return;
   }
 
-  var newTarget = true;
-  for (var i = 0; i < targets.length; i++) {
-    if (targets[i][0] == targetToCheck) {
-      newTarget = false; //target exists
+  var newEntryIDTarget = true;
+  for (var i = 0; i < EntryIDTargets.length; i++) {
+    if (EntryIDTargets[i][0] == EntryIDTargetToCheck) {
+      newEntryIDTarget = false; //target exists
     }
   }
 
@@ -375,25 +375,25 @@ function CheckAndAddTarget(){
   }
 
   var Repeat = false;
-  for (var k = 0; k < targets.length; k++) {
-    // console.log("[DEBUG] [CheckAndAddTarget()] Comparing " + targetToCheck + " to " + targets[k][0]);
-    if (targets[k][0] == targetToCheck) {
+  for (var k = 0; k < EntryIDTargets.length; k++) {
+    // console.log("[DEBUG] [CheckAndAddTarget()] Comparing " + EntryIDTargetToCheck + " to " + EntryIDTargets[k][0]);
+    if (EntryIDTargets[k][0] == EntryIDTargetToCheck) {
       Repeat = true; //target exists
       // console.log("[DEBUG] [CheckAndAddTarget()] Repeating Target... skipping!");
     }
   }
 
-  if (newTarget && !BannedOption && !Repeat) {
+  if (newEntryIDTarget && !BannedOption && !Repeat) {
     // var option = document.createElement("option");
     // option.text = targetToCheck;
-    // document.getElementById("targets").appendChild(option);
+    // document.getElementById("EntryIDTargets").appendChild(option);
     
-    console.log("[DEBUG] [CheckAndAddTarget()] Adding Target: " + targetToCheck + " with category: " + objects[objectselectedOption][2]);
+    console.log("[DEBUG] [CheckAndAddTarget()] Adding Target: " + EntryIDTargetToCheck + " with category: " + objects[objectselectedOption][2]);
     // var newTarget = [targetToCheck, objects[adjustedBracketNumber][2] , ""];
-    var newTarget = [targetToCheck, objects[objectselectedOption][2] , ""];
-    targets.push(newTarget);
+    var newEntryIDTargetTuple = [EntryIDTargetToCheck, objects[objectselectedOption][2] , ""];
+    EntryIDTargets.push(newEntryIDTargetTuple);
 
-    LocalStorageTargetsSave(); //(true)
+    LocalStorageEntryIDTargetsSave(); //(true)
   }
 
 }
@@ -436,6 +436,12 @@ function AddObject(debug=true) {
   // obj.setSelectionRange(obj.value.length, obj.value.length);
 }
 
+function PrepareEntry(){
+  var finalEntry = "{NONE PROCESSED!}";
+
+  return finalEntry;
+}
+
 //3. EntryIt 
 //===========
 function EntryIt(debug=true) {
@@ -456,22 +462,28 @@ function EntryIt(debug=true) {
     //console.log("[DEBUG] [EntryIt()] Entries table created");
   } 
 
-  var obj = document.getElementById("ledger");
-  var currentLedger = document.getElementById("ledger").value;
+  // var obj = document.getElementById("ledger");
+  // var currentLedger = document.getElementById("ledger").value;
   //MASSIVE array,  depending on type, and details of entries...
-  Entry.push(currentLedger);
+
+  newEntry = PrepareEntry();
+
+  //TODO: remove 'Entry' IF it was only used for ledger...
+  Entry.push(newEntry);
+
+
 
   var row = document.createElement("tr");
 
   var cell = document.createElement("td");
-  safeCurrentStr = currentLedger.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  safeCurrentStr = newEntry.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   cell.innerHTML = safeCurrentStr;
   row.appendChild(cell);
   document.getElementById("TableEntryTable").appendChild(row);
 
   CheckAndAddTarget();
-  ClearTag();
-  ClearTarget();
+  // ClearTag();
+  // ClearTarget();
 
   LocalStorageEntriesSave();
 
@@ -583,10 +595,10 @@ function addLedgerStringAtEnd(PassedString){
 //////////////////////////////////////
 // V. Import/Export
 
-//1. Prep Targets as JSON String
+//1. Prep EntryIDTargets as JSON String
 //=========================
 function TargetArrayStringifyAsJSON(){
-  return JSON.stringify(targets);
+  return JSON.stringify(EntryIDTargets);
 }
 
 //2. Prep Entries as JSON String
@@ -596,12 +608,12 @@ function EntriesStringifyAsJSON(){
 }
 
 
-//3. Export - Targets (JSON)
+//3. Export - EntryIDTargets (JSON)
 //=========================
 function ExportTargetArrayToJson() {
   var text = TargetArrayStringifyAsJSON();
   var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
-  saveAs(blob, "GSL_Targets.json");
+  saveAs(blob, "GSL_EntryIDTargets.json");
 }
 
 //4. Export - Entries (JSON)
@@ -639,32 +651,32 @@ function LoadEntryArrayIntoTable(){  // \" class=\"table table-striped\"><tbody 
   }
 }
 
-function LoadArrayIntoTargets(PassedArray, debug=false){ //Passed JSON Parsed from String
-  targets = [];
+function LoadArrayIntoEntryIDTargets(PassedArray, debug=false){ //Passed JSON Parsed from String
+  EntryIDTargets = [];
   for (var i = 0; i < PassedArray.length; i++) {
-    targets.push(PassedArray[i]);
+    EntryIDTargets.push(PassedArray[i]);
     if(debug){
-      console.log("[DEBUG] [LoadArrayIntoTargets()] Loaded Target: '"+targets[i][0]+"'");
+      console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()] Loaded Target: '"+EntryIDTargets[i][0]+"'");
     }
   }
 
 }
 
-function LoadAllTargetsAsOptions(debug=false){ //this vs. SetupTargetsBasedOnB
-  for (var j = 0; j < targets.length; j++) {
-    var hasTwoTargets = false;
-    var currentTarget = targets[j][0];
+function LoadAllEntryIDTargetsAsOptions(debug=false){ //this vs. SetupEntryIDTargetsBasedOnB
+  for (var j = 0; j < EntryIDTargets.length; j++) {
+    var hasTwoEntryIDTargets = false;
+    var currentTarget = EntryIDTargets[j][0];
     var secondaryTarget = "";
     // /////////////
     // //TODON'T:
     // if (currentTarget.includes(";;")) {
     //   if (debug) {
-    //     console.log("[DEBUG] [LoadAllTargetsAsOptions()] Target '"+targets[j][0]+"' includes ';;' !");
+    //     console.log("[DEBUG] [LoadAllEntryIDTargetsAsOptions()] Target '"+EntryIDTargets[j][0]+"' includes ';;' !");
     //   }
 
     //   currentTarget = currentTarget.split(";;")[0];
-    //   secondaryTarget = targets[j][0].split(";;")[1];
-    //   hasTwoTargets = true;
+    //   secondaryTarget = EntryIDTargets[j][0].split(";;")[1];
+    //   hasTwoEntryIDTargets = true;
     // }
     // /////////////
     // var isDone = true;
@@ -672,19 +684,19 @@ function LoadAllTargetsAsOptions(debug=false){ //this vs. SetupTargetsBasedOnB
       var option = document.createElement("option");
       option.text = currentTarget;
   
-      // var safeStr = targets[j][0].replace(/'/g, "\\'");
+      // var safeStr = EntryIDTargets[j][0].replace(/'/g, "\\'");
   
       if (debug){
-        console.log("[DEBUG] [LoadAllTargetsAsOptions()] '"+targets[j][0]+"'");
+        console.log("[DEBUG] [LoadAllEntryIDTargetsAsOptions()] '"+EntryIDTargets[j][0]+"'");
         // console.log("safeStr: '" + safeStr + "'");
       }
   
       document.getElementById("OptionAttributeEntryIDList").appendChild(option);
-      // document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + targets[j][0] + "</button>";
+      // document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + EntryIDTargets[j][0] + "</button>";
 
-    //   if (hasTwoTargets){
+    //   if (hasTwoEntryIDTargets){
     //     currentTarget = secondaryTarget;
-    //     hasTwoTargets = false;
+    //     hasTwoEntryIDTargets = false;
     //   } else {
     //     isDone = false;
     //   }
@@ -734,20 +746,20 @@ function ImportJsonToEntry(){
 }
 
 
-//6. Import - Targets (JSON)
+//6. Import - EntryIDTargets (JSON)
 //=========================
-function ImportJsonToTargets(){
-  var file_to_read = document.getElementById("fileInputTargets").files[0];
+function ImportJsonToEntryIDTargets(){
+  var file_to_read = document.getElementById("fileInputEntryIDTargets").files[0];
   var fileread = new FileReader();
 
   fileread.onload = function(e) {
     var content = e.target.result;
     var parsedTarget = JSON.parse(content);
 
-    LoadArrayIntoTargets(parsedTarget);
+    LoadArrayIntoEntryIDTargets(parsedTarget);
 
-    LoadAllTargetsAsOptions(); //(true)
-    alert("Successfully loaded (" + targets.length + ") targets!");
+    LoadAllEntryIDTargetsAsOptions(); //(true)
+    alert("Successfully loaded (" + EntryIDTargets.length + ") EntryIDTargets!");
   
   };
 
@@ -783,10 +795,10 @@ function LocalStorageClearEntriesOnly(debug=false){
   }
 }
 
-function LocalStorageClearTargetsOnly(debug=false){
-  localStorage.removeItem('Builder-Targets');
+function LocalStorageClearEntryIDTargetsOnly(debug=false){
+  localStorage.removeItem('Builder-EntryIDTargets');
   if (debug){
-    console.log("[DEBUG][LocalStorageClear] Cleared all user/page created keys - for Targets!");
+    console.log("[DEBUG][LocalStorageClear] Cleared all user/page created keys - for EntryIDTargets!");
   }
 }
 
@@ -825,18 +837,18 @@ function LocalStorageLoadMainKeys(debug=false){
         loadedEntries = true;
         isEntryEmpty = false;
 
-      } else if (key === "Builder-Targets"){
+      } else if (key === "Builder-EntryIDTargets"){
         debug = true; //BAD -- REMOVE!
         if (debug){
-          console.log("[DEBUG][LocalStorageLoadMainKeys] Loading Targets saved in 'Builder-Targets'!");
+          console.log("[DEBUG][LocalStorageLoadMainKeys] Loading EntryIDTargets saved in 'Builder-EntryIDTargets'!");
         }
 
-        var loadedStorage = localStorage.getItem('Builder-Targets');
+        var loadedStorage = localStorage.getItem('Builder-EntryIDTargets');
         var parsedTarget = JSON.parse(loadedStorage);
-        LoadArrayIntoTargets(parsedTarget, true);
-        LoadAllTargetsAsOptions(); //(true)
+        LoadArrayIntoEntryIDTargets(parsedTarget, true);
+        LoadAllEntryIDTargetsAsOptions(); //(true)
 
-        SetupAllTargets();
+        SetupAllEntryIDTargets();
       }
     }
   }
@@ -867,17 +879,17 @@ function LocalStorageEntriesSave(debug=false){
 
 }
 
-//10. localstorage - Save Targets
+//10. localstorage - Save EntryIDTargets
 //=======================
-function LocalStorageTargetsSave(debug=false){
-  var newTargetStr = TargetArrayStringifyAsJSON();
+function LocalStorageEntryIDTargetsSave(debug=false){
+  var newEntryIDTargetstr = TargetArrayStringifyAsJSON();
 
   if (debug){
-    console.log("[DEBUG][LocalStorageTargetsSave] Saving Targets to localstorage...");    
-    console.log("[DEBUG][LocalStorageTargetsSave] NewString: " + newTargetStr);
+    console.log("[DEBUG][LocalStorageEntryIDTargetsSave] Saving EntryIDTargets to localstorage...");    
+    console.log("[DEBUG][LocalStorageEntryIDTargetsSave] NewString: " + newEntryIDTargetstr);
   }
 
-  localStorage.setItem('Builder-Targets', newTargetStr);
+  localStorage.setItem('Builder-EntryIDTargets', newEntryIDTargetstr);
 
 }
 
