@@ -41,7 +41,7 @@ window.onload = function() {
 
   //1. Determine if LocalStorage's EntryTableArray[] is empty: (a) if not -- load, else -- print empty:
   var totalLSKeys = LocalStorageLoadMainKeys(); //LocalStorageLoadMainKeys(true)
-
+  console.log("[NOTICE] total LSKeys loaded: " + totalLSKeys);
   //2. Setup Page Elements
   SetupBracketDropDown();
 
@@ -539,17 +539,20 @@ function LoadArrayIntoEntry(PassedArray){ //Passed JSON Parsed from String
   }
 }
 
-function LoadEntryArrayIntoTable(debug=true){  // \" class=\"table table-striped\"><tbody id=\"TableEntryBody
+function LoadEntryArrayIntoTable(debug=false){  // \" class=\"table table-striped\"><tbody id=\"TableEntryBody
   if (debug){
     console.log("[DEBUG] [LoadEntryArrayIntoTable()] Started");
+    console.log("[DEBUG] [LoadEntryArrayIntoTable()]     EntryTableArray.length: " + EntryTableArray.length);
   }
-  document.getElementById("EntriesContainer").innerHTML = "<table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"TableEntryBody\"></tbody></table>";
+  document.getElementById("EntriesContainer").innerHTML = "<br><br><table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"TableEntryBody\"></tbody></table>";
 
   for (var j = 0; j < EntryTableArray.length; j++) {
     var row = document.createElement("tr");
     var cell = document.createElement("td");
 
-    cell.innerHTML = EntryTableArray[j];
+    // cell.innerHTML = EntryTableArray[j];
+    safeCurrentStr = EntryTableArray[j].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    cell.innerHTML = safeCurrentStr;
     row.appendChild(cell);
 
     document.getElementById("TableEntryTable").appendChild(row);
@@ -562,6 +565,7 @@ function LoadEntryArrayIntoTable(debug=true){  // \" class=\"table table-striped
   if (debug){
     console.log("[DEBUG] [LoadEntryArrayIntoTable()] DONE!!!");
   }
+
 }
 
 function LoadArrayIntoEntryIDTargets(PassedArray, debug=false){ //Passed JSON Parsed from String
@@ -716,7 +720,7 @@ function LocalStorageClearEntryIDTargetsOnly(debug=false){
 
 //9. localstorage - Get Total Keys
 //=======================
-function LocalStorageLoadMainKeys(debug=true){
+function LocalStorageLoadMainKeys(debug=false){
   var totalKeys=0;
 
   var loadedEntries = false;
