@@ -18,8 +18,8 @@
 
 // var isEntryEmpty = true;
 var isEntryEmpty = true;
-var oldEntry = [];
-var Entry = [];
+var oldEntryTableArray = [];
+var EntryTableArray = [];
 
 var objects = [
   ["", "", "", ""],
@@ -39,7 +39,7 @@ var EntryIDTargets = [];
 window.onload = function() {
   //BAD: LocalStorageClear(true);
 
-  //1. Determine if LocalStorage's Entry[] is empty: (a) if not -- load, else -- print empty:
+  //1. Determine if LocalStorage's EntryTableArray[] is empty: (a) if not -- load, else -- print empty:
   var totalLSKeys = LocalStorageLoadMainKeys(); //LocalStorageLoadMainKeys(true)
 
   //2. Setup Page Elements
@@ -249,7 +249,7 @@ function ClearEntry() {
   }
   document.getElementById("EntriesContainer").innerHTML = "<br><br><div id=\"EntryTableDiv\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
 
-  Entry = [];
+  EntryTableArray = [];
   LocalStorageClearEntriesOnly();
 }
 
@@ -442,7 +442,7 @@ function EntryIt(debug=true) {
 
   newEntry = PrepareEntry();
 
-  Entry.push(newEntry);
+  EntryTableArray.push(newEntry);
 
   var row = document.createElement("tr");
   var cell = document.createElement("td");
@@ -476,8 +476,8 @@ function RemoveLastEntry(debug=true) {
     return;
   }
 
-  Entry.pop();
-  if (Entry.length > 0){
+  EntryTableArray.pop();
+  if (EntryTableArray.length > 0){
     var table = document.getElementById('TableEntryTable');
     table.removeChild(table.children[table.children.length - 1]);
 
@@ -507,7 +507,7 @@ function TargetArrayStringifyAsJSON(){
 //2. Prep Entries as JSON String
 //=========================
 function EntriesStringifyAsJSON(){
-  return JSON.stringify(Entry);
+  return JSON.stringify(EntryTableArray);
 }
 
 //3. Export - EntryIDTargets (JSON)
@@ -533,9 +533,9 @@ function ExportEntryToJson() {
 /////////////////////////////////
 
 function LoadArrayIntoEntry(PassedArray){ //Passed JSON Parsed from String
-  Entry = [];
+  EntryTableArray = [];
   for (var i = 0; i < PassedArray.length; i++) {
-    Entry.push(PassedArray[i]);
+    EntryTableArray.push(PassedArray[i]);
   }
 }
 
@@ -545,17 +545,17 @@ function LoadEntryArrayIntoTable(debug=true){  // \" class=\"table table-striped
   }
   document.getElementById("EntriesContainer").innerHTML = "<table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"TableEntryBody\"></tbody></table>";
 
-  for (var j = 0; j < Entry.length; j++) {
+  for (var j = 0; j < EntryTableArray.length; j++) {
     var row = document.createElement("tr");
     var cell = document.createElement("td");
 
-    cell.innerHTML = Entry[j];
+    cell.innerHTML = EntryTableArray[j];
     row.appendChild(cell);
 
     document.getElementById("TableEntryTable").appendChild(row);
        
     if (debug){
-      console.log("[DEBUG] [LoadEntryArrayIntoTable()]     Loaded Entry: '"+Entry[j]+"'");
+      console.log("[DEBUG] [LoadEntryArrayIntoTable()]     Loaded Entry: '"+EntryTableArray[j]+"'");
     }
   }
 
@@ -625,7 +625,7 @@ function LoadAllEntryIDTargetsAsOptions(debug=false){ //this vs. SetupEntryIDTar
 //5. Import - Entries (JSON)
 //=======================
 function ImportJsonToEntry(){
-  //(a) Take provided file (and ONLY one file, if multiple files passed), (b) load content into Entry[] array, (c) load into <table>, (d) then check if valid.
+  //(a) Take provided file (and ONLY one file, if multiple files passed), (b) load content into EntryTableArray[] array, (c) load into <table>, (d) then check if valid.
   var file_to_read = document.getElementById("fileInputEntry").files[0];
   var fileread = new FileReader();
 
@@ -633,16 +633,16 @@ function ImportJsonToEntry(){
     var content = e.target.result;
     var parsedEntry = JSON.parse(content);
 
-    //(b) - Load content into Entry[]
+    //(b) - Load content into EntryTableArray[]
     LoadArrayIntoEntry(parsedEntry);
 
-    //(c) - load Entry[] entries into <table>
+    //(c) - load EntryTableArray[] entries into <table>
     LoadEntryArrayIntoTable();
 
     //(d) - Check if load was valid/successful
-    if (Entry.length > 0) {
+    if (EntryTableArray.length > 0) {
       isEntryEmpty = false;
-      alert("Successfully loaded '"+ Entry.length +"' Entries!");
+      alert("Successfully loaded '"+ EntryTableArray.length +"' Entries!");
 
       LocalStorageEntriesSave();
 
@@ -741,7 +741,7 @@ function LocalStorageLoadMainKeys(debug=true){
         if (debug){
           // console.log("[DEBUG][LocalStorageLoadMainKeys()] Loaded string <" + storedEntries + ">");
           console.log("[DEBUG][LocalStorageLoadMainKeys()] Parsed string <" + parsedEntry + ">");
-          console.log("[DEBUG][LocalStorageLoadMainKeys()] Loaded '" + Entry.length + "' Entries");
+          console.log("[DEBUG][LocalStorageLoadMainKeys()] Loaded '" + EntryTableArray.length + "' Entries");
         }
 
         LoadEntryArrayIntoTable();
