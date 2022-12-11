@@ -13,6 +13,8 @@
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <script src="./jquery.3-3-1.min.js"></script>
 
+    <script src="./BuilderLib.js"></script>
+
     <style>
       body {
         padding-top: 2%;
@@ -165,7 +167,15 @@
       ScratchPad.innerHTML += nodeString.innerHTML + " \n";
       ScratchPad.innerHTML = ScratchPad.innerHTML.replace(/\n\r?/g, '<br />');
     }
-  </script>
+
+    window.onload = function() {
+      //BAD: LocalStorageClear(true);
+
+      //1. Determine if LocalStorage's Log[] is empty: (a) if not -- load, else -- print empty:
+      var totalLSKeys = LocalStorageLoadMainKeys(true); //LocalStorageLoadMainKeys(true)
+    }
+
+</script>
 
   <script>
     var loadedConfigJSONData;
@@ -565,7 +575,12 @@
   <hr>
     <h1>Scratch Pad</h1>
     <p id="ScratchPad"></p>
+    <form>
+      <input type="button" onclick="RemoveLastLog()" value="Remove Last Log">
+    </form>
   <hr>
+
+
 
   </body>
 </html>
