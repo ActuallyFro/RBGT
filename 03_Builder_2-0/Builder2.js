@@ -12,25 +12,6 @@
 // V. Import/Export
 //////////////////////////////////////
 
-//////////////////////////////////////
-// LocalStorage Plan:
-// ------------------
-// 0. Add in hooks to check for existing content, and load as appropriate... {#0} |< DONE >|
-//   a. load Entries <import like Entry file import/load> {#a}
-//   b. load EntryIDTargets <import like TARGET file import/load> {#b}
-// 1. objects -- N/A, since these are static/look-ups
-// 2. EntryIDTargets -- yes (curretly are exported too)  {#2}
-//   a. Needs a reset option {#a}
-//   b. LocalStorage then needs to be added {#b} <WHEN a NEW target is added -- export list>
-// (REMOVED) 3. ledger -- no (these are dynamically built, treated as draft, when an entry is considered valid -- it moves to a Entry)
-// 4. Entries -- yes (curretly are exported too) {#1}
-//   a. LocalStorage needs to be added to reset {#a}  <WHEN a NEW Entry is added -- export list>
-//
-// Other LocalStorage issues
-// -------------------------
-// i. Showing total storage percent in navigation menu
-//
-//////////////////////////////////////
 
 //////////////////////////////////////
 // I. Vars and Lookups
@@ -48,8 +29,6 @@ var objects = [
 ];
 
 var EntryIDTargets = [];
-
-// var Lastobjectsize = 0;
 //////////////////////////////////////
 
 //////////////////////////////////////
@@ -199,41 +178,6 @@ function SetupEntryIDTargetsBasedOnBracketPick(SelectedBracket, debug=false){
       document.getElementById("SelectionMenuOption").innerHTML = "<u><b>Graph - Node Options:</b></u>";
 
       document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"form-group\" id=\"OptionAttributeEntryGraphNodeDivGroup\">";
-
-      //TOOLTIP:
-      // document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"tooltip\"><h3><label for=\"dynamicNodeDataFields\">Data Tag(s):</label></h3>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "  <span class=\"tooltiptext\"><u>The .gxl file has 3 main node items: </u>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    1) Element Name (id)- the reference for edges";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    2) Name Key - (nameNode) - human readable name";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    3) Description Key (descriptionNode)- HTML Optional, details about the node";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <b>Example:</b>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <b>1) id: boss_01_Andariel </b>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <b>2) key \"nameNode\": Andariel </b>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <b>3) key \"descriptionNode\": &lt;![CDATA[ <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;ul style=\"list-style-type:disc\"&gt; <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;li&gt;Lessor Evil: Maiden of Anguish&lt;/li&gt; <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;li&gt;Once overthrew the three Prime Evils&lt;/li&gt; <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;/ul&gt; <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "      <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "      &lt;p&gt;Source: http://classic.battle.net/diablo2exp/monsters/act1-andariel.shtml&lt;/p&gt;<br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "        ]]&gt;";
-
-      // document.getElementById("SelectionMenuOption").innerHTML += "    </b>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "    <br>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "  </span>";
-      // document.getElementById("SelectionMenuOption").innerHTML += "</div>";
 
       document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"OptionAttributeEntryGraphNodeFieldsDynamic\">";
       document.getElementById("SelectionMenuOption").innerHTML += "  <!-- Source: https://www.codexworld.com/add-remove-input-fields-dynamically-using-jquery/ -->";
@@ -458,7 +402,7 @@ function EntryIt(debug=true) {
 
   if (isEntryEmpty){
     isEntryEmpty = false;
-    document.getElementById("EntriesContainer").innerHTML = "<table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"TableEntryBody\"></tbody></table>";
+    document.getElementById("EntriesContainer").innerHTML = "<br><br><table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"TableEntryBody\"></tbody></table>";
     //console.log("[DEBUG] [EntryIt()] Entries table created");
   } 
 
@@ -525,71 +469,6 @@ function RemoveLastEntry(debug=true) {
     ClearEntry();
   }
 }
-
-//Auto-deterines last bracket, and it's terminating bracket; then 'inserts' past string between the string-thru-terminating-bracket and the terminal-bracket
-// In short: DEALS with "insert into the last-placed-bracket" 
-function addLedgerStringInnerBracket(PassedString){
-  var obj = document.getElementById("ledger");
-
-  var tempLedger = obj.value.slice(0,obj.value.length-LastBracketWidth);
-  var tempLedgerLastChar = obj.value.slice(-LastBracketWidth,obj.value.length);
-  obj.value = tempLedger + PassedString + tempLedgerLastChar;
-
-  console.log("[DEBUG] [addLedgerStringInnerBracket()] Ledger: '" + obj.value + "'");
-
-  //Any impacts of "isInnerBracketToggled" == true ? <-- NO
-
-  // //Modify Activites are ALWAYS inner-bracket item; to save user click(s) this check will auto-toggle the next entry to be an innerbracket action
-  // if (PassedString == ";;"){
-  //   ToggleEnableInnerbracket();
-  // }
-
-}
-
-function addLedgerStringAtEnd(PassedString){
-  var obj = document.getElementById("ledger");
-  obj.value += PassedString;
-
-  console.log("[DEBUG] [addLedgerStringAtEnd()] Ledger: '" + obj.value + "'");
-}
-
-// function addLedgerStringAtEndBracket(PassedString){
-//   var obj = document.getElementById("ledger");
-//   obj.value += PassedString;
-
-//TODO: bracket Left/Right side determination to then have: Left + Passed + Right....
-
-//   console.log("[DEBUG] [addLedgerStringAtEndBracket()] Ledger: '" + obj.value + "'");
-// }
-
-// function ToggleDisableAutobracket(){
-//   //console.log("[DEBUG] [ToggleDisableAutobracket()]");
-//   document.getElementById("toggleAutobracket").checked = false;
-//   isAutoBracketToggled = false;
-// }
-
-// function ToggleEnableAutobracket(){
-//   //console.log("[DEBUG] [ToggleEnableAutobracket()]");
-//   document.getElementById("toggleAutobracket").checked = true;
-//   isAutoBracketToggled = true;
-// }
-
-// function ToggleDisableInnerbracket(){
-//   //console.log("[DEBUG] [ToggleDisableInnerbracket()]");
-//   document.getElementById("toggleInnerbracket").checked = false;
-//   isInnerBracketToggled = false;
-  
-// }
-
-// function ToggleEnableInnerbracket(){
-//   //console.log("[DEBUG] [ToggleEnableInnerbracket()]");
-//   document.getElementById("toggleInnerbracket").checked = true;
-//   isInnerBracketToggled = true;
-// }
-
-
-
-
 //////////////////////////////////////
 
 //////////////////////////////////////
@@ -606,7 +485,6 @@ function TargetArrayStringifyAsJSON(){
 function EntriesStringifyAsJSON(){
   return JSON.stringify(Entry);
 }
-
 
 //3. Export - EntryIDTargets (JSON)
 //=========================
@@ -628,7 +506,6 @@ function ExportEntryToJson() {
 
   saveAs(blob, "GSL_Entry_"+textIso+".json");
 }
-
 /////////////////////////////////
 
 function LoadArrayIntoEntry(PassedArray){ //Passed JSON Parsed from String
@@ -692,7 +569,6 @@ function LoadAllEntryIDTargetsAsOptions(debug=false){ //this vs. SetupEntryIDTar
       }
   
       document.getElementById("OptionAttributeEntryIDList").appendChild(option);
-      // document.getElementById("TargetButtons").innerHTML += "<button type=\"button\" class=\"btn btn-secondary\" onclick=\"addLedgerStringInnerBracket('"+safeStr+ "')\">" + EntryIDTargets[j][0] + "</button>";
 
     //   if (hasTwoEntryIDTargets){
     //     currentTarget = secondaryTarget;
