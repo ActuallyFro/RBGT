@@ -380,8 +380,49 @@ function AddObject(debug=true) {
   // obj.setSelectionRange(obj.value.length, obj.value.length);
 }
 
-function PrepareEntry(){
-  var finalEntry = "{NONE PROCESSED!}";
+function PrepareEntryGraphEdge(debug=true){
+  var finalEntry = "";
+
+  // Example: <edge id="WithinSystem" source="PlanetEarth" target="SystemSol"/>
+  var EntryID = document.getElementById("OptionAttributeEntryID").value;
+  var source = document.getElementById("OptionAttributeEntryGraphEdgeFieldSource").value;
+  var target = document.getElementById("OptionAttributeEntryGraphEdgeFieldTarget").value;
+
+  if (debug){
+    console.log("[DEBUG] [PrepareEntryGraphEdge()] Started");
+    console.log("[DEBUG] [PrepareEntryGraphEdge()]     EntryID: " + EntryID);
+    console.log("[DEBUG] [PrepareEntryGraphEdge()]     Source: " + source);
+    console.log("[DEBUG] [PrepareEntryGraphEdge()]     Target: " + target);
+  }
+
+  finalEntry = "<edge id=\"" + EntryID + "\" source=\"" + source + "\" target=\"" + target + "\"/>";
+
+  if (debug){
+    console.log("[DEBUG] [PrepareEntryGraphEdge()] Final Entry: " + finalEntry);
+  }
+
+  return finalEntry;
+}
+
+function PrepareEntry(debug=true){
+  var finalEntry = "";
+
+  type = document.getElementById("hiddenGlobalObjectType").value;
+  if (debug){
+    console.log("[DEBUG] [PrepareEntry()] Started");
+    console.log("[DEBUG] [PrepareEntry()] Type: " + type);
+  }
+
+
+  if (type == "GraphEdge"){
+    finalEntry = PrepareEntryGraphEdge();
+
+  } else if (type == "GraphNode"){
+    finalEntry = PrepareEntryGraphNode();
+
+  } else {
+    finalEntry = "{NONE PROCESSED!}";
+  }
 
   return finalEntry;
 }
@@ -389,16 +430,6 @@ function PrepareEntry(){
 //3. EntryIt 
 //===========
 function EntryIt(debug=true) {
-  type = document.getElementById("hiddenGlobalObjectType").value;
-  if (debug){
-    console.log("[DEBUG] [EntryIt()] Started");
-    console.log("[DEBUG] [EntryIt()] Type: " + type);
-  }
-
-  //Used in the ledger system...
-  // if (isEntryEmpty){
-  //   AddObject(); //Auto-ledger then Entry it
-  // }
 
   if (isEntryEmpty){
     isEntryEmpty = false;
@@ -406,19 +437,11 @@ function EntryIt(debug=true) {
     //console.log("[DEBUG] [EntryIt()] Entries table created");
   } 
 
-  // var obj = document.getElementById("ledger");
-  // var currentLedger = document.getElementById("ledger").value;
-  //MASSIVE array,  depending on type, and details of entries...
-
   newEntry = PrepareEntry();
 
-  //TODO: remove 'Entry' IF it was only used for ledger...
   Entry.push(newEntry);
 
-
-
   var row = document.createElement("tr");
-
   var cell = document.createElement("td");
   safeCurrentStr = newEntry.replace(/</g, "&lt;").replace(/>/g, "&gt;");
   cell.innerHTML = safeCurrentStr;
@@ -426,8 +449,6 @@ function EntryIt(debug=true) {
   document.getElementById("TableEntryTable").appendChild(row);
 
   CheckAndAddTarget();
-  // ClearTag();
-  // ClearTarget();
 
   LocalStorageEntriesSave();
 
