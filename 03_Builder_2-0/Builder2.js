@@ -435,6 +435,9 @@ function EntryIt(debug=true) {
     isEntryEmpty = false;
     document.getElementById("EntriesContainer").innerHTML = "<br><br><table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"TableEntryBody\"></tbody></table>";
     //console.log("[DEBUG] [EntryIt()] Entries table created");
+    if (debug){
+      console.log("[DEBUG] [EntryIt()] {Empty} Table for Entries! Creating new table!");
+    }
   } 
 
   newEntry = PrepareEntry();
@@ -536,8 +539,12 @@ function LoadArrayIntoEntry(PassedArray){ //Passed JSON Parsed from String
   }
 }
 
-function LoadEntryArrayIntoTable(){  // \" class=\"table table-striped\"><tbody id=\"TableEntryBody
+function LoadEntryArrayIntoTable(debug=true){  // \" class=\"table table-striped\"><tbody id=\"TableEntryBody
+  if (debug){
+    console.log("[DEBUG] [LoadEntryArrayIntoTable()] Started");
+  }
   document.getElementById("EntriesContainer").innerHTML = "<table id=\"TableEntryTable\" class=\"table table-striped\"><tbody id=\"TableEntryBody\"></tbody></table>";
+
   for (var j = 0; j < Entry.length; j++) {
     var row = document.createElement("tr");
     var cell = document.createElement("td");
@@ -545,7 +552,15 @@ function LoadEntryArrayIntoTable(){  // \" class=\"table table-striped\"><tbody 
     cell.innerHTML = Entry[j];
     row.appendChild(cell);
 
-    document.getElementById("TableEntryTable").appendChild(row);      
+    document.getElementById("TableEntryTable").appendChild(row);
+       
+    if (debug){
+      console.log("[DEBUG] [LoadEntryArrayIntoTable()]     Loaded Entry: '"+Entry[j]+"'");
+    }
+  }
+
+  if (debug){
+    console.log("[DEBUG] [LoadEntryArrayIntoTable()] DONE!!!");
   }
 }
 
@@ -701,7 +716,7 @@ function LocalStorageClearEntryIDTargetsOnly(debug=false){
 
 //9. localstorage - Get Total Keys
 //=======================
-function LocalStorageLoadMainKeys(debug=false){
+function LocalStorageLoadMainKeys(debug=true){
   var totalKeys=0;
 
   var loadedEntries = false;
@@ -710,34 +725,33 @@ function LocalStorageLoadMainKeys(debug=false){
     if(window.localStorage.hasOwnProperty(key)){ //aka: NOT inherited; otherwise ALL defaults counted (e.g., length, clear, get, remove, set, etc.)
       totalKeys++;
       if (debug){
-        console.log("[DEBUG][LocalStorageLoadMainKeys] Found key: '" + key + "'");
-        console.log( key + " = " + ((window.localStorage[key].length * 16)/(8 * 1024)).toFixed(2) + ' KB' );
-      }  
+        console.log("[DEBUG][LocalStorageLoadMainKeys()] Found key: '" + key + "'");
+        console.log("[DEBUG][LocalStorageLoadMainKeys()]     " + key + " = " + ((window.localStorage[key].length * 16)/(8 * 1024)).toFixed(2) + ' KB' );
+      }
+
       if (key === "Builder-Entries"){
         if (debug){
-          console.log("[DEBUG][LocalStorageLoadMainKeys] Loading Entries saved in 'Builder-Entries'!");
+          console.log("[DEBUG][LocalStorageLoadMainKeys()] Loading Entries saved in 'Builder-Entries'!");
         }
         
-        //Load content into Entry[]
         var storedEntries = localStorage.getItem('Builder-Entries');
         var parsedEntry = JSON.parse(storedEntries);
         LoadArrayIntoEntry(parsedEntry);
+
         if (debug){
-          console.log("[DEBUG][LocalStorageLoadMainKeys] Loaded string <" + storedEntries + ">");
-          console.log("[DEBUG][LocalStorageLoadMainKeys] Parsed string <" + parsedEntry + ">");
-          console.log("[DEBUG][LocalStorageLoadMainKeys] Loaded '" + Entry.length + "' Entries");
+          // console.log("[DEBUG][LocalStorageLoadMainKeys()] Loaded string <" + storedEntries + ">");
+          console.log("[DEBUG][LocalStorageLoadMainKeys()] Parsed string <" + parsedEntry + ">");
+          console.log("[DEBUG][LocalStorageLoadMainKeys()] Loaded '" + Entry.length + "' Entries");
         }
 
-        //(c) - load Entry[] entries into <table>
         LoadEntryArrayIntoTable();
 
         loadedEntries = true;
         isEntryEmpty = false;
 
       } else if (key === "Builder-EntryIDTargets"){
-        debug = true; //BAD -- REMOVE!
         if (debug){
-          console.log("[DEBUG][LocalStorageLoadMainKeys] Loading EntryIDTargets saved in 'Builder-EntryIDTargets'!");
+          console.log("[DEBUG][LocalStorageLoadMainKeys()] Loading EntryIDTargets saved in 'Builder-EntryIDTargets'!");
         }
 
         var loadedStorage = localStorage.getItem('Builder-EntryIDTargets');
@@ -753,7 +767,7 @@ function LocalStorageLoadMainKeys(debug=false){
   if (!loadedEntries){
     debug = true; //BAD -- REMOVE!
     if (debug){
-      console.log("[DEBUG][LocalStorageLoadMainKeys] NO entries -- showing empty table!");
+      console.log("[DEBUG][LocalStorageLoadMainKeys()] NO entries -- showing empty table!");
     }
 
     document.getElementById("EntriesContainer").innerHTML = "<br><br><div id=\"EntriesStatus\" style=\"background-color:rgba(178, 178, 188, 0.571);\"><h2><i>{Entries are empty}</i></h2></div>";
