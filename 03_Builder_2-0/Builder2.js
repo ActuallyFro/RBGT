@@ -440,6 +440,65 @@ function PrepareEntryGraphEdge(debug=true){
   return finalEntry;
 }
 
+
+
+
+function PrepareEntryGraphNode(debug=true){
+  if (debug){
+    console.log("[DEBUG] [PrepareEntryGraphNode()] Started");
+  }
+
+  var finalEntry = "{NO ENTRY!}";
+
+  var EntryID = document.getElementById("OptionAttributeEntryID").value;
+
+  // var nodeDataValues = "";
+  // var nodeDataKeys = ""; 
+
+  // nodeDataKeysArray = document.getElementsByName("fieldNodeKeyVal");
+  // nodeDataValuesArray = document.getElementsByName("fieldNodeDataVal");
+
+  finalEntry = "<node id=\""+ EntryID +"\">\n";
+
+  //TODO: Migrate
+  // if(nodeDataKeysArray.length > 0 && nodeDataValuesArray.length > 0) {
+  //   for(var index=0; index < nodeDataKeysArray.length; index++) {
+  //     nodeString.textContent += "\t<data key=\""+nodeDataKeysArray[index].value+"\">";
+
+  //     if ( nodeDataKeysArray[index].value == "descriptionNode"){
+  //       nodeString.textContent += "<![CDATA[\n";
+        
+  //       var textareaBuffer = nodeDataValuesArray[index].value;
+
+  //       var textareaLines = textareaBuffer.split("\n");
+  //       for(var lineIndex=0; lineIndex < textareaLines.length; lineIndex++) {
+  //         textareaLines[lineIndex] = "\t\t" + textareaLines[lineIndex];
+  //       }
+  //       nodeString.textContent += textareaLines.join("\n");
+
+  //       nodeString.textContent += "\n\t]]></data>\n";
+
+  //     } else {
+  //       nodeString.textContent += nodeDataValuesArray[index].value;
+  //       nodeString.textContent +="</data>\n";
+  //     }
+
+  //   }
+
+  // } else {
+  //   nodeString.textContent += "\t<data key=\"\"> EMPTY! </data>\n";
+  // }
+
+  finalEntry += "</node\> \n\n";
+
+  if (debug){
+    console.log("[DEBUG] [PrepareEntryGraphNode()] Final Entry: " + finalEntry);
+  }
+  
+  return finalEntry;
+}
+
+
 function PrepareEntry(debug=true){
   var finalEntry = "";
 
