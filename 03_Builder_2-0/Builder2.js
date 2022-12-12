@@ -58,51 +58,84 @@ window.onload = function() {
   // SetupWatcherUserTogglesAutoBracket();
   // SetupWatcherUserTogglesInnerBracket(); 
   SetupWatcherUserTogglesSettingDarkMode(); 
-}
-
-function SetupObjectGraphNodeListenerAdd(){
-  var wrapper = document.getElementsByClassName("dynamicNodeDataFields"); //Input field wrapper
-
-  // var addButton = $('.add_button'); //Add button selector
-  var fieldHTML = '<div class="dynamicNodeDataFields">\
-                    <div>\
-                    <label for="fieldNodeKeyVal">Key</label>\
-                    <input type="text" name="fieldNodeKeyVal" value=""/>\
-                    <label for="fieldNodeDataVal">Value</label>\
-                    <textarea name="fieldNodeDataVal" placeholder=""></textarea>\
-                    <a href="javascript:void(0);" class="remove_button"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-minus\" viewBox=\"0 0 16 16\"><path d=\"M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z\"/><path d=\"M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z\"/></svg></a>\
-                    </div>\
-                  </div>'; //New input field html 
-
-  document.getElementsByClassName("add_button").addEventListener("change", function() {
-    if(x < maxField){ 
-      x++; //Increment field counter
-      $(wrapper).append(fieldHTML); //Add field html
-    }
-  });
-}
-
-function SetupObjectGraphNodeListenerRemove(){
-  var wrapper = document.getElementsByClassName("dynamicNodeDataFields"); //Input field wrapper
-
-  document.getElementsByClassName("remove_button").addEventListener("change", function() {
-    $(wrapper).on('click', '.', function(e){
-      e.preventDefault();
-      $(this).parent('div').remove(); //Remove field html
-      x--; //Decrement field counter
-    });
-  });
 
 }
+
+// function SetupObjectGraphNodeListenerAdd(){
+//   var wrapper = document.getElementsByClassName("dynamicNodeDataFields"); //Input field wrapper
+
+//   // var addButton = $('.add_button'); //Add button selector
+//   var fieldHTML = '<div class="dynamicNodeDataFields">\
+//                     <div>\
+//                     <label for="fieldNodeKeyVal">Key</label>\
+//                     <input type="text" name="fieldNodeKeyVal" value=""/>\
+//                     <label for="fieldNodeDataVal">Value</label>\
+//                     <textarea name="fieldNodeDataVal" placeholder=""></textarea>\
+//                     <a href="javascript:void(0);" class="remove_button"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-minus\" viewBox=\"0 0 16 16\"><path d=\"M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z\"/><path d=\"M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z\"/></svg></a>\
+//                     </div>\
+//                   </div>'; //New input field html 
+
+//   document.getElementsByClassName("add_button").addEventListener("change", function() {
+//     if(x < maxField){ 
+//       x++; //Increment field counter
+//       $(wrapper).append(fieldHTML); //Add field html
+//     }
+//   });
+// }
+
+// function SetupObjectGraphNodeListenerRemove(){
+//   var wrapper = document.getElementsByClassName("dynamicNodeDataFields"); //Input field wrapper
+
+//   document.getElementsByClassName("remove_button").addEventListener("change", function() {
+//     $(wrapper).on('click', '.', function(e){
+//       e.preventDefault();
+//       $(this).parent('div').remove(); //Remove field html
+//       x--; //Decrement field counter
+//     });
+//   });
+
+// }
 
 
 function SetupObjectGraphNode(){
   if (!isSetupGraphNode){
-    var maxField = 10; //Input fields increment limitation
-    var x = 1; //Initial field counter is 1
+    //jQuery!
+    $(document).ready(function(){
+      var maxField = 10; //Input fields increment limitation
+      var addButton = $('.add_button'); //Add button selector
+      var wrapper = $('.OptionAttributeEntryGraphNodeFieldsDynamic'); //Input field wrapper
+      var fieldHTML = '<div> \
+                        <label for="fieldNodeKeyVal">Key</label>\
+                        <input type="text" name="fieldNodeKeyVal" value=""/>\
+                        <label for="fieldNodeDataVal">Value</label>\
+                        <textarea name="fieldNodeDataVal" placeholder=""></textarea>\
+                        <a href="javascript:void(0);" class="remove_button"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-minus\" viewBox=\"0 0 16 16\"><path d=\"M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z\"/><path d=\"M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z\"/></svg></a>\
+                        </div>'; //New input field html 
+      var x = 1; //Initial field counter is 1
+      
+      //Once add button is clicked
+      $(addButton).click(function(){
+          //Check maximum number of input fields
+          if(x < maxField){ 
+              x++; //Increment field counter
+              $(wrapper).append(fieldHTML); //Add field html
+          }
+      });
+      
+      //Once remove button is clicked
+      $(wrapper).on('click', '.remove_button', function(e){
+          e.preventDefault();
+          $(this).parent('div').remove(); //Remove field html
+          x--; //Decrement field counter
+      });
+    });
+
+
+
     isSetupGraphNode = true;
-    SetupObjectGraphNodeListenerAdd();
-    SetupObjectGraphNodeListenerRemove();
+    // SetupObjectGraphNodeListenerAdd();
+    // SetupObjectGraphNodeListenerRemove();
+    
   }    
 }
 
@@ -243,10 +276,7 @@ function SetupEntryIDTargetsBasedOnBracketPick(SelectedBracket, debug=false){
       document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" name=\"OptionAttributeEntryGraphNodeFieldKeyVal\" value=\"\"/>";
       document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"OptionAttributeEntryGraphNodeFieldDataVal\">Value</label>";
       document.getElementById("SelectionMenuOption").innerHTML += "    <textarea name=\"OptionAttributeEntryGraphNodeFieldDataVal\" placeholder=\"\"></textarea>";
-      document.getElementById("SelectionMenuOption").innerHTML += "      <a href=\"javascript:void(0);\" class=\"add_button\" title=\"Add field\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-plus\" viewBox=\"0 0 16 16\">";
-      document.getElementById("SelectionMenuOption").innerHTML += "        <path d=\"M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z\"/>";
-      document.getElementById("SelectionMenuOption").innerHTML += "        <path d=\"M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z\"/>";
-      document.getElementById("SelectionMenuOption").innerHTML += "      </svg></a>";
+      document.getElementById("SelectionMenuOption").innerHTML += "      <a href=\"javascript:void(0);\" class=\"add_button\" title=\"Add field\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-plus\" viewBox=\"0 0 16 16\"><path d=\"M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z\"/><path d=\"M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z\"/></svg></a>";
       document.getElementById("SelectionMenuOption").innerHTML += "  </div>";
       document.getElementById("SelectionMenuOption").innerHTML += "</div>";
       document.getElementById("SelectionMenuOption").innerHTML += "</div>  ";
