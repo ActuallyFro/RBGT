@@ -306,18 +306,14 @@ function ClearGraphEntryEdge(debug=false){
 }
 
 
-//5. Clear - Tag
-//=============
-// function ClearTag() {
-//   document.getElementById("BracketDropDown").value = "";
-// }
-
-//6. Clear - Target
+//5. Clear - A last Entry
 //================
 function ClearObjectsEntry() {
   document.getElementById("OptionAttributeEntryID").value = "";
 }
 
+//6. Clear - ALL Entries
+//================
 function ClearTargetArray() {
   if (EntryIDTargets.length === 0) {
     return;
