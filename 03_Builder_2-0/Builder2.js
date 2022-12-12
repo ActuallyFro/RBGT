@@ -771,7 +771,7 @@ function DiscoverAttributeKeys(GXLDataType, debug=false){
 
 function LoadAttributeKeys(foundAttributeKeys, GXLDataType, debug=false){
   if (foundAttributeKeys == null){
-    console.log("[WARNING] [LoadAttributeKeys()] foundAttributeKeys is null! Skipping Table Load...");
+    console.log("[WARNING] [LoadAttributeKeys()] foundAttributeKeys is null! Skipping Table Load for " + GXLDataType + "...");
     return;
   }
 
@@ -812,9 +812,21 @@ function DiscoverAndLoadAttributeKeysIntoTable(debug=false){
     return;
   }
 
+  var foundAttributeKeysAll = [];
+  foundAttributeKeysAll = DiscoverAttributeKeys("all");
+  LoadAttributeKeys(foundAttributeKeysAll, "all");
+
+  var foundAttributeKeysGraph = [];
+  foundAttributeKeysGraph = DiscoverAttributeKeys("graph");
+  LoadAttributeKeys(foundAttributeKeysGraph, "graph");
+
   var foundAttributeKeysNodes = [];
   foundAttributeKeysNodes = DiscoverAttributeKeys("node");
   LoadAttributeKeys(foundAttributeKeysNodes, "node");
+
+  var foundAttributeKeysEdges = [];
+  foundAttributeKeysEdges = DiscoverAttributeKeys("edge");
+  LoadAttributeKeys(foundAttributeKeysEdges, "edge");
 
   if (debug){
     console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()] DONE!!!");
