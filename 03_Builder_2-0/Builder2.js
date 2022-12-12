@@ -568,6 +568,7 @@ function EntryIt(debug=true) {
   CheckAndAddTarget();
 
   LocalStorageEntriesSave();
+  DiscoverAndLoadAttributeKeysIntoTable();
 
   if (debug){
     console.log("[DEBUG] [EntryIt()] DONE!!!");
@@ -596,6 +597,7 @@ function RemoveLastEntry(debug=true) {
     table.removeChild(table.children[table.children.length - 1]);
 
     LocalStorageEntriesSave();
+    DiscoverAndLoadAttributeKeysIntoTable();
     if (debug){
       console.log("[DEBUG] [RemoveLastEntry()] Removed entry & saved entries!");
     }
@@ -685,6 +687,112 @@ function LoadEntryArrayIntoTable(debug=false){  // \" class=\"table table-stripe
 
 }
 
+function DiscoverAndLoadAttributeKeysIntoTable(debug=false){
+  var foundDataTags = [];
+  if (debug){
+    console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()] Started");
+  }
+
+  document.getElementById("AttributeKeysContainer").innerHTML = "<br><br><table id=\"TableAttributeKeys\" class=\"table table-striped\"><tbody id=\"AttributeKeysBody\"></tbody></table>";
+
+  if (EntryTableArray.length == 0){
+    if (debug){
+      console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()] {Empty Ledger}! NO Action!");
+    }
+    return;
+  }
+
+  
+  for (var k = 0; k < EntryTableArray.length; k++) {
+    var row = document.createElement("tr");
+    var cell = document.createElement("td");
+
+    var currentStr = EntryTableArray[k];
+
+    //determine if <node is in 'currentStr', if not, skip
+    if (currentStr.indexOf("<node") == -1){
+      if (debug){
+        console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()]     Skipping Entry: '"+currentStr+"'");
+      }
+      continue;
+    }
+
+    //find all substrings between '<data' and '</data>', place into foundDataTags[]
+    var start = 0;
+    var end = 0;
+    while (start != -1){
+      start = currentStr.indexOf("<data", end);
+      end = currentStr.indexOf("</data>", start);
+      if (start != -1){
+        foundDataTags.push(currentStr.substring(start, end+7));
+      }
+    }
+  }
+
+  if (debug){
+    console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()]     foundDataTags.length: " + foundDataTags.length);
+    console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()]     foundDataTags: " + foundDataTags);
+  }
+
+  var foundAttributeKeys = [];
+  //find all substrings between 'key="' and '"', place into foundAttributeKeys[]
+  for (var l = 0; l < foundDataTags.length; l++) {
+    var start = 0;
+    var end = 0;
+    if (debug){
+      console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()]     foundDataTags["+l+"]: " + foundDataTags[l]);
+    }
+    while (start != -1){
+      start = foundDataTags[l].indexOf("key=\"", end);
+      end = foundDataTags[l].indexOf("\"", start+5);
+      if (start != -1){
+        var parsedKey = foundDataTags[l].substring(start+5, end);
+        if (debug){
+          console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()]     parsedKey: " + parsedKey);
+        }
+        // check if already in foundAttributeKeys
+        var found = false;
+        for (var m = 0; m < foundAttributeKeys.length; m++) {
+          if (foundAttributeKeys[m] == parsedKey){
+            found = true;
+          }
+        }
+        if (!found){
+          foundAttributeKeys.push(foundDataTags[l].substring(start+5, end));
+        }
+      }
+    }
+  }
+
+
+  if (debug){
+    console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()]     foundAttributeKeys: " + foundAttributeKeys);
+  }
+
+  for (var n = 0; n < foundAttributeKeys.length; n++) {
+    var row = document.createElement("tr");
+    var cell = document.createElement("td");
+
+    
+    //Example: <key attr.name="description" attr.type="string" for="node" id="descriptionNode"><default>MISSING DESCRIPTION</default></key>
+    var newKey = "<key attr.name=\"GXL-ID_"+foundAttributeKeys[n]+"\" attr.type=\"boolean|int|long|float|double|string\" for=\"node\" id=\""+foundAttributeKeys[n]+"\"><default>MISSING DESCRIPTION</default></key>";
+    safeCurrentStr = newKey.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    cell.innerHTML = safeCurrentStr;
+
+    row.appendChild(cell);
+    document.getElementById("AttributeKeysContainer").appendChild(row);
+
+  }
+
+  // 
+  if (debug){
+    console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()] DONE!!!");
+  }
+
+}
+
+
 function LoadArrayIntoEntryIDTargets(PassedArray, debug=false){ //Passed JSON Parsed from String
   EntryIDTargets = [];
   for (var i = 0; i < PassedArray.length; i++) {
@@ -740,6 +848,7 @@ function ImportJsonToEntry(){
       alert("Successfully loaded '"+ EntryTableArray.length +"' Entries!");
 
       LocalStorageEntriesSave();
+      DiscoverAndLoadAttributeKeysIntoTable();
 
     } else {
       isEntryEmpty = true;      
@@ -840,6 +949,7 @@ function LocalStorageLoadMainKeys(debug=false){
         }
 
         LoadEntryArrayIntoTable();
+        DiscoverAndLoadAttributeKeysIntoTable();
 
         loadedEntries = true;
         isEntryEmpty = false;
