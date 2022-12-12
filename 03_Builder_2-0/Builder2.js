@@ -60,10 +60,10 @@ function SetupObjectGraphNode(){
       var addButton = $('.add_button'); //Add button selector
       var wrapper = $('.OptionAttributeEntryGraphNodeFieldsDynamic'); //Input field wrapper
       var fieldHTML = '<div> \
-                        <label for="fieldNodeKeyVal">Key</label>\
-                        <input type="text" name="fieldNodeKeyVal" value=""/>\
-                        <label for="fieldNodeDataVal">Value</label>\
-                        <textarea name="fieldNodeDataVal" placeholder=""></textarea>\
+                        <label for="OptionAttributeEntryGraphNodeFieldKeyVal">Key</label>\
+                        <input type="text" name="OptionAttributeEntryGraphNodeFieldKeyVal" value=""/>\
+                        <label for="OptionAttributeEntryGraphNodeFieldDataVal">Value</label>\
+                        <textarea name="OptionAttributeEntryGraphNodeFieldDataVal" placeholder=""></textarea>\
                         <a href="javascript:void(0);" class="remove_button"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-minus\" viewBox=\"0 0 16 16\"><path d=\"M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z\"/><path d=\"M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z\"/></svg></a>\
                         </div>'; //New input field html 
       var x = 1; //Initial field counter is 1
@@ -454,42 +454,54 @@ function PrepareEntryGraphNode(debug=true){
 
   // var nodeDataValues = "";
   // var nodeDataKeys = ""; 
+  
 
-  // nodeDataKeysArray = document.getElementsByName("fieldNodeKeyVal");
-  // nodeDataValuesArray = document.getElementsByName("fieldNodeDataVal");
+  nodeDataKeysArray = document.getElementsByName("OptionAttributeEntryGraphNodeFieldKeyVal");
+  nodeDataValuesArray = document.getElementsByName("OptionAttributeEntryGraphNodeFieldDataVal");
+
+  if (debug){
+    console.log("[DEBUG] [PrepareEntryGraphNode()]     EntryID: " + EntryID);
+    console.log("[DEBUG] [PrepareEntryGraphNode()]     nodeDataKeysArray: " + nodeDataKeysArray);
+    console.log("[DEBUG] [PrepareEntryGraphNode()]     nodeDataKeysArray (len): " + nodeDataKeysArray.length);
+    console.log("[DEBUG] [PrepareEntryGraphNode()]     nodeDataValuesArray: " + nodeDataValuesArray);
+    console.log("[DEBUG] [PrepareEntryGraphNode()]     nodeDataValuesArray (len): " + nodeDataValuesArray.length);
+  }
 
   finalEntry = "<node id=\""+ EntryID +"\">\n";
 
-  //TODO: Migrate
-  // if(nodeDataKeysArray.length > 0 && nodeDataValuesArray.length > 0) {
-  //   for(var index=0; index < nodeDataKeysArray.length; index++) {
-  //     nodeString.textContent += "\t<data key=\""+nodeDataKeysArray[index].value+"\">";
+  if(nodeDataKeysArray.length > 0 && nodeDataValuesArray.length > 0) {
+    for(var index=0; index < nodeDataKeysArray.length; index++) {
+      if (debug){
+        console.log("[DEBUG] [PrepareEntryGraphNode()]     nodeDataKeysArray["+index+"]: " + nodeDataKeysArray[index].value);
+        console.log("[DEBUG] [PrepareEntryGraphNode()]     nodeDataValuesArray["+index+"]: " + nodeDataValuesArray[index].value);
+      }
+      finalEntry += "\t<data key=\""+nodeDataKeysArray[index].value+"\">";
 
-  //     if ( nodeDataKeysArray[index].value == "descriptionNode"){
-  //       nodeString.textContent += "<![CDATA[\n";
+      //NOT IMPLEMENTED!
+      if ( nodeDataKeysArray[index].value == "descriptionNode"){ //SPECIAL CASE! -- it allows the key to be "descriptionNode" and the value to be a multi-line string
+        finalEntry += "<![CDATA[\n";
         
-  //       var textareaBuffer = nodeDataValuesArray[index].value;
+        var textareaBuffer = nodeDataValuesArray[index].value;
 
-  //       var textareaLines = textareaBuffer.split("\n");
-  //       for(var lineIndex=0; lineIndex < textareaLines.length; lineIndex++) {
-  //         textareaLines[lineIndex] = "\t\t" + textareaLines[lineIndex];
-  //       }
-  //       nodeString.textContent += textareaLines.join("\n");
+        var textareaLines = textareaBuffer.split("\n");
+        for(var lineIndex=0; lineIndex < textareaLines.length; lineIndex++) {
+          textareaLines[lineIndex] = "\t\t" + textareaLines[lineIndex];
+        }
+        finalEntry += textareaLines.join("\n");
 
-  //       nodeString.textContent += "\n\t]]></data>\n";
+        finalEntry += "\n\t]]></data>\n";
 
-  //     } else {
-  //       nodeString.textContent += nodeDataValuesArray[index].value;
-  //       nodeString.textContent +="</data>\n";
-  //     }
+      } else {
+        finalEntry += nodeDataValuesArray[index].value;
+        finalEntry +="</data>\n";
+      }
+    }
 
-  //   }
+  } else {
+    finalEntry += "\t<data key=\"\"> EMPTY! </data>\n";
+  }
 
-  // } else {
-  //   nodeString.textContent += "\t<data key=\"\"> EMPTY! </data>\n";
-  // }
-
-  finalEntry += "</node\> \n\n";
+  finalEntry += "</node\>";
 
   if (debug){
     console.log("[DEBUG] [PrepareEntryGraphNode()] Final Entry: " + finalEntry);
@@ -546,7 +558,8 @@ function EntryIt(debug=true) {
   var row = document.createElement("tr");
   var cell = document.createElement("td");
   safeCurrentStr = newEntry.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  safeCurrentStr = safeCurrentStr.replace(/\n/g, "<br>"); //<Graph> - {Node} uses '\n'
+  safeCurrentStr = safeCurrentStr.replace(/\n/g, "<br>"); //<Graph> - {Node} uses '\n' || figure out how to get <pre> to work
+  safeCurrentStr = safeCurrentStr.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;"); //<Graph> - {Node} uses '\t' || figure out how to get <pre> to work
 
   cell.innerHTML = safeCurrentStr;
   row.appendChild(cell);
@@ -653,7 +666,8 @@ function LoadEntryArrayIntoTable(debug=false){  // \" class=\"table table-stripe
 
     // cell.innerHTML = EntryTableArray[j];
     safeCurrentStr = EntryTableArray[j].replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    safeCurrentStr = safeCurrentStr.replace(/\n/g, "<br>"); //<Graph> - {Node} uses '\n'
+    safeCurrentStr = safeCurrentStr.replace(/\n/g, "<br>"); //<Graph> - {Node} uses '\n'  || figure out how to get <pre> to work
+    safeCurrentStr = safeCurrentStr.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;"); //<Graph> - {Node} uses '\t' || figure out how to get <pre> to work
 
     cell.innerHTML = safeCurrentStr;
     row.appendChild(cell);
