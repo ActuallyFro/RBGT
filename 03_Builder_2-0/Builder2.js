@@ -121,10 +121,7 @@ function ToggleDarkMode(isDarkMode, debug=false){
   if (isDarkMode){
     document.getElementById("body").className = "bg-dark text-light";
     document.getElementById("Navigation").className = "navbar navbar-expand-lg navbar-dark bg-secondary";
-    var elms = document.querySelectorAll("#BtnDiceDark");
-    for(var i = 0; i < elms.length; i++) {
-      elms[i].className = "btn btn-light";
-    }
+
 
     document.getElementById("LabelEntryTable").style = "font-size: 40px; background-color: #000000; padding: 0px 5px;"
     doesTableEntryTableExist = document.getElementById("TableEntryTable");
@@ -132,20 +129,31 @@ function ToggleDarkMode(isDarkMode, debug=false){
       document.getElementById("TableEntryTable").className = "table table-striped table-dark table-bordered table-hover text-white";
     }
 
+    document.getElementById("LabelAttributeKeyTable").style = "font-size: 40px; background-color: #000000; padding: 0px 5px;"
+    doesTableAttributeKeysExist = document.getElementById("TableAttributeKeys");
+    if (doesTableAttributeKeysExist){
+      document.getElementById("TableAttributeKeys").className = "table table-striped table-dark table-bordered table-hover text-white";
+    }
+    
+    document.getElementById("LabelRecommendedGXLFile").style = "font-size: 40px; background-color: #000000; padding: 0px 5px;"
+
   } else {
     document.getElementById("body").className = "bg-light text-dark";
     document.getElementById("Navigation").className = "navbar navbar-expand-lg navbar-light bg-light";
-
-    var elms = document.querySelectorAll("#BtnDiceDark");
-    for(var i = 0; i < elms.length; i++) {
-      elms[i].className = "btn btn-dark";
-    }
 
     document.getElementById("LabelEntryTable").style = "font-size: 40px; background-color: #F3F5F6; padding: 0px 5px;"
     doesTableEntryTableExist = document.getElementById("TableEntryTable");
     if (doesTableEntryTableExist){
       document.getElementById("TableEntryTable").className = "table table-striped"
     }
+
+    document.getElementById("LabelAttributeKeyTable").style = "font-size: 40px; background-color: #F3F5F6; padding: 0px 5px;"
+    doesTableAttributeKeysExist = document.getElementById("TableAttributeKeys");
+    if (doesTableAttributeKeysExist){
+      document.getElementById("TableAttributeKeys").className = "table table-striped"
+    }
+
+    document.getElementById("LabelRecommendedGXLFile").style = "font-size: 40px; background-color: #F3F5F6; padding: 0px 5px;"
 
   }
 
