@@ -687,22 +687,15 @@ function LoadEntryArrayIntoTable(debug=false){  // \" class=\"table table-stripe
 
 }
 
-function DiscoverAndLoadAttributeKeysIntoTable(debug=false){
-  var foundDataTags = [];
-  if (debug){
-    console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()] Started");
-  }
 
-  document.getElementById("AttributeKeysContainer").innerHTML = "<br><br><table id=\"TableAttributeKeys\" class=\"table table-striped\"><tbody id=\"AttributeKeysBody\"></tbody></table>";
-
-  if (EntryTableArray.length == 0){
-    if (debug){
-      console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()] {Empty Ledger}! NO Action!");
-    }
+function DiscoverAttributeKeys(GXLDataType, debug=false){
+  if (GXLDataType != "all" && GXLDataType != "graph" && GXLDataType != "node" && GXLDataType != "edge"){
+    console.log("[ERROR] [DiscoverAttributeKeys()] Invalid GXLDataType: '"+GXLDataType+"'");
     return;
   }
 
-  
+  var foundDataTags = [];
+
   for (var k = 0; k < EntryTableArray.length; k++) {
     var row = document.createElement("tr");
     var cell = document.createElement("td");
@@ -710,7 +703,7 @@ function DiscoverAndLoadAttributeKeysIntoTable(debug=false){
     var currentStr = EntryTableArray[k];
 
     //determine if <node is in 'currentStr', if not, skip
-    if (currentStr.indexOf("<node") == -1){
+    if (currentStr.indexOf("<"+GXLDataType) == -1){
       if (debug){
         console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()]     Skipping Entry: '"+currentStr+"'");
       }
@@ -767,15 +760,40 @@ function DiscoverAndLoadAttributeKeysIntoTable(debug=false){
 
   if (debug){
     console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()]     foundAttributeKeys: " + foundAttributeKeys);
+  }  
+
+  if (foundAttributeKeys.length == 0){
+    return null;
   }
 
-  for (var n = 0; n < foundAttributeKeys.length; n++) {
+  return foundAttributeKeys;
+}
+
+function DiscoverAndLoadAttributeKeysIntoTable(debug=false){
+  
+  if (debug){
+    console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()] Started");
+  }
+
+  document.getElementById("AttributeKeysContainer").innerHTML = "<br><br><table id=\"TableAttributeKeys\" class=\"table table-striped\"><tbody id=\"AttributeKeysBody\"></tbody></table>";
+
+  if (EntryTableArray.length == 0){
+    if (debug){
+      console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()] {Empty Ledger}! NO Action!");
+    }
+    return;
+  }
+
+  var foundAttributeKeysNodes = [];
+  foundAttributeKeysNodes = DiscoverAttributeKeys("node");
+
+  for (var n = 0; n < foundAttributeKeysNodes.length; n++) {
     var row = document.createElement("tr");
     var cell = document.createElement("td");
 
     
     //Example: <key attr.name="description" attr.type="string" for="node" id="descriptionNode"><default>MISSING DESCRIPTION</default></key>
-    var newKey = "<key attr.name=\"GXL-ID_"+foundAttributeKeys[n]+"\" attr.type=\"boolean|int|long|float|double|string\" for=\"node\" id=\""+foundAttributeKeys[n]+"\"><default>MISSING DESCRIPTION</default></key>";
+    var newKey = "<key attr.name=\"GXL-ID_"+foundAttributeKeysNodes[n]+"\" attr.type=\"boolean|int|long|float|double|string\" for=\"node\" id=\""+foundAttributeKeysNodes[n]+"\"><default>MISSING DESCRIPTION</default></key>";
     safeCurrentStr = newKey.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
     cell.innerHTML = safeCurrentStr;
