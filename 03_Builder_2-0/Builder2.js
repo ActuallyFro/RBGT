@@ -620,42 +620,16 @@ function LoadAllEntryIDTargetsAsOptions(debug=false){ //this vs. SetupEntryIDTar
     var hasTwoEntryIDTargets = false;
     var currentTarget = EntryIDTargets[j][0];
     var secondaryTarget = "";
-    // /////////////
-    // //TODON'T:
-    // if (currentTarget.includes(";;")) {
-    //   if (debug) {
-    //     console.log("[DEBUG] [LoadAllEntryIDTargetsAsOptions()] Target '"+EntryIDTargets[j][0]+"' includes ';;' !");
-    //   }
 
-    //   currentTarget = currentTarget.split(";;")[0];
-    //   secondaryTarget = EntryIDTargets[j][0].split(";;")[1];
-    //   hasTwoEntryIDTargets = true;
-    // }
-    // /////////////
-    // var isDone = true;
-    // do {
-      var option = document.createElement("option");
-      option.text = currentTarget;
-  
-      // var safeStr = EntryIDTargets[j][0].replace(/'/g, "\\'");
-  
-      if (debug){
-        console.log("[DEBUG] [LoadAllEntryIDTargetsAsOptions()] '"+EntryIDTargets[j][0]+"'");
-        // console.log("safeStr: '" + safeStr + "'");
-      }
-  
-      document.getElementById("OptionAttributeEntryIDList").appendChild(option);
+    var option = document.createElement("option");
+    option.text = currentTarget;
 
-    //   if (hasTwoEntryIDTargets){
-    //     currentTarget = secondaryTarget;
-    //     hasTwoEntryIDTargets = false;
-    //   } else {
-    //     isDone = false;
-    //   }
 
-    // } while (isDone);
+    if (debug){
+      console.log("[DEBUG] [LoadAllEntryIDTargetsAsOptions()] '"+EntryIDTargets[j][0]+"'");
+    }
 
-    /////////////
+    document.getElementById("OptionAttributeEntryIDList").appendChild(option);
   } 
 }
 
