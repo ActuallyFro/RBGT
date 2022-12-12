@@ -47,55 +47,11 @@ window.onload = function() {
   //2. Setup Page Elements
   SetupBracketDropDown();
 
-  // 3. Add shortcut buttons to Shortcut Divs
-  //----------------------------
-  // SetupInnerobjectshortcutsDice();
-  // SetupInnerobjectshortcutsActionActivities();
-  // SetupInnerobjectshortcutsNandPCs();
-
-  //4. Setup Event Listeners/Watchers
+  //3. Setup Event Listeners/Watchers
   SetupWatcherUserPicksBracketDropDown();
-  // SetupWatcherUserTogglesAutoBracket();
-  // SetupWatcherUserTogglesInnerBracket(); 
   SetupWatcherUserTogglesSettingDarkMode(); 
 
 }
-
-// function SetupObjectGraphNodeListenerAdd(){
-//   var wrapper = document.getElementsByClassName("dynamicNodeDataFields"); //Input field wrapper
-
-//   // var addButton = $('.add_button'); //Add button selector
-//   var fieldHTML = '<div class="dynamicNodeDataFields">\
-//                     <div>\
-//                     <label for="fieldNodeKeyVal">Key</label>\
-//                     <input type="text" name="fieldNodeKeyVal" value=""/>\
-//                     <label for="fieldNodeDataVal">Value</label>\
-//                     <textarea name="fieldNodeDataVal" placeholder=""></textarea>\
-//                     <a href="javascript:void(0);" class="remove_button"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-file-minus\" viewBox=\"0 0 16 16\"><path d=\"M5.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5z\"/><path d=\"M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z\"/></svg></a>\
-//                     </div>\
-//                   </div>'; //New input field html 
-
-//   document.getElementsByClassName("add_button").addEventListener("change", function() {
-//     if(x < maxField){ 
-//       x++; //Increment field counter
-//       $(wrapper).append(fieldHTML); //Add field html
-//     }
-//   });
-// }
-
-// function SetupObjectGraphNodeListenerRemove(){
-//   var wrapper = document.getElementsByClassName("dynamicNodeDataFields"); //Input field wrapper
-
-//   document.getElementsByClassName("remove_button").addEventListener("change", function() {
-//     $(wrapper).on('click', '.', function(e){
-//       e.preventDefault();
-//       $(this).parent('div').remove(); //Remove field html
-//       x--; //Decrement field counter
-//     });
-//   });
-
-// }
-
 
 function SetupObjectGraphNode(){
   if (!isSetupGraphNode){
@@ -133,8 +89,6 @@ function SetupObjectGraphNode(){
 
 
     isSetupGraphNode = true;
-    // SetupObjectGraphNodeListenerAdd();
-    // SetupObjectGraphNodeListenerRemove();
     
   }    
 }
