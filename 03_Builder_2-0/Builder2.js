@@ -276,7 +276,7 @@ function SetupEntryIDTargetsBasedOnBracketPick(SelectedBracket, debug=false){
 //////////////////////////////////////
 // III. GUI Usage Functions
 
-//N1. Clear - Entry 
+//1. Clear - Entry 
 //=============
 function ClearEntry(debug=false) {
   if (isEntryEmpty){
@@ -294,6 +294,25 @@ function ClearEntry(debug=false) {
   LocalStorageClearEntriesOnly();
 }
 
+//2. Clear -For the Target ID
+//================
+function ClearObjectsEntry() {
+  document.getElementById("OptionAttributeEntryID").value = "";
+}
+
+//3. Clear - ALL Entries in the Target ID Array
+//================
+function ClearTargetArray() {
+  if (EntryIDTargets.length === 0) {
+    return;
+  }
+
+  EntryIDTargets = [];
+  LocalStorageClearEntryIDTargetsOnly();
+}
+
+//4. Clear - ALL entered data for <Graph> - {Edge}
+//================
 function ClearGraphEntryEdge(debug=false){
   if(debug){
     console.log("[DEBUG] [ClearGraphEntryEdge()] Clearing Edge Entry");
@@ -306,22 +325,6 @@ function ClearGraphEntryEdge(debug=false){
 }
 
 
-//5. Clear - A last Entry
-//================
-function ClearObjectsEntry() {
-  document.getElementById("OptionAttributeEntryID").value = "";
-}
-
-//6. Clear - ALL Entries
-//================
-function ClearTargetArray() {
-  if (EntryIDTargets.length === 0) {
-    return;
-  }
-
-  EntryIDTargets = [];
-  LocalStorageClearEntryIDTargetsOnly();
-}
 
 //////////////////////////////////////
 
