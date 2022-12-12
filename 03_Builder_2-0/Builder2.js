@@ -18,7 +18,6 @@
 
 // var isEntryEmpty = true;
 var isEntryEmpty = true;
-var oldEntryTableArray = [];
 var EntryTableArray = [];
 
 var objects = [
@@ -388,9 +387,6 @@ function AddObject(debug=true) {
   if (debug){
     console.log("[DEBUG] [AddObject()] Setting hasBracketBeenPlaced is: " + hasBracketBeenPlaced);
   }
-
-  //TODO: Remove oldEntry IF it's just used for ledger... :
-  // oldEntry.push(document.getElementById("ledger").value); //This is used for "Undo" Ledger Entry
 
   var tempTarget = document.getElementById("target").value;
 
