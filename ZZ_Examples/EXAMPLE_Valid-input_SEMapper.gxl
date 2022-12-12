@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
+     http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+
+  <!-- Attribute Keys -->
+  <key attr.name="NameOfGameSave" attr.type="string" for="node" id="GameSave"><default>MISSING GAME SAVE</default></key>
+  <key attr.name="IfSeen" attr.type="boolean" for="node" id="Seen"><default>false</default></key>
+  <key attr.name="ObjectType" attr.type="string" for="node" id="type"><default>MISSING TYPE</default></key>
+  
+
+  <graph id="Space Engineers Walkthrough Map" edgedefault="undirected">
+<node id="Systems">
+<data key="GameSave">Expedition_5</data>
+</node>
+<node id="Planets">
+<data key="GameSave">Expedition_5</data>
+<data key="Seen">true</data>
+</node>
+<node id="Sol">
+<data key="type">System</data>
+</node>
+<node id="Earth">
+<data key="type">Planet</data>
+</node>
+<edge id="within" source="Earth" target="Sol"/>
+<edge id="type" source="Earth" target="Planets"/>
+<edge id="type" source="Sol" target="Systems"/>
+  </graph>
+</graphml>

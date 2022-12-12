@@ -1,0 +1,57 @@
+{
+  "directed": false,
+  "HOW TO": "run Update.sh in the SE folder!",
+  "graph": {
+      "edge_default": {},
+      "node_default": {
+          "IfSeen": false,
+          "NameOfGameSave": "MISSING GAME SAVE",
+          "ObjectType": "MISSING TYPE"
+      }
+  },
+  "links": [
+      {
+          "id": "type",
+          "source": "Systems",
+          "target": "Sol"
+      },
+      {
+          "id": "type",
+          "source": "Planets",
+          "target": "Earth"
+      },
+      {
+          "id": "within",
+          "source": "Sol",
+          "target": "Earth"
+      }
+  ],
+  "multigraph": false,
+  "nodes": [
+      {
+          "NameOfGameSave": "Expedition_5",
+          "group": 0,
+          "id": "Systems",
+          "name": "Systems"
+      },
+      {
+          "IfSeen": true,
+          "NameOfGameSave": "Expedition_5",
+          "group": 1,
+          "id": "Planets",
+          "name": "Planets"
+      },
+      {
+          "ObjectType": "System",
+          "group": 0,
+          "id": "Sol",
+          "name": "Sol"
+      },
+      {
+          "ObjectType": "Planet",
+          "group": 1,
+          "id": "Earth",
+          "name": "Earth"
+      }
+  ]
+}
