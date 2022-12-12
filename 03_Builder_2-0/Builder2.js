@@ -769,6 +769,34 @@ function DiscoverAttributeKeys(GXLDataType, debug=false){
   return foundAttributeKeys;
 }
 
+function LoadAttributeKeys(foundAttributeKeys, GXLDataType, debug=false){
+  if (foundAttributeKeys == null){
+    console.log("[WARNING] [LoadAttributeKeys()] foundAttributeKeys is null! Skipping Table Load...");
+    return;
+  }
+
+  if (GXLDataType != "all" && GXLDataType != "graph" && GXLDataType != "node" && GXLDataType != "edge"){
+    console.log("[ERROR] [LoadAttributeKeys()] Invalid GXLDataType: '"+GXLDataType+"'");
+    return;
+  }
+
+  for (var n = 0; n < foundAttributeKeys.length; n++) {
+    var row = document.createElement("tr");
+    var cell = document.createElement("td");
+
+    
+    //Example: <key attr.name="description" attr.type="string" for="node" id="descriptionNode"><default>MISSING DESCRIPTION</default></key>
+    var newKey = "<key attr.name=\"GXL-ID_"+foundAttributeKeys[n]+"\" attr.type=\"boolean|int|long|float|double|string\" for=\""+GXLDataType+"\" id=\""+foundAttributeKeys[n]+"\"><default>MISSING DESCRIPTION</default></key>";
+    safeCurrentStr = newKey.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+    cell.innerHTML = safeCurrentStr;
+
+    row.appendChild(cell);
+    document.getElementById("AttributeKeysContainer").appendChild(row);
+
+  }
+}
+
 function DiscoverAndLoadAttributeKeysIntoTable(debug=false){
   
   if (debug){
@@ -786,24 +814,8 @@ function DiscoverAndLoadAttributeKeysIntoTable(debug=false){
 
   var foundAttributeKeysNodes = [];
   foundAttributeKeysNodes = DiscoverAttributeKeys("node");
+  LoadAttributeKeys(foundAttributeKeysNodes, "node");
 
-  for (var n = 0; n < foundAttributeKeysNodes.length; n++) {
-    var row = document.createElement("tr");
-    var cell = document.createElement("td");
-
-    
-    //Example: <key attr.name="description" attr.type="string" for="node" id="descriptionNode"><default>MISSING DESCRIPTION</default></key>
-    var newKey = "<key attr.name=\"GXL-ID_"+foundAttributeKeysNodes[n]+"\" attr.type=\"boolean|int|long|float|double|string\" for=\"node\" id=\""+foundAttributeKeysNodes[n]+"\"><default>MISSING DESCRIPTION</default></key>";
-    safeCurrentStr = newKey.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
-    cell.innerHTML = safeCurrentStr;
-
-    row.appendChild(cell);
-    document.getElementById("AttributeKeysContainer").appendChild(row);
-
-  }
-
-  // 
   if (debug){
     console.log("[DEBUG] [DiscoverAndLoadAttributeKeysIntoTable()] DONE!!!");
   }
