@@ -41,7 +41,7 @@ window.onload = function() {
 
   //1. Determine if LocalStorage's EntryTableArray[] is empty: (a) if not -- load, else -- print empty:
   var totalLSKeys = LocalStorageLoadMainKeys(); //LocalStorageLoadMainKeys(true)
-  console.log("[NOTICE] total LSKeys loaded: " + totalLSKeys);
+  console.log("[NOTICE] (Builder2.js) total LSKeys loaded: " + totalLSKeys);
   //2. Setup Page Elements
   SetupBracketDropDown();
 
@@ -81,7 +81,10 @@ function SetupWatcherUserTogglesSettingDarkMode(debug=false){
   });
 }
 
-function ToggleDarkMode(isDarkMode){
+function ToggleDarkMode(isDarkMode, debug=false){
+  if (debug){
+    console.log("[DEBUG] User toggled DarkMode to: " + isDarkMode);
+  }
   if (isDarkMode){
     document.getElementById("body").className = "bg-dark text-light";
     document.getElementById("Navigation").className = "navbar navbar-expand-lg navbar-dark bg-secondary";
@@ -112,6 +115,13 @@ function ToggleDarkMode(isDarkMode){
     }
 
   }
+
+
+  if (debug){
+    console.log("[DEBUG] Saving Setting to LocalStorage!");
+  }
+  LocalStorageSettingsSaveDarkMode(isDarkMode);
+
 }
 
 function MenuClearStorage(debug=true){
@@ -236,14 +246,13 @@ function SetupEntryIDTargetsBasedOnBracketPick(SelectedBracket, debug=false){
 
 //N1. Clear - Entry 
 //=============
-function ClearEntry() {
+function ClearEntry(debug=false) {
   if (isEntryEmpty){
     return;
   }
 
   isEntryEmpty = true;
 
-  debug = true; //BAD -- REMOVE!
   if (debug){
     console.log("[DEBUG][ClearEntry] NO entries -- showing empty table!");
   }
@@ -764,12 +773,25 @@ function LocalStorageLoadMainKeys(debug=false){
         LoadAllEntryIDTargetsAsOptions(); //(true)
 
         SetupAllEntryIDTargets();
+
+      } else if (key === "Builder-SettingsDarkMode"){
+        var loadedDarkMode = localStorage.getItem('Builder-SettingsDarkMode');
+
+        if (debug){
+          console.log("[DEBUG][LocalStorageLoadMainKeys()] Loading DarkMode saved in 'Builder-SettingsDarkMode'!");        
+          console.log("[DEBUG][LocalStorageLoadMainKeys()]     Loaded '" + loadedDarkMode + "'");
+        }
+
+        if (loadedDarkMode === "true"){ //first load is a string vs. bool...
+          document.getElementById("toggleSettingDarkMode").checked = true;
+          ToggleDarkMode(loadedDarkMode);
+        }
+
       }
     }
   }
 
   if (!loadedEntries){
-    debug = true; //BAD -- REMOVE!
     if (debug){
       console.log("[DEBUG][LocalStorageLoadMainKeys()] NO entries -- showing empty table!");
     }
@@ -791,7 +813,10 @@ function LocalStorageEntriesSave(debug=false){
   }
 
   localStorage.setItem('Builder-TableEntries', newEntriesStr);
+}
 
+function LocalStorageSettingsSaveDarkMode(passedMode, debug=false){
+  localStorage.setItem('Builder-SettingsDarkMode', passedMode);
 }
 
 //10. localstorage - Save EntryIDTargets
