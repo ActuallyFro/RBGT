@@ -546,6 +546,8 @@ function EntryIt(debug=true) {
   var row = document.createElement("tr");
   var cell = document.createElement("td");
   safeCurrentStr = newEntry.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  safeCurrentStr = safeCurrentStr.replace(/\n/g, "<br>"); //<Graph> - {Node} uses '\n'
+
   cell.innerHTML = safeCurrentStr;
   row.appendChild(cell);
   document.getElementById("TableEntryTable").appendChild(row);
