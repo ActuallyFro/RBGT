@@ -494,7 +494,7 @@ function PrepareEntryGraphNode(debug=true){
   if (debug){
     console.log("[DEBUG] [PrepareEntryGraphNode()] Final Entry: " + finalEntry);
   }
-  
+
   return finalEntry;
 }
 
@@ -517,6 +517,10 @@ function PrepareEntry(debug=true){
 
   } else {
     finalEntry = "{NONE PROCESSED!}";
+  }
+
+  if (debug){
+    console.log("[DEBUG] [PrepareEntry()] Pushing Entry: " + finalEntry);
   }
 
   return finalEntry;
@@ -647,6 +651,8 @@ function LoadEntryArrayIntoTable(debug=false){  // \" class=\"table table-stripe
 
     // cell.innerHTML = EntryTableArray[j];
     safeCurrentStr = EntryTableArray[j].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    safeCurrentStr = safeCurrentStr.replace(/\n/g, "<br>"); //<Graph> - {Node} uses '\n'
+
     cell.innerHTML = safeCurrentStr;
     row.appendChild(cell);
 
