@@ -253,7 +253,11 @@ function SetupEntryIDTargetsBasedOnBracketPick(SelectedBracket, debug=false){
       document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"form-group\" id=\"OptionAttributeEntryGraphEdgeDivGroup\">";
       document.getElementById("SelectionMenuOption").innerHTML += "<div class=\"row\">";
       document.getElementById("SelectionMenuOption").innerHTML += "  <div class=\"col-6\">";
-      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"eFieldSource\">Source</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"OptionAttributeEntryGraphEdgeFieldLabel\">Label</label>";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" class=\"form-control w-100\" id=\"OptionAttributeEntryGraphEdgeFieldLabel\" placeholder=\"Label for edge; add ':' prefix\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "  </div>";
+      document.getElementById("SelectionMenuOption").innerHTML += "  <div class=\"col-6\">";
+      document.getElementById("SelectionMenuOption").innerHTML += "    <label for=\"OptionAttributeEntryGraphEdgeFieldSource\">Source</label>";
       document.getElementById("SelectionMenuOption").innerHTML += "    <input type=\"text\" class=\"form-control w-100\" id=\"OptionAttributeEntryGraphEdgeFieldSource\" placeholder=\"the 'id' for source\">";
       document.getElementById("SelectionMenuOption").innerHTML += "  </div>";
       document.getElementById("SelectionMenuOption").innerHTML += "  <div class=\"col-6\">";
@@ -327,6 +331,7 @@ function ClearGraphEntryEdge(debug=false){
 
   ClearObjectsEntry();
 
+  document.getElementById("OptionAttributeEntryGraphEdgeFieldLabel").value = "";
   document.getElementById("OptionAttributeEntryGraphEdgeFieldSource").value = "";
   document.getElementById("OptionAttributeEntryGraphEdgeFieldTarget").value = "";
 }
@@ -429,17 +434,19 @@ function PrepareEntryGraphEdge(debug=true){
 
   // Example: <edge id="WithinSystem" source="PlanetEarth" target="SystemSol"/>
   var EntryID = document.getElementById("OptionAttributeEntryID").value;
+  var label = document.getElementById("OptionAttributeEntryGraphEdgeFieldLabel").value;
   var source = document.getElementById("OptionAttributeEntryGraphEdgeFieldSource").value;
   var target = document.getElementById("OptionAttributeEntryGraphEdgeFieldTarget").value;
 
   if (debug){
     console.log("[DEBUG] [PrepareEntryGraphEdge()] Started");
     console.log("[DEBUG] [PrepareEntryGraphEdge()]     EntryID: " + EntryID);
+    console.log("[DEBUG] [PrepareEntryGraphEdge()]     Label: " + label);
     console.log("[DEBUG] [PrepareEntryGraphEdge()]     Source: " + source);
     console.log("[DEBUG] [PrepareEntryGraphEdge()]     Target: " + target);
   }
 
-  finalEntry = "<edge id=\"" + EntryID + "\" source=\"" + source + "\" target=\"" + target + "\"/>";
+  finalEntry = "<edge id=\"" + EntryID + "\" source=\"" + source + "\" target=\"" + target + "\"><data key=\"label\">"+label+"</data></edge>";
 
   if (debug){
     console.log("[DEBUG] [PrepareEntryGraphEdge()] Final Entry: " + finalEntry);
