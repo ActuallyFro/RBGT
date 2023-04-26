@@ -1,7 +1,3 @@
-// Separate Popper & JS:
-/* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script> */
-/* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script> --> */
-
 //////////////////////////////////////
 // Table of Contents
 // =================
@@ -15,8 +11,6 @@
 
 //////////////////////////////////////
 // I. Vars and Lookups
-
-// var isEntryEmpty = true;
 var isEntryEmpty = true;
 var EntryTableArray = [];
 
@@ -24,7 +18,8 @@ var objects = [
   ["", "", "", ""],
   ["", "=== Graph objects ===", "GUI - Selection Title", "Disabled"],
   ["Node", "Graph", "GraphObjects", ""],
-  ["Edge", "Graph", "GraphObjects", ""]
+  ["Edge", "Graph", "GraphObjects", ""],
+  ["", "=== User Inputted Objects ===", "GUI - Divider Title", "Disabled"],
 ];
 
 var EntryIDTargets = [];
@@ -38,15 +33,11 @@ var isSetupGraphNode = false;
 //1. Page setup:
 //============== 
 window.onload = function() {
-  //BAD: LocalStorageClear(true);
-
-  //1. Determine if LocalStorage's EntryTableArray[] is empty: (a) if not -- load, else -- print empty:
   var totalLSKeys = LocalStorageLoadMainKeys(); //LocalStorageLoadMainKeys(true)
   console.log("[NOTICE] (Builder2.js) total LSKeys loaded: " + totalLSKeys);
-  //2. Setup Page Elements
+
   SetupBracketDropDown();
 
-  //3. Setup Event Listeners/Watchers
   SetupWatcherUserPicksBracketDropDown();
   SetupWatcherUserTogglesSettingDarkMode(); 
 
@@ -201,16 +192,13 @@ function SetupBracketDropDown(){
 //2. All EntryIDTargets setup:
 //===================== 
 function SetupAllEntryIDTargets() {
-  //TO DO -- determine localstorage load, then run this.
   SetupEntryIDTargetsBasedOnBracketPick("");
 }
 
-//3. Speciifc Class of EntryIDTargets setup:
+//3. Specific Class of EntryIDTargets setup:
 //===================================
 function SetupEntryIDTargetsBasedOnBracketPick(SelectedBracket, debug=false){
-  // console.log("Selected Bracket: '" + SelectedBracket + "'");
   document.getElementById("OptionAttributeEntryIDList").innerHTML = null; //reset EntryIDTargets
-  // document.getElementById("TargetButtons").innerHTML = null; //reset buttons
 
   if (debug){
     console.log("[DEBUG] Selected Bracket: '" + SelectedBracket + "'");
@@ -218,7 +206,6 @@ function SetupEntryIDTargetsBasedOnBracketPick(SelectedBracket, debug=false){
 
   if (SelectedBracket == "") {
     LoadAllEntryIDTargetsAsOptions(); //(true) //TODO: figure out what this does...
-    // console.log("[WARNING] No type selected!");
     document.getElementById("SelectionMenuOption").innerHTML = "<i>{Select above}</i>";
 
   } else {
@@ -272,15 +259,9 @@ function SetupEntryIDTargetsBasedOnBracketPick(SelectedBracket, debug=false){
       document.getElementById("SelectionMenuOption").innerHTML += "<input type=\"button\" class=\"btn btn-danger\" value=\"Clear Edge Entry\" onclick=\"ClearGraphEntryEdge()\">";
       document.getElementById("hiddenGlobalObjectType").value = "GraphEdge";
 
-//       document.getElementById("hiddenGlobalObjectType").value = "GraphEdge";
-//<input type="button" class="btn btn-primary" onclick="EntryIt(true)" value="Add It!">
-
-// update onClick="EntryIt(true)" to onClick="EntryIt(true, 'GraphEdge')" for id
-
     }
   }
 }
-
 
 //////////////////////////////////////
 
@@ -335,13 +316,20 @@ function ClearGraphEntryEdge(debug=false){
   document.getElementById("OptionAttributeEntryGraphEdgeFieldSource").value = "";
   document.getElementById("OptionAttributeEntryGraphEdgeFieldTarget").value = "";
 }
-
-
-
 //////////////////////////////////////
 
 //////////////////////////////////////
 // IV. Usage/Async I/O Functions
+
+function populateSelectElement() {
+  var selectElement = document.getElementById("BracketDropDown");
+  for (var i = 0; i < objects.length; i++) {
+    var option = document.createElement("option");
+    option.text = objects[i][0];
+    option.value = i;
+    selectElement.add(option);
+  }
+}
 
 //1. Target - Check if Exists, Add if not
 //=======================================
@@ -365,34 +353,47 @@ function CheckAndAddTarget(){
 
   var BannedOption = true;
   var objectsetting = objects[objectselectedOption][3];
-  // for (var j = 0; j < objects.length; j++) {
   if (objectsetting != "Dice" && objectsetting != "Ignore") {
     BannedOption = false; //target exists
   }
 
   var Repeat = false;
   for (var k = 0; k < EntryIDTargets.length; k++) {
-    // console.log("[DEBUG] [CheckAndAddTarget()] Comparing " + EntryIDTargetToCheck + " to " + EntryIDTargets[k][0]);
     if (EntryIDTargets[k][0] == EntryIDTargetToCheck) {
       Repeat = true; //target exists
-      // console.log("[DEBUG] [CheckAndAddTarget()] Repeating Target... skipping!");
     }
   }
 
   if (newEntryIDTarget && !BannedOption && !Repeat) {
-    // var option = document.createElement("option");
-    // option.text = targetToCheck;
-    // document.getElementById("EntryIDTargets").appendChild(option);
-    
+
     console.log("[DEBUG] [CheckAndAddTarget()] Adding Target: " + EntryIDTargetToCheck + " with category: " + objects[objectselectedOption][2]);
-    // var newTarget = [targetToCheck, objects[adjustedBracketNumber][2] , ""];
+
     var newEntryIDTargetTuple = [EntryIDTargetToCheck, objects[objectselectedOption][2] , ""];
     EntryIDTargets.push(newEntryIDTargetTuple);
+
+    //Add the NEW object into var objects[]
+
+    // ["", "=== Graph objects ===", "GUI - Selection Title", "Disabled"],
+    // ["Node", "Graph", "GraphObjects", ""],
+  
+
+    var newObjectTuple = [EntryIDTargetToCheck, objects[objectselectedOption][0], objects[objectselectedOption][2], objects[objectselectedOption][3]];
+    console.log("[DEBUG] [CheckAndAddTarget()] NEW Tuple");
+    console.log("[DEBUG] [CheckAndAddTarget()]     Pos(0): '" + newObjectTuple[0] + "'");
+    console.log("[DEBUG] [CheckAndAddTarget()]     Pos(1): '" + newObjectTuple[1] + "'");
+    console.log("[DEBUG] [CheckAndAddTarget()]     Pos(2): '" + newObjectTuple[2] + "'");
+    console.log("[DEBUG] [CheckAndAddTarget()]     Pos(3): '" + newObjectTuple[3] + "'");
+
+    // dding Object: " + newObjectTuple[0] + " with category: " + newObjectTuple[1] + " with title: " + newObjectTuple[2] + " with setting: " + newObjectTuple[3]);
+    objects.push(newObjectTuple);
+    SetupBracketDropDown();
+
 
     LocalStorageEntryIDTargetsSave(); //(true)
   }
 
 }
+
 
 //2. AddObject 
 //===========
@@ -408,7 +409,6 @@ function AddObject(debug=true) {
     return;
   }
 
-  //isEntryEmpty =?= hasBracketBuildingStarted??
   if (isEntryEmpty){    
     if (debug){
       console.log("[DEBUG] [AddObject()] {Empty Ledger} Updating flags!");
@@ -423,10 +423,6 @@ function AddObject(debug=true) {
     console.log("[DEBUG] [AddObject()] DONE!!!");
   }
 
-  //EXAMPLE: move cursor to the end of the ledger input field
-  // var obj = document.getElementById("ledger");
-  //obj.focus(); // THIS will pop up a keyboard prompt on mobile devices
-  // obj.setSelectionRange(obj.value.length, obj.value.length);
 }
 
 function PrepareEntryGraphEdge(debug=true){
@@ -467,9 +463,6 @@ function PrepareEntryGraphNode(debug=true){
 
   var EntryID = document.getElementById("OptionAttributeEntryID").value;
 
-  // var nodeDataValues = "";
-  // var nodeDataKeys = ""; 
-  
 
   nodeDataKeysArray = document.getElementsByName("OptionAttributeEntryGraphNodeFieldKeyVal");
   nodeDataValuesArray = document.getElementsByName("OptionAttributeEntryGraphNodeFieldDataVal");

@@ -8,10 +8,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- https://getbootstrap.com/docs/5.2/getting-started/introduction/ -->
     <title>Builder</title>
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous"> -->
     <link href="./bootstrap.min.5.2.0.css" rel="stylesheet">
     
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script> -->
     <script src="./bootstrap.bundle.min.5.2.0.js"></script>
 
     <script src="./Builder2.js"></script>
@@ -22,7 +20,6 @@
 
 <body id="body" class="bg-white text-dark"">
 
-<!-- bootstrap nav bar -->
 <nav id="Navigation" class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#"><b>Builder</b></a>
@@ -37,52 +34,9 @@
           <a class="nav-link active" aria-current="page" href="https://actuallyfro.github.io/RBGT/">Home</a>
         </li>
 
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="https://actuallyfro.github.io/Grevnyrch/">World</a>
-        </li> -->
-
         <li class="nav-item">
           <a class="nav-link" href="https://github.com/ActuallyFro/RBGT">Code</a>
         </li>
-
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="https://github.com/ActuallyFro/Grevnyrch/tree/main/01_GLS">Entry Standard</a>
-        </li> -->
-
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Targets
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li style="padding-left:1em">
-              <!-- <a class="dropdown-item" href="#">Save Target List</a>
-              <input type="button" class="btn btn-primary" onclick="ExportTargetArrayToJson()" value="Save Target Array">
-            </li>
-
-            <li><hr class="dropdown-divider"></li>
-
-            <li style="padding-left:1em">
-              <!-- <a class="dropdown-item" href="#">Select File to Import</a>
-              <input type='file' class="btn btn-primary" id='fileInputTargets' value='Load Targets'></li>
-            <li style="padding-left:1em">
-              <!-- <a class="dropdown-item" href="#">Import Target List</a>
-              <input type="button" class="btn btn-primary" onclick="ImportJsonToTargets()" value="Load Targets"></li>
-
-              <li><hr class="dropdown-divider"></li>
-
-              <li style="padding-left:1em">
-                <input type="button" class="btn btn-primary" onclick="ClearObjectsEntryArray()" value="Clear Saved Targets">
-              </li>
-  
-          </ul>
-        </li> -->
-
-        <!-- <h2>Targets Export/Import:</h2>
-        <input type="button" class="btn btn-primary" onclick="ExportTargetArrayToJson()" value="Save Target Array">
-        
-        <br><label for="fileInputTargets">Load Saved Targets:</label>
-        <input type='file' class="btn btn-primary" id='fileInputTargets' value='Load Targets'> -->
-
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -117,7 +71,6 @@
             Settings
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <!-- <input type="checkbox" id="DarkModeToggle" onclick="DarkModeToggle()"> -->
             <li style="padding-left:1em">
               Dark Mode:
               <label class="switch">
@@ -131,33 +84,19 @@
   
           </ul>
         </li>
-
-        <!-- <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li> -->
       </ul>
-      <!-- <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form> -->
     </div>
   </div>
 </nav>
 
-<!-- header for Builder -->
 <div class="header">
-  <!-- <h1>Builder</h1> -->
 
-<!-- Bracket Button Panel -->
-<div class="container">
+  <div class="container">
   <h2>1. Pick a object type:</h2>
-
-  <!-- form, with hidden field 'ObjectType' -->
   <form id="ObjectTypeForm">
     <input type="hidden" id="hiddenGlobalObjectType" name="hiddenGlobalObjectType" value="NONE">
   </form>
   
-  <!-- Bracket - Buttons -->
   <div class="row">
     <div class="col-sm-12">
       <form>
@@ -166,43 +105,18 @@
       </form>
     </div>
     <br><br>
-  
-    <!-- src: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_switch -->
-    <!-- <div class="col-sm-12" id="ToggleInnerButtons">
-      Auto-ledger bracket when selected: 
-      <label class="switch">
-        <input type="checkbox" id="toggleAutobracket">
-        <span class="slider round"></span>
-      </label>          
-    </div> -->
-
-    <!-- <div class="col-sm-12" id="ToggleInnerButtons">
-      Sub-bracket/target ledger entry (aka: inner-brackets): 
-      <label class="switch">
-        <input type="checkbox" id="toggleInnerbracket">
-        <span class="slider round"></span>
-      </label>          
-    </div> -->
-
   </div>
 
-
-  <!-- Bracket - Drop Down -->
   <br><br>
   <div class="container">
   <div class="row">
       
       <h2>2. Update Attributes</h2>
-        <!-- <div class="col-sm-12" id="BracketButtons"></div> -->
-      <!-- <div class="col-sm-12" id="TargetButtons"></div> -->
       <form>
-        <!-- tool tip for 'target' -->
         <label for="OptionAttributeEntryID">Element's 'id':</label>
         <input type="text" list="OptionAttributeEntryIDList" id="OptionAttributeEntryID" name="OptionAttributeEntryID" placeholder="Lookup 'id' (label/description)."/ data-toggle="tooltip" data-placement="top" title="The 'id' is a literal GXL value to identify this object. Reccomendation: NO SPACES! -- use underscores and hypens...">
 
-
-        <!-- TOOL TIP FORMATTING -->
-        <style> 
+       <style> 
           .tooltip {
             position: relative;
             display: inline-block;
@@ -345,9 +259,6 @@
 &lt;/graphml&gt;
           </pre>
       </div>
-
-      <!--   </graph>
-</graphml> -->
     </div>
   </div>
 </div>
