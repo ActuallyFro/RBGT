@@ -321,15 +321,6 @@ function ClearGraphEntryEdge(debug=false){
 //////////////////////////////////////
 // IV. Usage/Async I/O Functions
 
-function populateSelectElement() {
-  var selectElement = document.getElementById("BracketDropDown");
-  for (var i = 0; i < objects.length; i++) {
-    var option = document.createElement("option");
-    option.text = objects[i][0];
-    option.value = i;
-    selectElement.add(option);
-  }
-}
 
 //1. Target - Check if Exists, Add if not
 //=======================================
@@ -368,24 +359,19 @@ function CheckAndAddTarget(){
 
     console.log("[DEBUG] [CheckAndAddTarget()] Adding Target: " + EntryIDTargetToCheck + " with category: " + objects[objectselectedOption][2]);
 
-    var newEntryIDTargetTuple = [EntryIDTargetToCheck, objects[objectselectedOption][2] , ""];
+    var newEntryIDTargetTuple = [EntryIDTargetToCheck, objects[objectselectedOption][0] , ""];
     EntryIDTargets.push(newEntryIDTargetTuple);
 
-    //Add the NEW object into var objects[]
+    var newObjectTuple = [EntryIDTargetToCheck, objects[objectselectedOption][0], objects[objectselectedOption][1], objects[objectselectedOption][3]];
+    // // if (debug){
+    //   console.log("[DEBUG] [CheckAndAddTarget()] NEW Tuple");
+    //   console.log("[DEBUG] [CheckAndAddTarget()]     Pos(0): '" + newObjectTuple[0] + "'");
+    //   console.log("[DEBUG] [CheckAndAddTarget()]     Pos(1): '" + newObjectTuple[1] + "'");
+    //   console.log("[DEBUG] [CheckAndAddTarget()]     Pos(2): '" + newObjectTuple[2] + "'");
+    //   console.log("[DEBUG] [CheckAndAddTarget()]     Pos(3): '" + newObjectTuple[3] + "'");
+    // // }
 
-    // ["", "=== Graph objects ===", "GUI - Selection Title", "Disabled"],
-    // ["Node", "Graph", "GraphObjects", ""],
-  
-
-    var newObjectTuple = [EntryIDTargetToCheck, objects[objectselectedOption][0], objects[objectselectedOption][2], objects[objectselectedOption][3]];
-    console.log("[DEBUG] [CheckAndAddTarget()] NEW Tuple");
-    console.log("[DEBUG] [CheckAndAddTarget()]     Pos(0): '" + newObjectTuple[0] + "'");
-    console.log("[DEBUG] [CheckAndAddTarget()]     Pos(1): '" + newObjectTuple[1] + "'");
-    console.log("[DEBUG] [CheckAndAddTarget()]     Pos(2): '" + newObjectTuple[2] + "'");
-    console.log("[DEBUG] [CheckAndAddTarget()]     Pos(3): '" + newObjectTuple[3] + "'");
-
-    // dding Object: " + newObjectTuple[0] + " with category: " + newObjectTuple[1] + " with title: " + newObjectTuple[2] + " with setting: " + newObjectTuple[3]);
-    objects.push(newObjectTuple);
+    objects.push(newObjectTuple); 
     SetupBracketDropDown();
 
 
@@ -600,14 +586,16 @@ function RemoveLastEntry(debug=true) {
   }
 
   EntryTableArray.pop();
+
+  objects.pop();
+  SetupBracketDropDown();    
+
   if (EntryTableArray.length > 0){
     var table = document.getElementById('TableEntryTable');
     table.removeChild(table.children[table.children.length - 1]);
 
-    LocalStorageEntriesSave();
-    DiscoverAndLoadAttributeKeysIntoTable();
     if (debug){
-      console.log("[DEBUG] [RemoveLastEntry()] Removed entry & saved entries!");
+      console.log("[DEBUG] [RemoveLastEntry()] Removed entry #(" + table.children.length + ")!");
     }
   
   } else {
@@ -616,6 +604,14 @@ function RemoveLastEntry(debug=true) {
     }
     ClearEntry();
   }
+
+  if (debug){
+    console.log("[DEBUG] [RemoveLastEntry()] Saved entries!");
+  }
+  LocalStorageEntriesSave();  
+  DiscoverAndLoadAttributeKeysIntoTable();
+
+
 }
 //////////////////////////////////////
 
@@ -850,7 +846,24 @@ function LoadArrayIntoEntryIDTargets(PassedArray, debug=false){ //Passed JSON Pa
     if(debug){
       console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()] Loaded Target: '"+EntryIDTargets[i][0]+"'");
     }
+
+    console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()] Making it a Selectable Target... "); // + EntryIDTargetToCheck + " with category: " + objects[objectselectedOption][2]
+
+    // var newEntryIDTargetTuple = [EntryIDTargetToCheck, objects[objectselectedOption][2] , ""];
+    // EntryIDTargets.push(newEntryIDTargetTuple);
+
+    //var newObjectTuple = [EntryIDTargetToCheck, objects[objectselectedOption][0], objects[objectselectedOption][2], objects[objectselectedOption][3]];
+    if (debug){
+      console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()] NEW Tuple");
+      console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()]     Pos(0): '" + PassedArray[i][0] + "'");
+      console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()]     Pos(1): '" + PassedArray[i][1] + "'");
+      console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()]     Pos(2): '" + PassedArray[i][2] + "'");
+      }
+
+    objects.push(PassedArray[i]);
   }
+  SetupBracketDropDown();
+
 
 }
 
