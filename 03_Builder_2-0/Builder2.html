@@ -21,10 +21,13 @@
     <script>
       // initialize popovers
       $(function () {
-        $('[data-toggle="popover"]').popover()
+        // $('[data-toggle="popover"]').popover()        
+        $("#popover-about").popover();
       })
-    </script>
 
+      // Have: id="my-popover" or class="my-popover"
+      // To enable: $("#my-popover").popover();
+    </script>
   </head>
 
 <body id="body" class="bg-white text-dark"">
@@ -53,17 +56,15 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li style="padding-left:1em">
-              <!-- <a class="dropdown-item" href="#">Save Target List</a> -->
               <input type="button" class="btn btn-primary" onclick="ExportEntryToJson()" value="Save to GXL">
             </li>
 
             <li><hr class="dropdown-divider"></li>
 
             <li style="padding-left:1em">
-              <!-- <a class="dropdown-item" href="#">Select File to Import</a> -->
               <input type='file' class="btn btn-primary" id='fileInputEntry' value='Load GXL'></li>
+
             <li style="padding-left:1em">
-              <!-- <a class="dropdown-item" href="#">Import Target List</a> -->
               <input type="button" class="btn btn-primary" onclick="ImportJsonToEntry()" value="Load GXL"></li>
 
             <li><hr class="dropdown-divider"></li>
@@ -94,19 +95,27 @@
           </ul>
         </li>
 
-          <li class="nav-item" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-            <a class="nav-link" href="#">About</a>
-          </li>
-
-
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#" data-bs-toggle="popover" data-bs-content="This is the About section">About</a>
+        </li> -->
+        <li class="nav-item">       
+          <a id="popover-about" 
+            data-toggle="popover"
+            data-container="body" 
+            data-placement="bottom" 
+            data-html="true"
+            title="The RBGT has two main components: (i)a SPA-based editor (e.g., nodes and edges editing),  ------------ and (ii) an XML (or GXL) set of 'supplementing tools' (the file skeleton and the data/key attribute template generator) ~~~~~~~~~~ to enable users to construct their own xml files."
+            data-content="THIS IS NOT RENDERING" 
+            class="nav-link">
+            About this Tool
+        </a>
+        </li>
+        
         </ul>
     </div>
   </div>
 </nav>
 
-<div class="container">
-  <a href="#" data-toggle="popover" title="The RBGT has two main components: (i) a SPA-based editor (e.g., nodes and edges editing), and (ii) an XML (or GXL) set of 'supplementing tools' (the file skeleton and the data/key attribute template generator) to enable users to construct their own xml files." data-content="">About this Tool</a>
-</div>
 
 <div class="header">
 
