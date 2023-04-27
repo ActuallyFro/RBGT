@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graph Editor</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      width: 100%;
+      font-weight: bold;
+    }
+    input[type=text] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    select {
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .key-value {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .key-value input {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+    .add-more {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+    #xml {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Graph Editor</h1>
+  <form>
+    <label for="type">Type:</label>
+    <select name="type" id="type">
+      <option value="node">Node</option>
+      <option value="edge">Edge</option>
+    </select>
+    <label for="id">ID:</label>
+    <input type="text" name="id" id="id">
+    <div id="key-value-container"></div>
+    <button type="submit">Add</button>
+  </form>
+  <hr>
+  <h2>XML Output:</h2>
+  <div id="xml"></div>
+  <script>
+    const form = document.querySelector('form');
+    const typeSelect = document.querySelector('#type');
+    const idInput = document.querySelector('#id');
+    const keyValueContainer = document.querySelector('#key-value-container');
+    const xmlOutput = document.querySelector('#xml');
+    const data = {
+      nodes: [],
+      edges: []
+    };
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const type = typeSelect.value;
+      const id = idInput.value;
+      const keyValueInputs = Array.from(keyValueContainer.querySelectorAll('.key-value input'));
+      const keyValues = {};
+      keyValueInputs.forEach(input => {
+        if (input.value) {
+          keyValues[input.name] = input.value;
+        }
+      });
+      if (type === 'node') {
+        data.nodes.push({ id, keyValues });
+      } else {
+        const sourceIdInput = keyValueContainer.querySelector('input[name=source-id]');
+        const targetIdInput = keyValueContainer.querySelector('input[name=target-id]');
+        const labelInput = keyValueContainer.querySelector('input[name=label]');
+	const edgeIdInput = keyValueContainer.querySelector('input[name=edge-id]');
+        const sourceId = sourceIdInput.value;
+        const targetId = targetIdInput.value;
+        const label = labelInput.value;
+        const edgeId = edgeIdInput.value;
+        data.edges.push({ id, sourceId, targetId, label, edgeId });
+      }
+      idInput.value = '';
+      keyValueInputs.forEach(input => input.value = '');
+      renderXML();
+    });
+
+    function renderXML() {
+      const xmlString = generateXMLString();
+      xmlOutput.textContent = xmlString;
+    }
+
+    function generateXMLString() {
+      let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+      xml += '<graph>\n';
+      data.nodes.forEach(node => {
+        xml += `<node id="${node.id}">\n`;
+        Object.keys(node.keyValues).forEach(key => {
+          xml += `  <${key}>${node.keyValues[key]}</${key}>\n`;
+        });
+        xml += '</node>\n';
+      });
+      data.edges.forEach(edge => {
+        xml += `<edge id="${edge.id}" source="${edge.sourceId}" target="${edge.targetId}"`;
+        if (edge.label) {
+          xml += ` label="${edge.label}"`;
+        }
+        if (edge.edgeId) {
+          xml += ` edgeId="${edge.edgeId}"`;
+        }
+        xml += '/>\n';
+      });
+      xml += '</graph>';
+      return xml;
+    }
+
+  </script>
+</body>
+</html>
+
