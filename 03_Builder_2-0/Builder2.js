@@ -292,16 +292,33 @@ function ClearObjectsEntry() {
   document.getElementById("OptionAttributeEntryID").value = "";
 }
 
-//3. Clear - ALL Entries in the Target ID Array
+// //3. Clear - ALL Entries in the Target ID Array
+// //================
+// function ClearTargetArray() {
+//   if (EntryIDTargets.length === 0) {
+//     return;
+//   }
+
+//   EntryIDTargets = [];
+//   LocalStorageClearEntryIDTargetsOnly();
+// }
+
+//3. Clear - ALL entered data for <Graph> - {Node}
 //================
-function ClearTargetArray() {
-  if (EntryIDTargets.length === 0) {
-    return;
+function ClearGraphEntryNode(debug=false){
+  if(debug){
+    console.log("[DEBUG] [ClearGraphEntryNode()] Clearing Node Entry");
   }
 
-  EntryIDTargets = [];
-  LocalStorageClearEntryIDTargetsOnly();
+  ClearObjectsEntry();
+
+  //HACK!!!
+  SetupAllEntryIDTargets();
+  SetupEntryIDTargetsBasedOnBracketPick("Node");
+  
 }
+//////////////////////////////////////
+
 
 //4. Clear - ALL entered data for <Graph> - {Edge}
 //================
@@ -310,9 +327,8 @@ function ClearGraphEntryEdge(debug=false){
     console.log("[DEBUG] [ClearGraphEntryEdge()] Clearing Edge Entry");
   }
 
-  ClearObjectsEntry();
+  ClearObjectsEntry(); //for 'OptionAttributeEntryID'
 
-  document.getElementById("OptionAttributeEntryGraphEdgeFieldLabel").value = "";
   document.getElementById("OptionAttributeEntryGraphEdgeFieldSource").value = "";
   document.getElementById("OptionAttributeEntryGraphEdgeFieldTarget").value = "";
 }
@@ -849,10 +865,6 @@ function LoadArrayIntoEntryIDTargets(PassedArray, debug=false){ //Passed JSON Pa
 
     console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()] Making it a Selectable Target... "); // + EntryIDTargetToCheck + " with category: " + objects[objectselectedOption][2]
 
-    // var newEntryIDTargetTuple = [EntryIDTargetToCheck, objects[objectselectedOption][2] , ""];
-    // EntryIDTargets.push(newEntryIDTargetTuple);
-
-    //var newObjectTuple = [EntryIDTargetToCheck, objects[objectselectedOption][0], objects[objectselectedOption][2], objects[objectselectedOption][3]];
     if (debug){
       console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()] NEW Tuple");
       console.log("[DEBUG] [LoadArrayIntoEntryIDTargets()]     Pos(0): '" + PassedArray[i][0] + "'");
@@ -861,6 +873,7 @@ function LoadArrayIntoEntryIDTargets(PassedArray, debug=false){ //Passed JSON Pa
       }
 
     objects.push(PassedArray[i]);
+    console.log("[DEBUG] Total Objects: " + objects.length);
   }
   SetupBracketDropDown();
 
