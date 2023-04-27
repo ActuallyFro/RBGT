@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graph Editor</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      width: 100%;
+      font-weight: bold;
+    }
+    input[type=text] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    select {
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .key-value {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .key-value input {
+      flex-grow: 1;
+      margin-right: 10px;
+    }
+    .add-more {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
+    #xml {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Graph Editor</h1>
+  <form id="form">
+    <label for="os">Operating System:</label>
+    <select name="os" id="os">
+      <option value="">Select an operating system</option>
+      <option value="windows">Windows</option>
+      <option value="linux">Linux</option>
+    </select>
+    <div id="windows-questions" style="display:none;">
+      <label for="computer-name">Computer Name:</label>
+      <input type="text" name="computer-name" id="computer-name">
+      <label for="domain">Domain:</label>
+      <input type="text" name="domain" id="domain">
+    </div>
+    <div id="linux-questions" style="display:none;">
+      <label for="hostname">Hostname:</label>
+      <input type="text" name="hostname" id="hostname">
+      <label for="ip-address">IP Address:</label>
+      <input type="text" name="ip-address" id="ip-address">
+    </div>
+    <div id="key-value-container" style="display:none;"></div>
+    <button type="submit">Add</button>
+  </form>
+  <hr>
+  <h2>XML Output:</h2>
+  <div id="xml"></div>
+  <script>
+    const form = document.querySelector('#form');
+    const osSelect = document.querySelector('#os');
+    const windowsQuestions = document.querySelector('#windows-questions');
+    const linuxQuestions = document.querySelector('#linux-questions');
+    const computerNameInput = document.querySelector('#computer-name');
+    const domainInput = document.querySelector('#domain');
+    const hostnameInput = document.querySelector('#hostname');
+    const ipAddressInput = document.querySelector('#ip-address');
+    const keyValueContainer = document.querySelector('#key-value-container');
+    const xmlOutput = document.querySelector('#xml');
+    const data = {
+      nodes: [],
+    };
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const os = formData.get('os');
+  const data = {
+    os,
+    computerName: formData.get('computer-name'),
+    domain: formData.get('domain'),
+    hostname: formData.get('hostname'),
+    ipAddress: formData.get('ip-address'),
+    keyValuePairs: [],
+  };
+  const keyInputs = document.querySelectorAll('#key-value-container input[name="key"]');
+  const valueInputs = document.querySelectorAll('#key-value-container input[name="value"]');
+  keyInputs.forEach((input, index) => {
+    const key = input.value;
+    const value = valueInputs[index].value;
+    if (key && value) {
+      data.keyValuePairs.push({ key, value });
+    }
+  });
+  const xmlString = `<node os="${data.os}" computerName="${data.computerName}" domain="${data.domain}" hostname="${data.hostname}" ipAddress="${data.ipAddress}">
+
+    ${data.keyValuePairs.map(({ key, value }) => <property name="${key}" value="${value}" />).join('\n ')}
+</node>`;
+xmlOutput.innerText = xmlString;
+});
+
+osSelect.addEventListener('change', () => {
+  if (osSelect.value === 'windows') {
+    windowsQuestions.style.display = 'block';
+    linuxQuestions.style.display = 'none';
+  } else if (osSelect.value === 'linux') {
+    windowsQuestions.style.display = 'none';
+    linuxQuestions.style.display = 'block';
+  } else {
+    windowsQuestions.style.display = 'none';
+    linuxQuestions.style.display = 'none';
+  }
+});
+
+document.querySelector('#add-key-value').addEventListener('click', addKeyValue);
+</script>
+</body>
+</html>

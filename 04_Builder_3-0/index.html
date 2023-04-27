@@ -64,19 +64,9 @@
     </select>
     <label for="id">ID:</label>
     <input type="text" name="id" id="id">
-    <div id="key-value-container">
-      <div class="key-value">
-        <input type="text" name="edge-id" placeholder="Edge ID">
-        <input type="text" name="edge-label" placeholder="Edge Label">
-      </div>
-      <div class="key-value">
-        <input type="text" name="source-id" placeholder="Source ID">
-        <input type="text" name="target-id" placeholder="Target ID">
-      </div>
-    </div>
+    <div id="key-value-container" style="display:none;"></div>
     <button type="submit">Add</button>
   </form>
-  
   <hr>
   <h2>XML Output:</h2>
   <div id="xml"></div>
@@ -90,6 +80,20 @@
       nodes: [],
       edges: []
     };
+    
+    function showHideKeyValue() {
+      const type = typeSelect.value;
+      if (type === 'node') {
+        keyValueContainer.style.display = 'none';
+      } else {
+        keyValueContainer.style.display = 'block';
+      }
+    }
+    
+    typeSelect.addEventListener('change', (event) => {
+      showHideKeyValue();
+    });
+    
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       const type = typeSelect.value;
@@ -102,53 +106,42 @@
         }
       });
       if (type === 'node') {
-        data.nodes.push({ id, keyValues });
+        data.nodes.push({ id });
       } else {
-        const sourceIdInput = keyValueContainer.querySelector('input[name=source-id]');
-        const targetIdInput = keyValueContainer.querySelector('input[name=target-id]');
-        const labelInput = keyValueContainer.querySelector('input[name=label]');
-	const edgeIdInput = keyValueContainer.querySelector('input[name=edge-id]');
+        const sourceIdInput = document.querySelector('#sourceId');
+        const targetIdInput = document.querySelector('#targetId');
+        const labelInput = document.querySelector('#label');
         const sourceId = sourceIdInput.value;
         const targetId = targetIdInput.value;
         const label = labelInput.value;
-        const edgeId = edgeIdInput.value;
-        data.edges.push({ id, sourceId, targetId, label, edgeId });
+        const edge = { id, sourceId, targetId, label };
+        data.edges.push(edge);
       }
+      // Clear the form inputs
       idInput.value = '';
       keyValueInputs.forEach(input => input.value = '');
-      renderXML();
+      // Update the XML output
+      const xml = generateXML(data);
+      xmlOutput.textContent = xml;
     });
-
-    function renderXML() {
-      const xmlString = generateXMLString();
-      xmlOutput.textContent = xmlString;
-    }
-
-    function generateXMLString() {
-      let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-      xml += '<graph>\n';
+    
+    function generateXML(data) {
+      let xml = '<graph>';
+      // Add nodes to the XML
       data.nodes.forEach(node => {
-        xml += `<node id="${node.id}">\n`;
-        Object.keys(node.keyValues).forEach(key => {
-          xml += `  <${key}>${node.keyValues[key]}</${key}>\n`;
-        });
-        xml += '</node>\n';
+        xml += `<node id="${node.id}" />`;
       });
+      // Add edges to the XML
       data.edges.forEach(edge => {
-        xml += `<edge id="${edge.id}" source="${edge.sourceId}" target="${edge.targetId}"`;
+        xml += `<edge id="${edge.id}" source="${edge.sourceId}" target="${edge.targetId}">`;
         if (edge.label) {
-          xml += ` label="${edge.label}"`;
+          xml += `<data key="label">${edge.label}</data>`;
         }
-        if (edge.edgeId) {
-          xml += ` edgeId="${edge.edgeId}"`;
-        }
-        xml += '/>\n';
+        xml += '</edge>';
       });
       xml += '</graph>';
       return xml;
     }
-
   </script>
 </body>
 </html>
-
