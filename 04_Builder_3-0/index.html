@@ -64,9 +64,19 @@
     </select>
     <label for="id">ID:</label>
     <input type="text" name="id" id="id">
-    <div id="key-value-container"></div>
+    <div id="key-value-container">
+      <div class="key-value">
+        <input type="text" name="edge-id" placeholder="Edge ID">
+        <input type="text" name="edge-label" placeholder="Edge Label">
+      </div>
+      <div class="key-value">
+        <input type="text" name="source-id" placeholder="Source ID">
+        <input type="text" name="target-id" placeholder="Target ID">
+      </div>
+    </div>
     <button type="submit">Add</button>
   </form>
+  
   <hr>
   <h2>XML Output:</h2>
   <div id="xml"></div>
