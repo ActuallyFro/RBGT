@@ -33,7 +33,7 @@ var isSetupGraphNode = false;
 //1. Page setup:
 //============== 
 window.onload = function() {
-  var totalLSKeys = LocalStorageLoadMainKeys(); //LocalStorageLoadMainKeys(true)
+  var totalLSKeys = LocalStorageLoadMainKeys(true); //LocalStorageLoadMainKeys(true)
   console.log("[NOTICE] (Builder2.js) total LSKeys loaded: " + totalLSKeys);
 
   SetupBracketDropDown();
@@ -604,6 +604,7 @@ function RemoveLastEntry(debug=true) {
   EntryTableArray.pop();
 
   objects.pop();
+  EntryIDTargets.pop()
   SetupBracketDropDown();    
 
   if (EntryTableArray.length > 0){
@@ -882,9 +883,9 @@ function LoadArrayIntoEntryIDTargets(PassedArray, debug=false){ //Passed JSON Pa
 
 function LoadAllEntryIDTargetsAsOptions(debug=false){ //this vs. SetupEntryIDTargetsBasedOnB
   for (var j = 0; j < EntryIDTargets.length; j++) {
-    var hasTwoEntryIDTargets = false;
+    // var hasTwoEntryIDTargets = false;
     var currentTarget = EntryIDTargets[j][0];
-    var secondaryTarget = "";
+    //var secondaryTarget = "";
 
     var option = document.createElement("option");
     option.text = currentTarget;
